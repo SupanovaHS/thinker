@@ -1,11 +1,15 @@
 
 #include "patch.h"
 #include "patchdata.h"
+#include "vehPatch.h"
+
 #include <mutex>
 
 static const char* ac_genwarning_sm_pcx = "genwarning_sm.pcx";
 
 static std::mutex FileLock;
+
+extern void apply_veh_patches();
 
 /*
 Replace existing file locking on fwrite and similar statically linked library functions
@@ -1677,6 +1681,8 @@ bool patch_setup(Config* cf) {
         write_bytes(0x526540, old_bytes, new_bytes, sizeof(new_bytes));
     }
     */
+
+    apply_veh_patches();
 
     if (!VirtualProtect(AC_IMAGE_BASE, AC_IMAGE_LEN, PAGE_EXECUTE_READ, &attrs)) {
         return false;

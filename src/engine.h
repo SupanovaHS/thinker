@@ -2021,6 +2021,12 @@ extern Fparse_string parse_string;
 extern fp_4int parse_say;
 //extern fp_4int parse_says;
 
+extern const int newVehCount;
+extern const size_t vehSize;
+
+// New VEH array allocation
+extern const uintptr_t new_VEH_addr;
+
 #pragma GCC diagnostic pop
 
 

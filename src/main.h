@@ -91,6 +91,8 @@
 #endif
 #endif
 
+extern const int newVehCount;
+
 const bool DEF = true;
 const bool ATT = false;
 
@@ -106,7 +108,7 @@ const int MaxPlayerNum = 8;
 const int MaxGoalsNum = 75;
 const int MaxSitesNum = 25;
 const int MaxBaseNum = 512;
-const int MaxVehNum = 2048;
+const int MaxVehNum = newVehCount;
 const int MaxProtoNum = 512;
 const int MaxProtoFactionNum = 64;
 const int MaxBaseNameLen = 25;

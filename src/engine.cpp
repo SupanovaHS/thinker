@@ -182,12 +182,18 @@ int* const DiploFriction = (int*)0x93FA74; // not always bounded, should it be 0
 int* const DiploFrictionFactionIDWith = (int*)0x93FABC;
 int* const DiploFrictionFactionID = (int*)0x93FAC0;
 
+const int newVehCount = 8192;
+const size_t vehSize = sizeof(VEH);
+
+// New VEH array allocation
+const uintptr_t new_VEH_addr = reinterpret_cast<uintptr_t>(malloc(vehSize * (newVehCount + 1))); // +1 to mimic original overload protection
+
 ThinkerData*    ThinkerVars      = (ThinkerData*)&MFactions[0].pad_2[0];
 MFaction*       MFactions        = (MFaction*      )0x946A50;
 Faction*        Factions         = (Faction*       )0x96C9E0;
 BASE*           Bases            = (BASE*          )0x97D040;
 UNIT*           Units            = (UNIT*          )0x9AB868;
-VEH*            Vehicles         = (VEH*           )0x952828;
+VEH*            Vehicles         = (VEH*           )new_VEH_addr;
 VEH*            Vehs             = Vehicles;
 MAP**           MapTiles         = (MAP**          )0x94A30C;
 uint8_t**       MapAbstract      = (uint8_t**      )0x94A310;
