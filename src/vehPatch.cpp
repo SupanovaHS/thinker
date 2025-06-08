@@ -7,12 +7,20 @@
 void build_patch(int32_t targetAddr, const std::vector<uint8_t>& old_bytes, int disp_offset, uintptr_t new_ptr) {
     std::vector<uint8_t> patch_bytes = old_bytes;
 
-    if (disp_offset >= 0 && disp_offset + 3 < (int)patch_bytes.size()) {
-        uint32_t new_disp = static_cast<uint32_t>(new_ptr);
-        patch_bytes[disp_offset]     =  new_disp & 0xFF;
-        patch_bytes[disp_offset + 1] = (new_disp >> 8) & 0xFF;
-        patch_bytes[disp_offset + 2] = (new_disp >> 16) & 0xFF;
-        patch_bytes[disp_offset + 3] = (new_disp >> 24) & 0xFF;
+    if (disp_offset >= 0)
+    {
+        if (disp_offset + 3 < (int)patch_bytes.size()) 
+        {
+            uint32_t new_disp = static_cast<uint32_t>(new_ptr);
+            patch_bytes[disp_offset]     =  new_disp & 0xFF;
+            patch_bytes[disp_offset + 1] = (new_disp >> 8) & 0xFF;
+            patch_bytes[disp_offset + 2] = (new_disp >> 16) & 0xFF;
+            patch_bytes[disp_offset + 3] = (new_disp >> 24) & 0xFF;
+        }
+        else
+        {
+            
+        }
     }
 
     int len = static_cast<int32_t>(old_bytes.size());
@@ -712,11 +720,11 @@ void apply_veh_patches() {
     // click(int,int,int) - MOV DL,byte ptr [EAX + 0x95283a]
     build_patch(0x0046DFEB, std::vector<uint8_t>{0x8A, 0x90, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // click(int,int,int) - MOV word ptr [EDX*0x2 + 0x95283c],BX
-    build_patch(0x0046DFF3, std::vector<uint8_t>{0x66, 0x89, 0x1C, 0x55, 0x3C, 0x28, 0x95, 0x00}, -1, new_VEH_addr + 0x1DE);
+    build_patch(0x0046DFF3, std::vector<uint8_t>{0x66, 0x89, 0x1C, 0x55, 0x3C, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x1DE);
     // click(int,int,int) - MOV DL,byte ptr [EAX + 0x95283a]
     build_patch(0x0046DFFD, std::vector<uint8_t>{0x8A, 0x90, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // click(int,int,int) - MOV word ptr [EDX*0x2 + 0x952844],CX
-    build_patch(0x0046E009, std::vector<uint8_t>{0x66, 0x89, 0x0C, 0x55, 0x44, 0x28, 0x95, 0x00}, -1, new_VEH_addr + 0x1E6);
+    build_patch(0x0046E009, std::vector<uint8_t>{0x66, 0x89, 0x0C, 0x55, 0x44, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x1E6);
     // click(int,int,int) - MOV ECX,dword ptr [EAX + 0x95282c]
     build_patch(0x0046E011, std::vector<uint8_t>{0x8B, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // click(int,int,int) - MOV dword ptr [EAX + 0x95282c],ECX
@@ -740,11 +748,11 @@ void apply_veh_patches() {
     // on_mouse_move(int,int) - MOV CL,byte ptr [EAX + 0x95283a]
     build_patch(0x0046F182, std::vector<uint8_t>{0x8A, 0x88, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // on_mouse_move(int,int) - MOV word ptr [ECX*0x2 + 0x95283c],DX
-    build_patch(0x0046F18C, std::vector<uint8_t>{0x66, 0x89, 0x14, 0x4D, 0x3C, 0x28, 0x95, 0x00}, -1, new_VEH_addr + 0x1DE);
+    build_patch(0x0046F18C, std::vector<uint8_t>{0x66, 0x89, 0x14, 0x4D, 0x3C, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x1DE);
     // on_mouse_move(int,int) - MOV DL,byte ptr [EAX + 0x95283a]
     build_patch(0x0046F19A, std::vector<uint8_t>{0x8A, 0x90, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // on_mouse_move(int,int) - MOV word ptr [EDX*0x2 + 0x952844],CX
-    build_patch(0x0046F1A2, std::vector<uint8_t>{0x66, 0x89, 0x0C, 0x55, 0x44, 0x28, 0x95, 0x00}, -1, new_VEH_addr + 0x1E6);
+    build_patch(0x0046F1A2, std::vector<uint8_t>{0x66, 0x89, 0x0C, 0x55, 0x44, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x1E6);
     // on_mouse_move(int,int) - TEST dword ptr [EAX + 0x95282c],0x2000000
     build_patch(0x0046F1B5, std::vector<uint8_t>{0xF7, 0x80, 0x2C, 0x28, 0x95, 0x00, 0x00, 0x00, 0x00, 0x02}, 2, new_VEH_addr + 0x4);
     // on_mouse_move(int,int) - MOV word ptr [EAX + 0x95283c],DX

@@ -49,23 +49,23 @@ while instr_iter.hasNext() and not monitor.isCancelled():
             veh_offset = disp_val - VEH_BASE
             found_valid_ref = True
 
-            for i in range(len(bytes_array) - 3):
+            # scan full range for potential matches
+            for i in range(0, len(bytes_array) - 3):
                 try:
                     val = from_bytes_le(bytes_array[i:i+4])
-                    if val == disp_val:
+                    if abs(val - disp_val) <= 16:
                         disp_offset = i
                         break
                 except:
                     continue
 
-            if disp_offset == -1:
-                # fallback for SIB encoded offsets like MOV CX, word ptr [ECX*4 + disp32]
+            # fallback: try final 4 bytes if not matched above
+            if disp_offset == -1 and len(bytes_array) >= 4:
+                i = len(bytes_array) - 4
                 try:
-                    for i in range(len(bytes_array) - 3):
-                        val = from_bytes_le(bytes_array[i:i+4])
-                        if val == disp_val:
-                            disp_offset = i
-                            break
+                    val = from_bytes_le(bytes_array[i:i+4])
+                    if VEH_BASE <= val < VEH_LIMIT:
+                        disp_offset = i
                 except:
                     pass
 
@@ -86,14 +86,24 @@ while instr_iter.hasNext() and not monitor.isCancelled():
                         veh_offset = disp_val - VEH_BASE
                         found_valid_ref = True
 
-                        for i in range(len(bytes_array) - 3):
+                        for i in range(0, len(bytes_array) - 3):
                             try:
                                 val2 = from_bytes_le(bytes_array[i:i+4])
-                                if val2 == disp_val:
+                                if abs(val2 - disp_val) <= 16:
                                     disp_offset = i
                                     break
                             except:
                                 continue
+
+                        # fallback
+                        if disp_offset == -1 and len(bytes_array) >= 4:
+                            i = len(bytes_array) - 4
+                            try:
+                                val2 = from_bytes_le(bytes_array[i:i+4])
+                                if VEH_BASE <= val2 < VEH_LIMIT:
+                                    disp_offset = i
+                            except:
+                                pass
 
                         bw.write("%s\t%s\t%s\t%s\t%s\t%d\t0x%X\t0x%X\n" % (
                             addr, func_name, mnem, instr.toString(), old_bytes, disp_offset, veh_offset, disp_val
