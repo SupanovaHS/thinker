@@ -40,6 +40,17 @@ void build_patch(int32_t targetAddr, const std::vector<uint8_t>& old_bytes, int 
 
 // Patch instructions referring to old VEH addresses
 void apply_veh_patches() {
+
+    // patch veh_init clamp
+    const byte old_veh_init_bytes[] = {0x08};
+    const byte new_veh_init_bytes[] = {0x20};
+    write_bytes(0x005C03DF,old_veh_init_bytes,new_veh_init_bytes,sizeof(new_veh_init_bytes));
+
+    // patch veh_kill clamp
+    const byte old_veh_kill_bytes[] = {0x08};
+    const byte new_veh_kill_bytes[] = {0x20};
+    write_bytes(0x005c09c9,old_veh_kill_bytes,new_veh_kill_bytes,sizeof(new_veh_kill_bytes));
+
     // garrison_click(int,int,int,int) - MOV CL,byte ptr [EDX*0x4 + 0x952836]
     build_patch(0x0040B181, std::vector<uint8_t>{0x8A, 0x0C, 0x95, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // garrison_click(int,int,int,int) - MOV DL,byte ptr [ECX + 0x952839]
