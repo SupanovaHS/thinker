@@ -69,9 +69,12 @@ while instr_iter.hasNext() and not monitor.isCancelled():
                 except:
                     pass
 
-            bw.write("%s\t%s\t%s\t%s\t%s\t%d\t0x%X\t0x%X\n" % (
-                addr, func_name, mnem, instr.toString(), old_bytes, disp_offset, veh_offset, disp_val
-            ))
+            if disp_offset >= 0:
+                bw.write("%s\t%s\t%s\t%s\t%s\t%d\t0x%X\t0x%X\n" % (
+                    addr, func_name, mnem, instr.toString(), old_bytes, disp_offset, veh_offset, disp_val
+                ))
+            else:
+                found_valid_ref = False
             break
 
     if not found_valid_ref:
@@ -105,15 +108,18 @@ while instr_iter.hasNext() and not monitor.isCancelled():
                             except:
                                 pass
 
-                        bw.write("%s\t%s\t%s\t%s\t%s\t%d\t0x%X\t0x%X\n" % (
-                            addr, func_name, mnem, instr.toString(), old_bytes, disp_offset, veh_offset, disp_val
-                        ))
+                        if disp_offset >= 0:
+                            bw.write("%s\t%s\t%s\t%s\t%s\t%d\t0x%X\t0x%X\n" % (
+                                addr, func_name, mnem, instr.toString(), old_bytes, disp_offset, veh_offset, disp_val
+                            ))
+                        else:
+                            found_valid_ref = False
                         break
                 except:
                     continue
             if found_valid_ref:
                 break
-
+    
     if not found_valid_ref:
         sw.write("SKIPPED: %s\t%s\t%s\t%s\n" % (
             addr, func_name, mnem, old_bytes

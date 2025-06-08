@@ -19,7 +19,8 @@ void build_patch(int32_t targetAddr, const std::vector<uint8_t>& old_bytes, int 
         }
         else
         {
-            
+            debug("ERROR overflow: address: %08X disp %d patch_sixe %d\n", targetAddr, disp_offset +3, (int)patch_bytes.size());
+            exit_fail(targetAddr);
         }
     }
 
@@ -151,48 +152,8 @@ void apply_veh_patches() {
     build_patch(0x0040BEE1, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // draw_supported(int) - MOV EAX,0x952856
     build_patch(0x0040CB3B, std::vector<uint8_t>{0xB8, 0x56, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2E);
-    // draw_supported(int) - CMP byte ptr [EAX + -0x20],DL
-    build_patch(0x0040CB43, std::vector<uint8_t>{0x38, 0x50, 0xE0}, -1, new_VEH_addr + 0xE);
-    // draw_supported(int) - MOVSX EBX,word ptr [EAX]
-    build_patch(0x0040CB48, std::vector<uint8_t>{0x0F, 0xBF, 0x18}, -1, new_VEH_addr + 0x2E);
     // draw_supported(int) - MOV dword ptr [EBP + -0x10],0x95282c
     build_patch(0x0040CCD8, std::vector<uint8_t>{0xC7, 0x45, 0xF0, 0x2C, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x4);
-    // draw_supported(int) - MOV CL,byte ptr [EAX + 0xa]
-    build_patch(0x0040CCE8, std::vector<uint8_t>{0x8A, 0x48, 0x0A}, -1, new_VEH_addr + 0xE);
-    // draw_supported(int) - MOVSX ECX,word ptr [EAX + 0x2a]
-    build_patch(0x0040CCF9, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x2A}, -1, new_VEH_addr + 0x2E);
-    // draw_supported(int) - TEST byte ptr [ECX],0x10
-    build_patch(0x0040CDB3, std::vector<uint8_t>{0xF6, 0x01, 0x10}, -1, new_VEH_addr + 0x4);
-    // draw_supported(int) - MOVSX EDX,word ptr [ECX + 0x6]
-    build_patch(0x0040CDDA, std::vector<uint8_t>{0x0F, 0xBF, 0x51, 0x06}, -1, new_VEH_addr + 0xA);
-    // draw_supported(int) - TEST dword ptr [EAX],0x600000
-    build_patch(0x0040CE19, std::vector<uint8_t>{0xF7, 0x00, 0x00, 0x00, 0x60, 0x00}, -1, new_VEH_addr + 0x4);
-    // draw_supported(int) - MOVSX ECX,word ptr [EAX + 0x6]
-    build_patch(0x0040CE8A, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x06}, -1, new_VEH_addr + 0xA);
-    // draw_supported(int) - CMP byte ptr [EAX + 0xd],0x3
-    build_patch(0x0040CE9E, std::vector<uint8_t>{0x80, 0x78, 0x0D, 0x03}, -1, new_VEH_addr + 0x11);
-    // draw_supported(int) - MOVSX ECX,word ptr [EAX + -0x2]
-    build_patch(0x0040CEA4, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xFE}, -1, new_VEH_addr + 0x2);
-    // draw_supported(int) - MOVSX EDX,word ptr [EAX + -0x4]
-    build_patch(0x0040CEA8, std::vector<uint8_t>{0x0F, 0xBF, 0x50, 0xFC}, -1, new_VEH_addr + 0x0);
-    // draw_supported(int) - MOV DL,byte ptr [EAX + 0x22]
-    build_patch(0x0040CF02, std::vector<uint8_t>{0x8A, 0x50, 0x22}, -1, new_VEH_addr + 0x26);
-    // draw_supported(int) - MOV EAX,dword ptr [ECX]
-    build_patch(0x0040CF27, std::vector<uint8_t>{0x8B, 0x01}, -1, new_VEH_addr + 0x4);
-    // draw_supported(int) - MOVSX EAX,word ptr [EDI + 0x6]
-    build_patch(0x0040D096, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0x06}, -1, new_VEH_addr + 0xA);
-    // draw_supported(int) - CMP byte ptr [EDI + 0xd],0x3
-    build_patch(0x0040D0AE, std::vector<uint8_t>{0x80, 0x7F, 0x0D, 0x03}, -1, new_VEH_addr + 0x11);
-    // draw_supported(int) - MOVSX EAX,word ptr [EDI + -0x2]
-    build_patch(0x0040D0B8, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xFE}, -1, new_VEH_addr + 0x2);
-    // draw_supported(int) - MOVSX ECX,word ptr [EDI + -0x4]
-    build_patch(0x0040D0C3, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xFC}, -1, new_VEH_addr + 0x0);
-    // draw_supported(int) - MOV CL,byte ptr [EDI + 0x22]
-    build_patch(0x0040D0FB, std::vector<uint8_t>{0x8A, 0x4F, 0x22}, -1, new_VEH_addr + 0x26);
-    // draw_supported(int) - MOV CL,byte ptr [EDI + 0x22]
-    build_patch(0x0040D13C, std::vector<uint8_t>{0x8A, 0x4F, 0x22}, -1, new_VEH_addr + 0x26);
-    // draw_supported(int) - MOV dword ptr [EBP + -0x10],EDX
-    build_patch(0x0040D1D7, std::vector<uint8_t>{0x89, 0x55, 0xF0}, -1, new_VEH_addr + 0x38);
     // draw_flash(int) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x0040D5A9, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // draw_flash(int) - MOVSX EAX,word ptr [ESI + 0x952832]
@@ -297,8 +258,6 @@ void apply_veh_patches() {
     build_patch(0x0041A8E8, std::vector<uint8_t>{0x66, 0x8B, 0xB9, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // check_veh(int) - MOVSX ECX,word ptr [ECX + 0x952856]
     build_patch(0x0041A8F8, std::vector<uint8_t>{0x0F, 0xBF, 0x89, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
-    // zoom(int,int) - CMP dword ptr [EAX*0x4 + 0x96da3c],EDI
-    build_patch(0x0041AA73, std::vector<uint8_t>{0x39, 0x3C, 0x85, 0x3C, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x19148);
     // base_editor(void) - MOVSX EDX,word ptr [EAX + 0x95282a]
     build_patch(0x0041CCF6, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // base_editor(void) - MOVSX EAX,word ptr [EAX + 0x952828]
@@ -365,26 +324,16 @@ void apply_veh_patches() {
     build_patch(0x00422ABA, std::vector<uint8_t>{0x0F, 0xBF, 0x81, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // battle_report(int,int,int,int,int) - MOV DL,byte ptr [ECX + 0x952838]
     build_patch(0x00422B01, std::vector<uint8_t>{0x8A, 0x91, 0x38, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x10);
-    // init(int,int) - MOV ECX,dword ptr [EAX + 0x96c9e8]
-    build_patch(0x00427DB7, std::vector<uint8_t>{0x8B, 0x88, 0xE8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F4);
-    // init(int,int) - MOV EDX,dword ptr [EAX + 0x96cc00]
-    build_patch(0x004282C1, std::vector<uint8_t>{0x8B, 0x90, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // init(int,int) - MOV dword ptr [EAX + 0x96cc00],EDX
-    build_patch(0x004282CE, std::vector<uint8_t>{0x89, 0x90, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // council(int,int,int) - MOV EAX,dword ptr [ECX*0x4 + 0x96c9e0]
-    build_patch(0x00428518, std::vector<uint8_t>{0x8B, 0x04, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // council(int,int,int) - MOV dword ptr [ECX*0x4 + 0x96c9e0],EAX
-    build_patch(0x00428529, std::vector<uint8_t>{0x89, 0x04, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // draw_unit(void) - MOV byte ptr [ECX*0x4 + 0x95284c],0x4
     build_patch(0x0042CA86, std::vector<uint8_t>{0xC6, 0x04, 0x8D, 0x4C, 0x28, 0x95, 0x00, 0x04}, 3, new_VEH_addr + 0x24);
     // draw_reactor(int,RECT_*,int) - CMP EAX,0x952830
-    build_patch(0x00433554, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
+    //build_patch(0x00433554, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
     // exec(int,int,int,int,int,int,int,int,int,int,uchar_*) - CMP EAX,0x952830
-    build_patch(0x00434204, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
+    //build_patch(0x00434204, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
     // select_reactor(void) - CMP EAX,0x952830
-    build_patch(0x0043AA51, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
+    //build_patch(0x0043AA51, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
     // select_reactor(void) - CMP ECX,0x952830
-    build_patch(0x0043AACA, std::vector<uint8_t>{0x81, 0xF9, 0x30, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x8);
+    //build_patch(0x0043AACA, std::vector<uint8_t>{0x81, 0xF9, 0x30, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x8);
     // draw_stack(void) - MOVSX EAX,word ptr [EDX*0x4 + 0x952832]
     build_patch(0x0043DBF9, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // draw_flash(void) - MOVSX EAX,word ptr [EDX*0x4 + 0x952832]
@@ -401,44 +350,8 @@ void apply_veh_patches() {
     build_patch(0x00446D94, std::vector<uint8_t>{0x8A, 0x81, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // ambience_veh(int) - MOV AL,byte ptr [ECX + 0x952836]
     build_patch(0x00446E02, std::vector<uint8_t>{0x8A, 0x81, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // try_to_add_me(void) - MOV EAX,dword ptr [EDX*0x4 + 0x96cc00]
-    build_patch(0x0044A77E, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // try_to_add_me(void) - MOV CL,byte ptr [EAX*0x4 + 0x96c9e8]
-    build_patch(0x0044A90B, std::vector<uint8_t>{0x8A, 0x0C, 0x85, 0xE8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F4);
     // help_tech_info(void_(*)(char_*),int,int,int) - CMP ESI,0x952828
-    build_patch(0x0044BAD6, std::vector<uint8_t>{0x81, 0xFE, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
-    // setup_text(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00456592, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // setup_text(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x004565F8, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // setup_text(void) - MOV ECX,dword ptr [EBX + 0x96cd04]
-    build_patch(0x00456685, std::vector<uint8_t>{0x8B, 0x8B, 0x04, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18410);
-    // setup_text(void) - MOV EDX,dword ptr [EBX + 0x96cd08]
-    build_patch(0x00456694, std::vector<uint8_t>{0x8B, 0x93, 0x08, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18414);
-    // setup_text(void) - MOV EAX,dword ptr [EBX + 0x96cd04]
-    build_patch(0x004567DC, std::vector<uint8_t>{0x8B, 0x83, 0x04, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18410);
-    // setup_text(void) - MOV EBX,dword ptr [EBX + 0x96cd08]
-    build_patch(0x00456876, std::vector<uint8_t>{0x8B, 0x9B, 0x08, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18414);
-    // setup_text(void) - MOV EDX,dword ptr [EBX + 0x96cce4]
-    build_patch(0x004569F7, std::vector<uint8_t>{0x8B, 0x93, 0xE4, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x183F0);
-    // setup_text(void) - MOV ECX,dword ptr [EBX + 0x96cce8]
-    build_patch(0x00456A86, std::vector<uint8_t>{0x8B, 0x8B, 0xE8, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x183F4);
-    // setup_text(void) - MOV EAX,dword ptr [EAX*0x4 + 0x96c9f8]
-    build_patch(0x00456E5E, std::vector<uint8_t>{0x8B, 0x04, 0x85, 0xF8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18100);
-    // setup_text(void) - MOV EAX,dword ptr [EAX + 0x96cb04]
-    build_patch(0x00457049, std::vector<uint8_t>{0x8B, 0x80, 0x04, 0xCB, 0x96, 0x00}, -1, new_VEH_addr + 0x18210);
-    // setup_text(void) - MOV EAX,dword ptr [ECX + 0x96c9e4]
-    build_patch(0x004570EF, std::vector<uint8_t>{0x8B, 0x81, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // state_valid(int) - CMP dword ptr [EDX*0x4 + 0x96c9e8],0x2
-    build_patch(0x00458E10, std::vector<uint8_t>{0x83, 0x3C, 0x95, 0xE8, 0xC9, 0x96, 0x00, 0x02}, -1, new_VEH_addr + 0x180F4);
-    // state_valid(int) - CMP dword ptr [EDX*0x4 + 0x96c9e8],0x2
-    build_patch(0x00458E54, std::vector<uint8_t>{0x83, 0x3C, 0x95, 0xE8, 0xC9, 0x96, 0x00, 0x02}, -1, new_VEH_addr + 0x180F4);
-    // state_valid(int) - TEST byte ptr [ESI*0x4 + 0x96c9f8],DL
-    build_patch(0x00458E7F, std::vector<uint8_t>{0x84, 0x14, 0xB5, 0xF8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18108);
-    // set_date(char_*) - MOV ECX,dword ptr [EAX + 0x96cc00]
-    build_patch(0x0045C052, std::vector<uint8_t>{0x8B, 0x88, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // set_date(char_*) - MOV EDX,dword ptr [EAX + 0x96cc04]
-    build_patch(0x0045C058, std::vector<uint8_t>{0x8B, 0x90, 0x04, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x18310);
+    //build_patch(0x0044BAD6, std::vector<uint8_t>{0x81, 0xFE, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
     // on_iface_button_clicked(int) - MOV CX,word ptr [ECX*0x4 + 0x952858]
     build_patch(0x0045D1D4, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x8D, 0x58, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x30);
     // on_iface_button_clicked(int) - MOV CX,word ptr [ECX*0x4 + 0x952858]
@@ -529,8 +442,6 @@ void apply_veh_patches() {
     build_patch(0x004638A9, std::vector<uint8_t>{0x0F, 0xBF, 0x0C, 0xB5, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOVSX EAX,word ptr [ESI*0x4 + 0x952832]
     build_patch(0x004638BE, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0xB5, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
-    // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOV AL,byte ptr [EDX + 0x94a379]
-    build_patch(0x004638DD, std::vector<uint8_t>{0x8A, 0x82, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOV CX,word ptr [ECX*0x4 + 0x95285a]
     build_patch(0x0046396C, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x8D, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOV CX,word ptr [ECX*0x4 + 0x95285a]
@@ -543,10 +454,6 @@ void apply_veh_patches() {
     build_patch(0x004639C3, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOVSX EDI,word ptr [ESI + 0x952858]
     build_patch(0x004639FD, std::vector<uint8_t>{0x0F, 0xBF, 0xBE, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
-    // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOV EAX,dword ptr [EDX*0x4 + 0x96c9e0]
-    build_patch(0x0046404F, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // gen_terrain_poly(Buffer_*,MapWin_*,int,int,int,int,int,int,int,int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x0046510C, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // draw_vehicles(int,int,int,int,int) - MOVSX ECX,word ptr [EAX + 0x952828]
     build_patch(0x00466DA1, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // draw_vehicles(int,int,int,int,int) - MOVSX EAX,word ptr [EAX + 0x95282a]
@@ -591,24 +498,6 @@ void apply_veh_patches() {
     build_patch(0x0046713C, std::vector<uint8_t>{0x8B, 0x81, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // draw_base_dest(int) - MOV ESI,0x95282c
     build_patch(0x00467BA4, std::vector<uint8_t>{0xBE, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // draw_base_dest(int) - MOV AL,byte ptr [ESI + 0xa]
-    build_patch(0x00467BB1, std::vector<uint8_t>{0x8A, 0x46, 0x0A}, -1, new_VEH_addr + 0xE);
-    // draw_base_dest(int) - MOV ECX,dword ptr [ESI]
-    build_patch(0x00467BBF, std::vector<uint8_t>{0x8B, 0x0E}, -1, new_VEH_addr + 0x4);
-    // draw_base_dest(int) - CMP byte ptr [ESI + 0xd],0x18
-    build_patch(0x00467BDB, std::vector<uint8_t>{0x80, 0x7E, 0x0D, 0x18}, -1, new_VEH_addr + 0x11);
-    // draw_base_dest(int) - MOVSX EAX,word ptr [ESI + 0x6]
-    build_patch(0x00467BF5, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x06}, -1, new_VEH_addr + 0xA);
-    // draw_base_dest(int) - MOV BL,byte ptr [EDX + 0x94a379]
-    build_patch(0x00467C16, std::vector<uint8_t>{0x8A, 0x9A, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // draw_base_dest(int) - MOV CL,byte ptr [ESI + 0xe]
-    build_patch(0x00467C37, std::vector<uint8_t>{0x8A, 0x4E, 0x0E}, -1, new_VEH_addr + 0x12);
-    // draw_base_dest(int) - MOV EAX,dword ptr [ESI]
-    build_patch(0x00467C80, std::vector<uint8_t>{0x8B, 0x06}, -1, new_VEH_addr + 0x4);
-    // draw_base_dest(int) - MOV AL,byte ptr [ESI + 0xa]
-    build_patch(0x00467C98, std::vector<uint8_t>{0x8A, 0x46, 0x0A}, -1, new_VEH_addr + 0xE);
-    // draw_base_dest(int) - MOVSX EAX,word ptr [ESI + 0x6]
-    build_patch(0x00467C9C, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x06}, -1, new_VEH_addr + 0xA);
     // draw_base_dest(int) - MOVSX EAX,word ptr [ECX + 0x952844]
     build_patch(0x00467CA1, std::vector<uint8_t>{0x0F, 0xBF, 0x81, 0x44, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x1C);
     // draw_base_dest(int) - MOVSX ECX,word ptr [ECX + 0x95283c]
@@ -617,58 +506,16 @@ void apply_veh_patches() {
     build_patch(0x00467CB1, std::vector<uint8_t>{0x0F, 0xBF, 0x82, 0x44, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x1C);
     // draw_base_dest(int) - MOVSX ECX,word ptr [EDX + 0x95283c]
     build_patch(0x00467CB8, std::vector<uint8_t>{0x0F, 0xBF, 0x8A, 0x3C, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x14);
-    // draw_base_dest(int) - MOV CL,byte ptr [ESI + 0xe]
-    build_patch(0x00467CC8, std::vector<uint8_t>{0x8A, 0x4E, 0x0E}, -1, new_VEH_addr + 0x12);
-    // draw_base_dest(int) - MOVSX ECX,word ptr [ESI + 0x10]
-    build_patch(0x00467D02, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0x10}, -1, new_VEH_addr + 0x14);
-    // draw_base_dest(int) - MOVSX EAX,word ptr [ESI + 0x18]
-    build_patch(0x00467D08, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x18}, -1, new_VEH_addr + 0x1C);
-    // draw_base_dest(int) - MOVSX EDX,word ptr [ESI + -0x2]
-    build_patch(0x00467D0C, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xFE}, -1, new_VEH_addr + 0x2);
-    // draw_base_dest(int) - MOVSX EAX,word ptr [ESI + -0x4]
-    build_patch(0x00467D12, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xFC}, -1, new_VEH_addr + 0x0);
-    // draw_base_dest(int) - TEST dword ptr [ESI],0x2000000
-    build_patch(0x00467D1F, std::vector<uint8_t>{0xF7, 0x06, 0x00, 0x00, 0x00, 0x02}, -1, new_VEH_addr + 0x4);
-    // draw_base_dest(int) - MOV AL,byte ptr [ESI + 0xe]
-    build_patch(0x00467D27, std::vector<uint8_t>{0x8A, 0x46, 0x0E}, -1, new_VEH_addr + 0x12);
-    // draw_base_dest(int) - LEA EBX,[ESI + 0x12]
-    build_patch(0x00467D35, std::vector<uint8_t>{0x8D, 0x5E, 0x12}, -1, new_VEH_addr + 0x16);
-    // draw_base_dest(int) - MOV ECX,dword ptr [ESI]
-    build_patch(0x00467D38, std::vector<uint8_t>{0x8B, 0x0E}, -1, new_VEH_addr + 0x4);
-    // draw_base_dest(int) - MOVSX EDX,word ptr [ESI + 0x6]
-    build_patch(0x00467D57, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0x06}, -1, new_VEH_addr + 0xA);
-    // draw_base_dest(int) - MOV CL,byte ptr [ESI + 0xa]
-    build_patch(0x00467D5B, std::vector<uint8_t>{0x8A, 0x4E, 0x0A}, -1, new_VEH_addr + 0xE);
-    // draw_base_dest(int) - MOVSX EAX,word ptr [EBX + 0x8]
-    build_patch(0x00467D5F, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0x08}, -1, new_VEH_addr + 0x1E);
-    // draw_base_dest(int) - MOVSX ECX,word ptr [EBX]
-    build_patch(0x00467D65, std::vector<uint8_t>{0x0F, 0xBF, 0x0B}, -1, new_VEH_addr + 0x16);
-    // draw_base_dest(int) - MOVSX EDX,word ptr [EBX + 0x6]
-    build_patch(0x00467D68, std::vector<uint8_t>{0x0F, 0xBF, 0x53, 0x06}, -1, new_VEH_addr + 0x1C);
-    // draw_base_dest(int) - MOVSX EAX,word ptr [EBX + -0x2]
-    build_patch(0x00467D6E, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0xFE}, -1, new_VEH_addr + 0x14);
-    // draw_base_dest(int) - MOV CL,byte ptr [ESI + 0xe]
-    build_patch(0x00467D80, std::vector<uint8_t>{0x8A, 0x4E, 0x0E}, -1, new_VEH_addr + 0x12);
-    // draw_base_names(void) - MOV EBX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x00468740, std::vector<uint8_t>{0x8B, 0x1C, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // set_center(int,int,int) - MOV CL,byte ptr [EAX*0x4 + 0x952836]
     build_patch(0x0046B279, std::vector<uint8_t>{0x8A, 0x0C, 0x85, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
-    // editor(int,int,int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x0046B9F8, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // editor(int,int,int) - MOV EAX,dword ptr [EDX*0x4 + 0x96c9e0]
-    build_patch(0x0046BAAB, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // right_menu(int,int,int,int) - MOVSX EAX,word ptr [EDX*0x4 + 0x952832]
     build_patch(0x0046C437, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
-    // right_menu(int,int,int,int) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x0046C454, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
     // right_menu(int,int,int,int) - MOVSX EDX,word ptr [ECX + 0x952828]
     build_patch(0x0046C917, std::vector<uint8_t>{0x0F, 0xBF, 0x91, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // right_menu(int,int,int,int) - MOVSX ECX,word ptr [ECX + 0x95282a]
     build_patch(0x0046C922, std::vector<uint8_t>{0x0F, 0xBF, 0x89, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // right_menu(int,int,int,int) - MOVSX ECX,word ptr [EDX*0x4 + 0x952832]
     build_patch(0x0046C96F, std::vector<uint8_t>{0x0F, 0xBF, 0x0C, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
-    // right_menu(int,int,int,int) - CMP byte ptr [EDX + 0x94a379],0x2
-    build_patch(0x0046C98E, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
     // right_menu(int,int,int,int) - MOVSX ECX,word ptr [EAX*0x4 + 0x952832]
     build_patch(0x0046C9DB, std::vector<uint8_t>{0x0F, 0xBF, 0x0C, 0x85, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // right_menu(int,int,int,int) - MOVSX EAX,word ptr [EDX*0x4 + 0x952832]
@@ -763,8 +610,6 @@ void apply_veh_patches() {
     build_patch(0x0046F1CF, std::vector<uint8_t>{0xC6, 0x80, 0x3A, 0x28, 0x95, 0x00, 0x00}, 2, new_VEH_addr + 0x12);
     // on_mouse_move(int,int) - MOVSX ECX,word ptr [EAX + 0x952832]
     build_patch(0x0046F1D6, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // on_mouse_move(int,int) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x0046F1F8, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // on_mouse_move(int,int) - MOV CL,byte ptr [EAX + 0x95283a]
     build_patch(0x0046F20E, std::vector<uint8_t>{0x8A, 0x88, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // on_mouse_move(int,int) - MOV DL,byte ptr [EAX + 0x95283a]
@@ -787,22 +632,10 @@ void apply_veh_patches() {
     build_patch(0x0046F2D6, std::vector<uint8_t>{0x66, 0x8B, 0x04, 0x55, 0x42, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x1A);
     // on_mouse_move(int,int) - MOV AX,word ptr [EAX + 0x95282a]
     build_patch(0x0046F2E3, std::vector<uint8_t>{0x66, 0x8B, 0x80, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
-    // on_selected(int,int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x00471B07, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // draw(int) - TEST byte ptr [ECX*0x4 + 0x96c9f8],0x8
-    build_patch(0x00479590, std::vector<uint8_t>{0xF6, 0x04, 0x8D, 0xF8, 0xC9, 0x96, 0x00, 0x08}, -1, new_VEH_addr + 0x18108);
-    // prepare_game(void) - MOV dword ptr [ESI*0x4 + 0x96c9e8],EDX
-    build_patch(0x004830AF, std::vector<uint8_t>{0x89, 0x14, 0xB5, 0xE8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F4);
-    // on_redraw(void) - MOV EAX,dword ptr [EDX*0x4 + 0x96cd48]
-    build_patch(0x00483D75, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0x48, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18454);
     // draw_tech(int,RECT_*,int) - CMP EDI,0x952828
-    build_patch(0x00485DF1, std::vector<uint8_t>{0x81, 0xFF, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
+    //build_patch(0x00485DF1, std::vector<uint8_t>{0x81, 0xFF, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
     // pick(int,int,int,char_*) - CMP EDI,0x952828
-    build_patch(0x00486D72, std::vector<uint8_t>{0x81, 0xFF, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
-    // on_redraw(void) - MOV EAX,dword ptr [ECX*0x4 + 0x96c9e0]
-    build_patch(0x0048AFCB, std::vector<uint8_t>{0x8B, 0x04, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // on_redraw(void) - MOV EAX,dword ptr [ECX*0x4 + 0x96c9e0]
-    build_patch(0x0048B189, std::vector<uint8_t>{0x8B, 0x04, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
+    //build_patch(0x00486D72, std::vector<uint8_t>{0x81, 0xFF, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
     // veh_sprite_click(int) - MOV DL,byte ptr [EAX + 0x952839]
     build_patch(0x0048CF78, std::vector<uint8_t>{0x8A, 0x90, 0x39, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x11);
     // veh_sprite_click(int) - TEST dword ptr [EAX + 0x95282c],0x8004200
@@ -819,202 +652,30 @@ void apply_veh_patches() {
     build_patch(0x0048D1D1, std::vector<uint8_t>{0x0F, 0xBF, 0x87, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // veh_pick(int,char_*,int) - MOVSX ESI,word ptr [EDI + 0x952858]
     build_patch(0x0048D21F, std::vector<uint8_t>{0x0F, 0xBF, 0xB7, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
-    // on_left_click(int,int) - MOV EAX,dword ptr [EDX*0x4 + 0x96cdac]
-    build_patch(0x00496EBB, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // on_left_click(int,int) - MOV CL,byte ptr [ECX + 0x94a379]
-    build_patch(0x00497644, std::vector<uint8_t>{0x8A, 0x89, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // on_left_click(int,int) - MOV CL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004978C4, std::vector<uint8_t>{0x8A, 0x89, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // draw_labs(void) - MOV ECX,dword ptr [EBX + 0x96cda8]
-    build_patch(0x00498D64, std::vector<uint8_t>{0x8B, 0x8B, 0xA8, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B4);
-    // draw_labs(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00498DFC, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV ECX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00498E2D, std::vector<uint8_t>{0x8B, 0x8B, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV ECX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00498F0F, std::vector<uint8_t>{0x8B, 0x8B, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00498F30, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EAX,dword ptr [EBX + 0x96cd48]
-    build_patch(0x00498F4A, std::vector<uint8_t>{0x8B, 0x83, 0x48, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18454);
-    // draw_labs(void) - MOV ECX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00498FD1, std::vector<uint8_t>{0x8B, 0x8B, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EDX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00499010, std::vector<uint8_t>{0x8B, 0x93, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x0049904B, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00499182, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EDX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x00499204, std::vector<uint8_t>{0x8B, 0x93, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV EAX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x004992DF, std::vector<uint8_t>{0x8B, 0x83, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_labs(void) - MOV ECX,dword ptr [EBX + 0x96cdac]
-    build_patch(0x004993A4, std::vector<uint8_t>{0x8B, 0x8B, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
     // draw_labs(void) - CMP EDI,0x952828
-    build_patch(0x0049A48D, std::vector<uint8_t>{0x81, 0xFF, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
-    // draw_energy(void) - MOV EAX,dword ptr [EAX + 0x96cc00]
-    build_patch(0x0049C09E, std::vector<uint8_t>{0x8B, 0x80, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // draw_energy(void) - MOV ECX,dword ptr [EAX + 0x96caa0]
-    build_patch(0x0049C4FA, std::vector<uint8_t>{0x8B, 0x88, 0xA0, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181AC);
-    // draw_energy(void) - MOV EDX,dword ptr [ECX + 0x96caa0]
-    build_patch(0x0049C5FB, std::vector<uint8_t>{0x8B, 0x91, 0xA0, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181AC);
-    // draw_energy(void) - MOV EDX,dword ptr [ECX + 0x96caa4]
-    build_patch(0x0049C7F7, std::vector<uint8_t>{0x8B, 0x91, 0xA4, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181B4);
-    // draw_energy(void) - MOV AL,byte ptr [ECX + 0x96c9f8]
-    build_patch(0x0049C840, std::vector<uint8_t>{0x8A, 0x81, 0xF8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18108);
-    // draw_energy(void) - MOV EAX,dword ptr [ECX + 0x96caa4]
-    build_patch(0x0049C871, std::vector<uint8_t>{0x8B, 0x81, 0xA4, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181B4);
-    // draw_energy(void) - MOV EAX,dword ptr [ECX + 0x96caa0]
-    build_patch(0x0049C88E, std::vector<uint8_t>{0x8B, 0x81, 0xA0, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181AC);
-    // draw_energy(void) - MOV EAX,dword ptr [ECX + 0x96caa4]
-    build_patch(0x0049C95F, std::vector<uint8_t>{0x8B, 0x81, 0xA4, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181B4);
-    // draw_energy(void) - MOV EAX,dword ptr [ECX + 0x96caa4]
-    build_patch(0x0049C97C, std::vector<uint8_t>{0x8B, 0x81, 0xA4, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181B4);
-    // draw_energy(void) - MOV EAX,dword ptr [EDX + 0x96cac4]
-    build_patch(0x0049C988, std::vector<uint8_t>{0x8B, 0x82, 0xC4, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181D4);
-    // draw_energy(void) - MOV ECX,dword ptr [EAX + 0x96caa4]
-    build_patch(0x0049C9A5, std::vector<uint8_t>{0x8B, 0x88, 0xA4, 0xCA, 0x96, 0x00}, -1, new_VEH_addr + 0x181B4);
-    // draw_ops(void) - MOV EDX,dword ptr [EAX*0x4 + 0x96da3c]
-    build_patch(0x0049D6E8, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0x3C, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x19148);
-    // draw_ops(void) - LEA EAX,[EAX*0x4 + 0x96da3c]
-    build_patch(0x0049D6F1, std::vector<uint8_t>{0x8D, 0x04, 0x85, 0x3C, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x19148);
-    // draw_ops(void) - MOV dword ptr [EBP + -0x20],EAX
-    build_patch(0x0049D6F8, std::vector<uint8_t>{0x89, 0x45, 0xE0}, -1, new_VEH_addr + 0x19148);
-    // draw_ops(void) - MOV ECX,dword ptr [EAX*0x4 + 0x96da3c]
-    build_patch(0x0049D71C, std::vector<uint8_t>{0x8B, 0x0C, 0x85, 0x3C, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x19148);
-    // draw_ops(void) - LEA EAX,[EAX*0x4 + 0x96da3c]
-    build_patch(0x0049D725, std::vector<uint8_t>{0x8D, 0x04, 0x85, 0x3C, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x19148);
-    // draw_ops(void) - MOV dword ptr [EBP + -0x20],EAX
-    build_patch(0x0049D72C, std::vector<uint8_t>{0x89, 0x45, 0xE0}, -1, new_VEH_addr + 0x19148);
-    // draw_ops(void) - MOV EAX,dword ptr [ECX]
-    build_patch(0x0049D75A, std::vector<uint8_t>{0x8B, 0x01}, -1, new_VEH_addr + 0x19148);
+    //build_patch(0x0049A48D, std::vector<uint8_t>{0x81, 0xFF, 0x28, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x0);
     // draw_ops(void) - MOV CX,word ptr [EDI + 0x95285a]
     build_patch(0x0049EA1E, std::vector<uint8_t>{0x66, 0x8B, 0x8F, 0x5A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x32);
     // draw_ops(void) - MOV CX,word ptr [ECX + 0x95285a]
     build_patch(0x0049EA32, std::vector<uint8_t>{0x66, 0x8B, 0x89, 0x5A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x32);
     // draw_ops(void) - MOVSX EDI,word ptr [EDI + 0x952858]
     build_patch(0x0049EAAB, std::vector<uint8_t>{0x0F, 0xBF, 0xBF, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
-    // draw_security(void) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004A0AB1, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // draw_security(void) - CMP BL,byte ptr [ECX + EAX*0x1 + 0x96d438]
-    build_patch(0x004A0B19, std::vector<uint8_t>{0x3A, 0x9C, 0x01, 0x38, 0xD4, 0x96, 0x00}, -1, new_VEH_addr + 0x18B44);
-    // draw_security(void) - MOVSX EDX,word ptr [EDX*0x2 + 0x96d638]
-    build_patch(0x004A0B25, std::vector<uint8_t>{0x0F, 0xBF, 0x14, 0x55, 0x38, 0xD6, 0x96, 0x00}, -1, new_VEH_addr + 0x18D44);
-    // draw_security(void) - CMP BL,byte ptr [ECX + EAX*0x1 + 0x96d238]
-    build_patch(0x004A0B33, std::vector<uint8_t>{0x3A, 0x9C, 0x01, 0x38, 0xD2, 0x96, 0x00}, -1, new_VEH_addr + 0x18944);
-    // draw_security(void) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004A0C68, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // draw_security(void) - CMP AL,byte ptr [EBX + ECX*0x1 + 0x96d438]
-    build_patch(0x004A0CE1, std::vector<uint8_t>{0x3A, 0x84, 0x0B, 0x38, 0xD4, 0x96, 0x00}, -1, new_VEH_addr + 0x18B44);
-    // draw_security(void) - CMP AL,byte ptr [EBX + ECX*0x1 + 0x96d238]
-    build_patch(0x004A0CEC, std::vector<uint8_t>{0x3A, 0x84, 0x0B, 0x38, 0xD2, 0x96, 0x00}, -1, new_VEH_addr + 0x18944);
-    // draw_security(void) - MOV AL,byte ptr [EDX + EAX*0x1 + 0x96d238]
-    build_patch(0x004A0F57, std::vector<uint8_t>{0x8A, 0x84, 0x02, 0x38, 0xD2, 0x96, 0x00}, -1, new_VEH_addr + 0x18944);
-    // draw_security(void) - MOV AL,byte ptr [ECX + EDX*0x1 + 0x96d438]
-    build_patch(0x004A0FE5, std::vector<uint8_t>{0x8A, 0x84, 0x11, 0x38, 0xD4, 0x96, 0x00}, -1, new_VEH_addr + 0x18B44);
-    // draw_score(void) - TEST dword ptr [EDX*0x4 + 0x96c9e0],0x100000
-    build_patch(0x004A15D8, std::vector<uint8_t>{0xF7, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00, 0x00, 0x00, 0x10, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // draw_intel(void) - TEST byte ptr [EAX*0x4 + 0x96c9f8],0x1
-    build_patch(0x004A23DA, std::vector<uint8_t>{0xF6, 0x04, 0x85, 0xF8, 0xC9, 0x96, 0x00, 0x01}, -1, new_VEH_addr + 0x18100);
-    // draw_intel(void) - MOV EAX,dword ptr [EDX*0x4 + 0x96c9f8]
-    build_patch(0x004A261A, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xF8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18100);
-    // draw_intel(void) - MOV EAX,dword ptr [EDI + 0x96cdbc]
-    build_patch(0x004A2856, std::vector<uint8_t>{0x8B, 0x87, 0xBC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184C8);
-    // draw_intel(void) - MOV EAX,dword ptr [EDI + 0x96cdc0]
-    build_patch(0x004A297A, std::vector<uint8_t>{0x8B, 0x87, 0xC0, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184CC);
-    // draw_intel(void) - MOV EAX,dword ptr [EDI + 0x96cdc4]
-    build_patch(0x004A29B9, std::vector<uint8_t>{0x8B, 0x87, 0xC4, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D0);
-    // draw_intel(void) - MOV EAX,dword ptr [EDI + 0x96cdc8]
-    build_patch(0x004A2A08, std::vector<uint8_t>{0x8B, 0x87, 0xC8, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D4);
-    // draw_intel(void) - MOV EAX,dword ptr [EDI + 0x96cdcc]
-    build_patch(0x004A2A57, std::vector<uint8_t>{0x8B, 0x87, 0xCC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D8);
-    // draw_intel(void) - MOV EAX,dword ptr [EDX + 0x96cc00]
-    build_patch(0x004A2E06, std::vector<uint8_t>{0x8B, 0x82, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // draw_intel(void) - MOV EAX,dword ptr [EDX + 0x96cdac]
-    build_patch(0x004A2EEA, std::vector<uint8_t>{0x8B, 0x82, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
-    // draw_intel(void) - LEA ECX,[EAX + 0x96cc08]
-    build_patch(0x004A3059, std::vector<uint8_t>{0x8D, 0x88, 0x08, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x18314);
-    // draw_intel(void) - MOV dword ptr [EBP + -0x8],ECX
-    build_patch(0x004A305F, std::vector<uint8_t>{0x89, 0x4D, 0xF8}, -1, new_VEH_addr + 0x18314);
-    // draw_intel(void) - MOV EDI,dword ptr [ECX]
-    build_patch(0x004A30DB, std::vector<uint8_t>{0x8B, 0x39}, -1, new_VEH_addr + 0x18314);
-    // draw_intel(void) - MOV dword ptr [EBP + -0x8],EBX
-    build_patch(0x004A316A, std::vector<uint8_t>{0x89, 0x5D, 0xF8}, -1, new_VEH_addr + 0x18318);
-    // draw_intel(void) - LEA EDX,[EAX + 0x96c9fc]
-    build_patch(0x004A3189, std::vector<uint8_t>{0x8D, 0x90, 0xFC, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18108);
-    // draw_intel(void) - MOV dword ptr [EBP + -0x14],EDX
-    build_patch(0x004A3192, std::vector<uint8_t>{0x89, 0x55, 0xEC}, -1, new_VEH_addr + 0x18108);
-    // draw_intel(void) - LEA EDX,[EAX*0x4 + 0x96c9fc]
-    build_patch(0x004A31A5, std::vector<uint8_t>{0x8D, 0x14, 0x85, 0xFC, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18108);
-    // draw_intel(void) - MOV dword ptr [EBP + -0x4],EDX
-    build_patch(0x004A31AC, std::vector<uint8_t>{0x89, 0x55, 0xFC}, -1, new_VEH_addr + 0x18108);
-    // draw_intel(void) - MOV EAX,dword ptr [EAX]
-    build_patch(0x004A31BB, std::vector<uint8_t>{0x8B, 0x00}, -1, new_VEH_addr + 0x18108);
-    // draw_intel(void) - TEST byte ptr [EDX],0x1
-    build_patch(0x004A31E9, std::vector<uint8_t>{0xF6, 0x02, 0x01}, -1, new_VEH_addr + 0x18108);
-    // draw_intel(void) - MOV dword ptr [EBP + -0x4],EDX
-    build_patch(0x004A344C, std::vector<uint8_t>{0x89, 0x55, 0xFC}, -1, new_VEH_addr + 0x1810C);
-    // draw_intel(void) - MOV dword ptr [EBP + -0x14],EBX
-    build_patch(0x004A344F, std::vector<uint8_t>{0x89, 0x5D, 0xEC}, -1, new_VEH_addr + 0x1810C);
-    // on_status(int) - MOV EAX,dword ptr [EDX*0x4 + 0x96cdac]
-    build_patch(0x004A427B, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xAC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184B8);
     // on_iface_selected(int,int) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x004A6174, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // on_iface_selected(int,int) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x004A618A, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // on_iface_selected(int,int) - MOVSX EAX,word ptr [EDX*0x4 + 0x952858]
     build_patch(0x004A61A6, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0x95, 0x58, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x30);
-    // on_iface_button_clicked(int) - MOV CL,byte ptr [ESI + 0x94a379]
-    build_patch(0x004A680E, std::vector<uint8_t>{0x8A, 0x8E, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // on_iface_button_clicked(int) - MOV ESI,0x95282c
     build_patch(0x004A68AE, std::vector<uint8_t>{0xBE, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV AL,byte ptr [ESI + 0xa]
-    build_patch(0x004A68B8, std::vector<uint8_t>{0x8A, 0x46, 0x0A}, -1, new_VEH_addr + 0xE);
-    // on_iface_button_clicked(int) - MOVSX EDX,word ptr [ESI + 0x6]
-    build_patch(0x004A68C3, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0x06}, -1, new_VEH_addr + 0xA);
-    // on_iface_button_clicked(int) - MOV byte ptr [ESI + 0xd],AL
-    build_patch(0x004A68D8, std::vector<uint8_t>{0x88, 0x46, 0x0D}, -1, new_VEH_addr + 0x11);
-    // on_iface_button_clicked(int) - MOV EAX,dword ptr [ESI]
-    build_patch(0x004A68DB, std::vector<uint8_t>{0x8B, 0x06}, -1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV dword ptr [ESI],EAX
-    build_patch(0x004A68E3, std::vector<uint8_t>{0x89, 0x06}, -1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV byte ptr [ESI + 0x22],0x0
-    build_patch(0x004A68E5, std::vector<uint8_t>{0xC6, 0x46, 0x22, 0x00}, -1, new_VEH_addr + 0x26);
-    // on_iface_button_clicked(int) - MOV EDX,dword ptr [ESI]
-    build_patch(0x004A68E9, std::vector<uint8_t>{0x8B, 0x16}, -1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV dword ptr [ESI],EDX
-    build_patch(0x004A68EE, std::vector<uint8_t>{0x89, 0x16}, -1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV byte ptr [ESI + 0xe],0x0
-    build_patch(0x004A68F0, std::vector<uint8_t>{0xC6, 0x46, 0x0E, 0x00}, -1, new_VEH_addr + 0x12);
-    // on_iface_button_clicked(int) - MOV CL,byte ptr [ESI + 0x94a379]
-    build_patch(0x004A6964, std::vector<uint8_t>{0x8A, 0x8E, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // on_iface_button_clicked(int) - MOV ESI,0x952832
     build_patch(0x004A6A00, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // on_iface_button_clicked(int) - MOV AL,byte ptr [ESI + 0x4]
-    build_patch(0x004A6A0A, std::vector<uint8_t>{0x8A, 0x46, 0x04}, -1, new_VEH_addr + 0xE);
-    // on_iface_button_clicked(int) - MOVSX EDX,word ptr [ESI]
-    build_patch(0x004A6A15, std::vector<uint8_t>{0x0F, 0xBF, 0x16}, -1, new_VEH_addr + 0xA);
-    // on_iface_button_clicked(int) - MOV byte ptr [ESI + 0x7],AL
-    build_patch(0x004A6A29, std::vector<uint8_t>{0x88, 0x46, 0x07}, -1, new_VEH_addr + 0x11);
-    // on_iface_button_clicked(int) - MOV EDX,dword ptr [ESI + -0x6]
-    build_patch(0x004A6A2C, std::vector<uint8_t>{0x8B, 0x56, 0xFA}, -1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV dword ptr [ESI + -0x6],EDX
-    build_patch(0x004A6A36, std::vector<uint8_t>{0x89, 0x56, 0xFA}, -1, new_VEH_addr + 0x4);
-    // on_iface_button_clicked(int) - MOV byte ptr [ESI + 0x8],AL
-    build_patch(0x004A6A39, std::vector<uint8_t>{0x88, 0x46, 0x08}, -1, new_VEH_addr + 0x12);
-    // on_iface_button_clicked(int) - MOV BL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004A6AAF, std::vector<uint8_t>{0x8A, 0x99, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // draw_ops(void) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x004A9873, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // draw_ops(void) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x004A9889, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // draw_ops(void) - MOVSX EAX,word ptr [EAX*0x4 + 0x952858]
     build_patch(0x004A98A4, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0x85, 0x58, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x30);
-    // draw_sat(void) - MOV EAX,dword ptr [EDX*0x4 + 0x96d0e4]
-    build_patch(0x004AB4E2, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xE4, 0xD0, 0x96, 0x00}, -1, new_VEH_addr + 0x187EC);
-    // draw_security(void) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004AB83F, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // say_morale(char_*,int,int) - MOV AL,byte ptr [EBX + 0x952836]
     build_patch(0x004B3FFB, std::vector<uint8_t>{0x8A, 0x83, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // say_morale(char_*,int,int) - MOV AX,word ptr [EBX + 0x952832]
@@ -1053,10 +714,6 @@ void apply_veh_patches() {
     build_patch(0x004B45C1, std::vector<uint8_t>{0x8A, 0x96, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // say_orders(char_*,int) - LEA EBX,[ESI + 0x95283c]
     build_patch(0x004B45D7, std::vector<uint8_t>{0x8D, 0x9E, 0x3C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x14);
-    // say_orders(char_*,int) - MOVSX EAX,word ptr [EBX + 0x8]
-    build_patch(0x004B45DD, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0x08}, -1, new_VEH_addr + 0x1C);
-    // say_orders(char_*,int) - MOVSX ECX,word ptr [EBX]
-    build_patch(0x004B45E1, std::vector<uint8_t>{0x0F, 0xBF, 0x0B}, -1, new_VEH_addr + 0x14);
     // say_orders(char_*,int) - MOV DL,byte ptr [ESI + 0x95283a]
     build_patch(0x004B45F7, std::vector<uint8_t>{0x8A, 0x96, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // say_orders(char_*,int) - MOV CL,byte ptr [ESI + 0x95283a]
@@ -1107,10 +764,6 @@ void apply_veh_patches() {
     build_patch(0x004B4874, std::vector<uint8_t>{0x8A, 0x8E, 0x3B, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x13);
     // say_orders(char_*,int) - LEA EBX,[ESI + 0x95283e]
     build_patch(0x004B4889, std::vector<uint8_t>{0x8D, 0x9E, 0x3E, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x16);
-    // say_orders(char_*,int) - MOVSX EAX,word ptr [EBX + 0x8]
-    build_patch(0x004B48C6, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0x08}, -1, new_VEH_addr + 0x1E);
-    // say_orders(char_*,int) - MOVSX ECX,word ptr [EBX]
-    build_patch(0x004B48CA, std::vector<uint8_t>{0x0F, 0xBF, 0x0B}, -1, new_VEH_addr + 0x16);
     // say_orders(char_*,int) - MOV DL,byte ptr [ESI + 0x95283a]
     build_patch(0x004B48E0, std::vector<uint8_t>{0x8A, 0x96, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // say_orders(char_*,int) - CMP byte ptr [ESI + 0x952839],0x19
@@ -1233,8 +886,6 @@ void apply_veh_patches() {
     build_patch(0x004B66F8, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x8D, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // draw_status(int,int,int,int,int) - MOV CL,byte ptr [EDX + 0x952836]
     build_patch(0x004B6715, std::vector<uint8_t>{0x8A, 0x8A, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // draw_status(int,int,int,int,int) - MOV EDX,dword ptr [ECX*0x4 + 0x96c9e0]
-    build_patch(0x004B6740, std::vector<uint8_t>{0x8B, 0x14, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // draw_status(int,int,int,int,int) - MOV CL,byte ptr [EAX + 0x952836]
     build_patch(0x004B68E1, std::vector<uint8_t>{0x8A, 0x88, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // draw_status(int,int,int,int,int) - MOV DX,word ptr [EAX + 0x952830]
@@ -1245,8 +896,6 @@ void apply_veh_patches() {
     build_patch(0x004B6933, std::vector<uint8_t>{0x0F, 0xBF, 0xB2, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // draw_status(int,int,int,int,int) - MOVSX EDX,word ptr [EDX + 0x95282a]
     build_patch(0x004B693F, std::vector<uint8_t>{0x0F, 0xBF, 0x92, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
-    // draw_status(int,int,int,int,int) - TEST dword ptr [EAX*0x4 + 0x96c9e0],0x200
-    build_patch(0x004B6AB8, std::vector<uint8_t>{0xF7, 0x04, 0x85, 0xE0, 0xC9, 0x96, 0x00, 0x00, 0x02, 0x00, 0x00}, -1, new_VEH_addr + 0x180EC);
     // draw_status(int,int,int,int,int) - MOV AX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x004B81E2, std::vector<uint8_t>{0x66, 0x8B, 0x04, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // draw_status(int,int,int,int,int) - MOV AX,word ptr [EDX*0x4 + 0x95285a]
@@ -1277,8 +926,6 @@ void apply_veh_patches() {
     build_patch(0x004BC9A4, std::vector<uint8_t>{0x66, 0x8B, 0x04, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // tour(void) - CMP word ptr [EDX*0x4 + 0x952832],0x1
     build_patch(0x004BCB18, std::vector<uint8_t>{0x66, 0x83, 0x3C, 0x95, 0x32, 0x28, 0x95, 0x00, 0x01}, 4, new_VEH_addr + 0xA);
-    // tour(void) - MOV ECX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x004BCDCC, std::vector<uint8_t>{0x8B, 0x0C, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // vehdraw_turn_start(int,int,int,int) - MOVSX EAX,byte ptr [ECX + 0x952851]
     build_patch(0x004BF938, std::vector<uint8_t>{0x0F, 0xBE, 0x81, 0x51, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x29);
     // vehdraw_turn_start(int,int,int,int) - MOV byte ptr [ECX + 0x952851],DL
@@ -1443,8 +1090,6 @@ void apply_veh_patches() {
     build_patch(0x004CB0CE, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // action_destroy(int,int,int,int) - MOVSX EDX,word ptr [EAX + 0x952828]
     build_patch(0x004CB0D5, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
-    // action_destroy(int,int,int,int) - MOV EAX,dword ptr [EDX*0x4 + 0x96c9e0]
-    build_patch(0x004CB1AA, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // action_destroy(int,int,int,int) - MOVSX EAX,word ptr [EDI + 0x952832]
     build_patch(0x004CB23F, std::vector<uint8_t>{0x0F, 0xBF, 0x87, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // action_destroy(int,int,int,int) - CMP word ptr [EDI + 0x952832],0xf
@@ -1473,8 +1118,6 @@ void apply_veh_patches() {
     build_patch(0x004CB41D, std::vector<uint8_t>{0x66, 0x8B, 0x90, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // action_go_to(int) - LEA ECX,[EAX + 0x95283c]
     build_patch(0x004CB424, std::vector<uint8_t>{0x8D, 0x88, 0x3C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x14);
-    // action_go_to(int) - CMP DX,word ptr [ECX]
-    build_patch(0x004CB42A, std::vector<uint8_t>{0x66, 0x3B, 0x11}, -1, new_VEH_addr + 0x14);
     // action_go_to(int) - MOV DX,word ptr [EAX + 0x95282a]
     build_patch(0x004CB433, std::vector<uint8_t>{0x66, 0x8B, 0x90, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // action_go_to(int) - CMP DX,word ptr [EAX + 0x952844]
@@ -1487,14 +1130,6 @@ void apply_veh_patches() {
     build_patch(0x004CB462, std::vector<uint8_t>{0x8A, 0x90, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // action_go_to(int) - CMP byte ptr [EAX + 0x95283b],DL
     build_patch(0x004CB468, std::vector<uint8_t>{0x38, 0x90, 0x3B, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x13);
-    // action_go_to(int) - MOV DX,word ptr [ECX + 0x2]
-    build_patch(0x004CB476, std::vector<uint8_t>{0x66, 0x8B, 0x51, 0x02}, -1, new_VEH_addr + 0x16);
-    // action_go_to(int) - MOV word ptr [ECX],DX
-    build_patch(0x004CB47B, std::vector<uint8_t>{0x66, 0x89, 0x11}, -1, new_VEH_addr + 0x14);
-    // action_go_to(int) - MOV DX,word ptr [ECX + 0xa]
-    build_patch(0x004CB47E, std::vector<uint8_t>{0x66, 0x8B, 0x51, 0x0A}, -1, new_VEH_addr + 0x1E);
-    // action_go_to(int) - MOV word ptr [ECX + 0x8],DX
-    build_patch(0x004CB482, std::vector<uint8_t>{0x66, 0x89, 0x51, 0x08}, -1, new_VEH_addr + 0x1C);
     // action_go_to(int) - MOV DL,byte ptr [EAX + 0x95283a]
     build_patch(0x004CB488, std::vector<uint8_t>{0x8A, 0x90, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // action_go_to(int) - MOV byte ptr [EAX + 0x952839],0x18
@@ -1581,30 +1216,8 @@ void apply_veh_patches() {
     build_patch(0x004CBDC2, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // action_home(int,int) - MOV ESI,0x952832
     build_patch(0x004CBDFE, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // action_home(int,int) - MOV CL,byte ptr [ESI + 0x4]
-    build_patch(0x004CBE08, std::vector<uint8_t>{0x8A, 0x4E, 0x04}, -1, new_VEH_addr + 0xE);
-    // action_home(int,int) - MOVSX EDX,word ptr [ESI]
-    build_patch(0x004CBE1C, std::vector<uint8_t>{0x0F, 0xBF, 0x16}, -1, new_VEH_addr + 0xA);
-    // action_home(int,int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004CBE31, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // action_home(int,int) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x004CBE5A, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // action_home(int,int) - MOVSX EAX,word ptr [ESI + -0xa]
-    build_patch(0x004CBE67, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF6}, -1, new_VEH_addr + 0x0);
-    // action_home(int,int) - MOVSX EDI,word ptr [ESI + -0x8]
-    build_patch(0x004CBE6E, std::vector<uint8_t>{0x0F, 0xBF, 0x7E, 0xF8}, -1, new_VEH_addr + 0x2);
-    // action_home(int,int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004CBF3C, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // action_home(int,int) - MOVSX EAX,word ptr [ESI + -0x8]
-    build_patch(0x004CBF53, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF8}, -1, new_VEH_addr + 0x2);
-    // action_home(int,int) - MOVSX EAX,word ptr [ESI + -0xa]
-    build_patch(0x004CBF5D, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF6}, -1, new_VEH_addr + 0x0);
     // action_home(int,int) - MOV CL,byte ptr [EDX + 0x952850]
     build_patch(0x004CBFA2, std::vector<uint8_t>{0x8A, 0x8A, 0x50, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x28);
-    // action_home(int,int) - MOVSX EDX,word ptr [ESI + -0xa]
-    build_patch(0x004CBFEC, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xF6}, -1, new_VEH_addr + 0x0);
-    // action_home(int,int) - MOVSX EAX,word ptr [ESI + -0x8]
-    build_patch(0x004CBFF0, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF8}, -1, new_VEH_addr + 0x2);
     // action_home(int,int) - MOV EDX,dword ptr [ECX + 0x95282c]
     build_patch(0x004CC1AF, std::vector<uint8_t>{0x8B, 0x91, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // action_home(int,int) - CMP byte ptr [ECX + 0x95284e],0xb
@@ -1779,8 +1392,6 @@ void apply_veh_patches() {
     build_patch(0x004CE249, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // action_tectonic(int,int,int) - MOV CL,byte ptr [EBX + 0x952836]
     build_patch(0x004CE27E, std::vector<uint8_t>{0x8A, 0x8B, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // action_tectonic(int,int,int) - TEST byte ptr [EDX*0x4 + 0x96c9e1],0x2
-    build_patch(0x004CE2A7, std::vector<uint8_t>{0xF6, 0x04, 0x95, 0xE1, 0xC9, 0x96, 0x00, 0x02}, -1, new_VEH_addr + 0x180ED);
     // action_tectonic(int,int,int) - MOV DL,byte ptr [EBX + 0x952836]
     build_patch(0x004CE31B, std::vector<uint8_t>{0x8A, 0x93, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // action_tectonic(int,int,int) - MOV AL,byte ptr [EDX*0x4 + 0x952836]
@@ -1793,8 +1404,6 @@ void apply_veh_patches() {
     build_patch(0x004CE61D, std::vector<uint8_t>{0x8A, 0x8B, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // action_tectonic(int,int,int) - MOV AL,byte ptr [EBX + 0x952836]
     build_patch(0x004CE679, std::vector<uint8_t>{0x8A, 0x83, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // FUN_004ce6b0 - MOV EBX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x004CE73E, std::vector<uint8_t>{0x8B, 0x1C, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // action_fungal(int,int,int) - MOV BL,byte ptr [ESI + 0x952836]
     build_patch(0x004CE7BA, std::vector<uint8_t>{0x8A, 0x9E, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // action_fungal(int,int,int) - MOVSX ECX,word ptr [ESI + 0x95282a]
@@ -1807,10 +1416,6 @@ void apply_veh_patches() {
     build_patch(0x004CEA1B, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // action_fungal(int,int,int) - MOV DL,byte ptr [ECX + 0x952836]
     build_patch(0x004CEB46, std::vector<uint8_t>{0x8A, 0x91, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // action_fungal(int,int,int) - TEST byte ptr [EDX*0x4 + 0x96c9e1],0x2
-    build_patch(0x004CEB69, std::vector<uint8_t>{0xF6, 0x04, 0x95, 0xE1, 0xC9, 0x96, 0x00, 0x02}, -1, new_VEH_addr + 0x180ED);
-    // action_fungal(int,int,int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x004CEC29, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // action_fungal(int,int,int) - MOV CL,byte ptr [ESI + 0x952836]
     build_patch(0x004CED04, std::vector<uint8_t>{0x8A, 0x8E, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // action_fungal(int,int,int) - MOV CL,byte ptr [ESI + 0x952836]
@@ -1943,10 +1548,6 @@ void apply_veh_patches() {
     build_patch(0x004D0DC9, std::vector<uint8_t>{0x0F, 0xBF, 0x0C, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // upgrade(int) - MOVSX ECX,word ptr [ECX*0x4 + 0x952832]
     build_patch(0x004D0DF5, std::vector<uint8_t>{0x0F, 0xBF, 0x0C, 0x8D, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
-    // upgrade(int) - MOV ECX,dword ptr [EAX*0x4 + 0x96c9e4]
-    build_patch(0x004D1110, std::vector<uint8_t>{0x8B, 0x0C, 0x85, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // upgrade(int) - CMP ESI,dword ptr [EDX*0x4 + 0x96cc00]
-    build_patch(0x004D1170, std::vector<uint8_t>{0x3B, 0x34, 0x95, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
     // upgrade(int) - MOVSX ESI,word ptr [EAX*0x4 + 0x952832]
     build_patch(0x004D11ED, std::vector<uint8_t>{0x0F, 0xBF, 0x34, 0x85, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // upgrade(int) - MOV word ptr [EAX*0x4 + 0x952832],DI
@@ -2375,120 +1976,24 @@ void apply_veh_patches() {
     build_patch(0x004D9345, std::vector<uint8_t>{0x89, 0x86, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // group(int) - MOV EDI,0x952832
     build_patch(0x004D935B, std::vector<uint8_t>{0xBF, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // group(int) - MOV CL,byte ptr [EDI + 0x4]
-    build_patch(0x004D9375, std::vector<uint8_t>{0x8A, 0x4F, 0x04}, -1, new_VEH_addr + 0xE);
-    // group(int) - TEST dword ptr [EDI + -0x6],0x8000000
-    build_patch(0x004D938A, std::vector<uint8_t>{0xF7, 0x47, 0xFA, 0x00, 0x00, 0x00, 0x08}, -1, new_VEH_addr + 0x4);
-    // group(int) - MOVSX EAX,word ptr [EDI + -0xa]
-    build_patch(0x004D9399, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xF6}, -1, new_VEH_addr + 0x0);
-    // group(int) - MOVSX ECX,word ptr [EDI + -0x8]
-    build_patch(0x004D93A6, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xF8}, -1, new_VEH_addr + 0x2);
-    // group(int) - MOVSX EAX,word ptr [EDI + -0x8]
-    build_patch(0x004D93B3, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xF8}, -1, new_VEH_addr + 0x2);
-    // group(int) - MOVSX ECX,word ptr [EDI + -0xa]
-    build_patch(0x004D93BE, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xF6}, -1, new_VEH_addr + 0x0);
-    // group(int) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x004D93E0, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
-    // group(int) - MOV AL,byte ptr [EAX + 0x94a379]
-    build_patch(0x004D93FA, std::vector<uint8_t>{0x8A, 0x80, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // group(int) - MOVSX EDX,word ptr [ESI + 0x952844]
     build_patch(0x004D9428, std::vector<uint8_t>{0x0F, 0xBF, 0x96, 0x44, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x1C);
     // group(int) - MOVSX EAX,word ptr [ESI + 0x95283c]
     build_patch(0x004D942F, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x3C, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x14);
-    // group(int) - MOVSX ECX,word ptr [EDI + -0x8]
-    build_patch(0x004D943D, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xF8}, -1, new_VEH_addr + 0x2);
-    // group(int) - MOVSX EDX,word ptr [EDI + -0xa]
-    build_patch(0x004D9441, std::vector<uint8_t>{0x0F, 0xBF, 0x57, 0xF6}, -1, new_VEH_addr + 0x0);
-    // group(int) - MOV EAX,dword ptr [EDI + -0x6]
-    build_patch(0x004D9467, std::vector<uint8_t>{0x8B, 0x47, 0xFA}, -1, new_VEH_addr + 0x4);
-    // group(int) - MOV dword ptr [EDI + -0x6],EAX
-    build_patch(0x004D946F, std::vector<uint8_t>{0x89, 0x47, 0xFA}, -1, new_VEH_addr + 0x4);
     // group(int) - MOV AL,byte ptr [ESI + 0x952839]
     build_patch(0x004D9472, std::vector<uint8_t>{0x8A, 0x86, 0x39, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x11);
-    // group(int) - MOV byte ptr [EDI + 0x7],AL
-    build_patch(0x004D9478, std::vector<uint8_t>{0x88, 0x47, 0x07}, -1, new_VEH_addr + 0x11);
     // group(int) - MOV CL,byte ptr [ESI + 0x95283a]
     build_patch(0x004D947B, std::vector<uint8_t>{0x8A, 0x8E, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
-    // group(int) - MOV byte ptr [EDI + 0x8],CL
-    build_patch(0x004D9481, std::vector<uint8_t>{0x88, 0x4F, 0x08}, -1, new_VEH_addr + 0x12);
     // group(int) - MOV DL,byte ptr [ESI + 0x95283b]
     build_patch(0x004D9484, std::vector<uint8_t>{0x8A, 0x96, 0x3B, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x13);
-    // group(int) - MOV byte ptr [EDI + 0x9],DL
-    build_patch(0x004D948A, std::vector<uint8_t>{0x88, 0x57, 0x09}, -1, new_VEH_addr + 0x13);
-    // group(int) - LEA ECX,[EDI + 0x12]
-    build_patch(0x004D948D, std::vector<uint8_t>{0x8D, 0x4F, 0x12}, -1, new_VEH_addr + 0x1C);
     // group(int) - LEA EAX,[ESI + 0x952844]
     build_patch(0x004D9490, std::vector<uint8_t>{0x8D, 0x86, 0x44, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x1C);
-    // group(int) - MOV BX,word ptr [EAX + -0x8]
-    build_patch(0x004D949B, std::vector<uint8_t>{0x66, 0x8B, 0x58, 0xF8}, -1, new_VEH_addr + 0x14);
-    // group(int) - MOV word ptr [ECX + -0x8],BX
-    build_patch(0x004D94A2, std::vector<uint8_t>{0x66, 0x89, 0x59, 0xF8}, -1, new_VEH_addr + 0x14);
-    // group(int) - MOV BX,word ptr [EAX + -0x2]
-    build_patch(0x004D94A6, std::vector<uint8_t>{0x66, 0x8B, 0x58, 0xFE}, -1, new_VEH_addr + 0x1C);
-    // group(int) - MOV word ptr [ECX],BX
-    build_patch(0x004D94AA, std::vector<uint8_t>{0x66, 0x89, 0x19}, -1, new_VEH_addr + 0x1C);
     // group(int) - MOV EAX,dword ptr [ESI + 0x95282c]
     build_patch(0x004D94B3, std::vector<uint8_t>{0x8B, 0x86, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
-    // group(int) - MOV ECX,dword ptr [EDI + -0x6]
-    build_patch(0x004D94B9, std::vector<uint8_t>{0x8B, 0x4F, 0xFA}, -1, new_VEH_addr + 0x4);
-    // group(int) - MOV dword ptr [EDI + -0x6],ECX
-    build_patch(0x004D94C8, std::vector<uint8_t>{0x89, 0x4F, 0xFA}, -1, new_VEH_addr + 0x4);
     // group(int) - MOV ESI,0x952836
     build_patch(0x004D9525, std::vector<uint8_t>{0xBE, 0x36, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xE);
-    // group(int) - MOV DL,byte ptr [ESI]
-    build_patch(0x004D9531, std::vector<uint8_t>{0x8A, 0x16}, -1, new_VEH_addr + 0xE);
-    // group(int) - TEST dword ptr [ESI + -0xa],0x8000000
-    build_patch(0x004D9537, std::vector<uint8_t>{0xF7, 0x46, 0xF6, 0x00, 0x00, 0x00, 0x08}, -1, new_VEH_addr + 0x4);
-    // group(int) - MOVSX EAX,word ptr [ESI + -0x4]
-    build_patch(0x004D9540, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xFC}, -1, new_VEH_addr + 0xA);
-    // group(int) - MOV BL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004D9565, std::vector<uint8_t>{0x8A, 0x99, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // group(int) - MOVSX ECX,word ptr [ESI + -0xc]
-    build_patch(0x004D956B, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xF4}, -1, new_VEH_addr + 0x2);
-    // group(int) - MOVSX EDX,word ptr [ESI + 0xe]
-    build_patch(0x004D9571, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0x0E}, -1, new_VEH_addr + 0x1C);
-    // group(int) - MOVSX EAX,word ptr [ESI + 0x6]
-    build_patch(0x004D9577, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x06}, -1, new_VEH_addr + 0x14);
-    // group(int) - MOVSX EDX,word ptr [ESI + -0xe]
-    build_patch(0x004D957B, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xF2}, -1, new_VEH_addr + 0x0);
     // assemble(void) - MOV ESI,0x952832
     build_patch(0x004D969D, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // assemble(void) - MOV AL,byte ptr [ESI + 0x4]
-    build_patch(0x004D96AA, std::vector<uint8_t>{0x8A, 0x46, 0x04}, -1, new_VEH_addr + 0xE);
-    // assemble(void) - MOVSX EDI,word ptr [ESI + -0x8]
-    build_patch(0x004D96BF, std::vector<uint8_t>{0x0F, 0xBF, 0x7E, 0xF8}, -1, new_VEH_addr + 0x2);
-    // assemble(void) - MOVSX EAX,word ptr [ESI + -0xa]
-    build_patch(0x004D96D4, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF6}, -1, new_VEH_addr + 0x0);
-    // assemble(void) - MOV AL,byte ptr [ESI + 0x7]
-    build_patch(0x004D9726, std::vector<uint8_t>{0x8A, 0x46, 0x07}, -1, new_VEH_addr + 0x11);
-    // assemble(void) - MOV EAX,dword ptr [ESI + -0x6]
-    build_patch(0x004D973E, std::vector<uint8_t>{0x8B, 0x46, 0xFA}, -1, new_VEH_addr + 0x4);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D9763, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - MOV CL,byte ptr [EAX + 0x94a379]
-    build_patch(0x004D977B, std::vector<uint8_t>{0x8A, 0x88, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D978E, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - CMP byte ptr [EAX + 0x94a379],0x1
-    build_patch(0x004D97A6, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D97B8, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x004D97D0, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D97E2, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D9817, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D9834, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D984C, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004D9864, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // assemble(void) - MOV EAX,dword ptr [ESI + -0x6]
-    build_patch(0x004D9884, std::vector<uint8_t>{0x8B, 0x46, 0xFA}, -1, new_VEH_addr + 0x4);
-    // assemble(void) - MOV dword ptr [ESI + -0x6],EAX
-    build_patch(0x004D988C, std::vector<uint8_t>{0x89, 0x46, 0xFA}, -1, new_VEH_addr + 0x4);
     // assemble(void) - MOV byte ptr [EAX + 0x952839],0x18
     build_patch(0x004D98E1, std::vector<uint8_t>{0xC6, 0x80, 0x39, 0x28, 0x95, 0x00, 0x18}, 2, new_VEH_addr + 0x11);
     // assemble(void) - MOV word ptr [EAX + 0x95283c],SI
@@ -2501,26 +2006,8 @@ void apply_veh_patches() {
     build_patch(0x004D9902, std::vector<uint8_t>{0x89, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // assemble(void) - MOV EAX,0x95282c
     build_patch(0x004D9922, std::vector<uint8_t>{0xB8, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // assemble(void) - MOV DL,byte ptr [EAX + 0xa]
-    build_patch(0x004D992F, std::vector<uint8_t>{0x8A, 0x50, 0x0A}, -1, new_VEH_addr + 0xE);
-    // assemble(void) - TEST dword ptr [EAX],0x8000000
-    build_patch(0x004D9936, std::vector<uint8_t>{0xF7, 0x00, 0x00, 0x00, 0x00, 0x08}, -1, new_VEH_addr + 0x4);
-    // assemble(void) - MOV byte ptr [EAX + 0xd],0x0
-    build_patch(0x004D993E, std::vector<uint8_t>{0xC6, 0x40, 0x0D, 0x00}, -1, new_VEH_addr + 0x11);
-    // assemble(void) - MOV EDX,dword ptr [EAX]
-    build_patch(0x004D9942, std::vector<uint8_t>{0x8B, 0x10}, -1, new_VEH_addr + 0x4);
-    // assemble(void) - MOV dword ptr [EAX],EDX
-    build_patch(0x004D994A, std::vector<uint8_t>{0x89, 0x10}, -1, new_VEH_addr + 0x4);
     // editor_reset_faction(void) - MOV EAX,0x95282c
     build_patch(0x004DBBEF, std::vector<uint8_t>{0xB8, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // editor_reset_faction(void) - MOV DL,byte ptr [EAX + 0xa]
-    build_patch(0x004DBBF6, std::vector<uint8_t>{0x8A, 0x50, 0x0A}, -1, new_VEH_addr + 0xE);
-    // editor_reset_faction(void) - MOV byte ptr [EAX + 0xd],BL
-    build_patch(0x004DBBFD, std::vector<uint8_t>{0x88, 0x58, 0x0D}, -1, new_VEH_addr + 0x11);
-    // editor_reset_faction(void) - MOV EDX,dword ptr [EAX]
-    build_patch(0x004DBC00, std::vector<uint8_t>{0x8B, 0x10}, -1, new_VEH_addr + 0x4);
-    // editor_reset_faction(void) - MOV dword ptr [EAX],EDX
-    build_patch(0x004DBC08, std::vector<uint8_t>{0x89, 0x10}, -1, new_VEH_addr + 0x4);
     // editor_reset_tech(void) - CMP word ptr [EDX*0x4 + 0x952832],DI
     build_patch(0x004DBCBF, std::vector<uint8_t>{0x66, 0x39, 0x3C, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // editor_edit_veh(int) - MOVSX EAX,word ptr [ESI + 0x952830]
@@ -2583,14 +2070,10 @@ void apply_veh_patches() {
     build_patch(0x004DE027, std::vector<uint8_t>{0x8A, 0x86, 0x37, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xF);
     // editor_edit_veh(int) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x004DE05E, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // editor_edit_veh(int) - CMP byte ptr [EAX + 0x94a37a],0x1
-    build_patch(0x004DE07D, std::vector<uint8_t>{0x80, 0xB8, 0x7A, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC2);
     // editor_edit_veh(int) - MOV AL,byte ptr [ESI + 0x95284d]
     build_patch(0x004DE08B, std::vector<uint8_t>{0x8A, 0x86, 0x4D, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x25);
     // editor_edit_veh(int) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x004DE0C2, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // editor_edit_veh(int) - MOV CL,byte ptr [EAX + 0x94a37a]
-    build_patch(0x004DE0DE, std::vector<uint8_t>{0x8A, 0x88, 0x7A, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC2);
     // editor_edit_veh(int) - MOV byte ptr [ESI + 0x952838],AL
     build_patch(0x004DE1A7, std::vector<uint8_t>{0x88, 0x86, 0x38, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x10);
     // editor_edit_veh(int) - MOV byte ptr [ESI + 0x952850],AL
@@ -2599,8 +2082,6 @@ void apply_veh_patches() {
     build_patch(0x004DE1C2, std::vector<uint8_t>{0x88, 0x86, 0x37, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xF);
     // editor_edit_veh(int) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x004DE1CA, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // editor_edit_veh(int) - CMP byte ptr [EDX + 0x94a37a],0x1
-    build_patch(0x004DE1E9, std::vector<uint8_t>{0x80, 0xBA, 0x7A, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC2);
     // editor_edit_veh(int) - MOV byte ptr [ESI + 0x95284d],AL
     build_patch(0x004DE1FF, std::vector<uint8_t>{0x88, 0x86, 0x4D, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x25);
     // editor_edit_veh(int) - MOVSX EAX,word ptr [ESI + 0x95282a]
@@ -2629,44 +2110,16 @@ void apply_veh_patches() {
     build_patch(0x004DF1CA, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // editor_veh(void) - MOV DL,byte ptr [ESI + 0x952836]
     build_patch(0x004DF1FE, std::vector<uint8_t>{0x8A, 0x96, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // editor_tech(void) - MOV dword ptr [EAX*0x4 + 0x96cd3c],EDI
-    build_patch(0x004DFD61, std::vector<uint8_t>{0x89, 0x3C, 0x85, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // editor_tech(void) - MOV EBX,dword ptr [EAX*0x4 + 0x96cd3c]
-    build_patch(0x004DFD8C, std::vector<uint8_t>{0x8B, 0x1C, 0x85, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // editor_tech(void) - MOV dword ptr [EAX*0x4 + 0x96cd3c],EBX
-    build_patch(0x004DFD97, std::vector<uint8_t>{0x89, 0x1C, 0x85, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // editor_tech(void) - MOV dword ptr [EAX*0x4 + 0x96cd3c],EDX
-    build_patch(0x004DFDA3, std::vector<uint8_t>{0x89, 0x14, 0x85, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // corner_the_market(void) - MOV EAX,dword ptr [ESI + 0x96cc00]
-    build_patch(0x004E2135, std::vector<uint8_t>{0x8B, 0x86, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // corner_the_market(void) - SUB dword ptr [ESI + 0x96cc00],EBX
-    build_patch(0x004E21BA, std::vector<uint8_t>{0x29, 0x9E, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // base_first(int) - MOV CL,byte ptr [EDX + 0x94a379]
-    build_patch(0x004E4B34, std::vector<uint8_t>{0x8A, 0x8A, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // base_kill(int) - ADD ECX,0x952856
     build_patch(0x004E53EA, std::vector<uint8_t>{0x81, 0xC1, 0x56, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2E);
     // base_kill(int) - MOV EAX,0x952856
     build_patch(0x004E55C3, std::vector<uint8_t>{0xB8, 0x56, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2E);
-    // base_kill(int) - MOV DX,word ptr [EAX]
-    build_patch(0x004E55CA, std::vector<uint8_t>{0x66, 0x8B, 0x10}, -1, new_VEH_addr + 0x2E);
-    // base_kill(int) - MOV word ptr [EAX],DX
-    build_patch(0x004E55D8, std::vector<uint8_t>{0x66, 0x89, 0x10}, -1, new_VEH_addr + 0x2E);
     // base_kill(int) - MOV EBX,0x95282a
     build_patch(0x004E5849, std::vector<uint8_t>{0xBB, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // base_kill(int) - MOVSX EAX,word ptr [EBX + 0x8]
-    build_patch(0x004E584E, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0x08}, -1, new_VEH_addr + 0xA);
-    // base_kill(int) - MOVSX EAX,word ptr [EBX + -0x2]
-    build_patch(0x004E585E, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0xFE}, -1, new_VEH_addr + 0x0);
-    // base_kill(int) - MOVSX ESI,word ptr [EBX]
-    build_patch(0x004E5865, std::vector<uint8_t>{0x0F, 0xBF, 0x33}, -1, new_VEH_addr + 0x2);
     // base_kill(int) - ADD ESI,0x95282a
     build_patch(0x004E58D7, std::vector<uint8_t>{0x81, 0xC6, 0x2A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2);
-    // base_kill(int) - MOV CL,byte ptr [EAX + 0x94a379]
-    build_patch(0x004E58F2, std::vector<uint8_t>{0x8A, 0x88, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // base_kill(int) - ADD ESI,0x95282a
     build_patch(0x004E5989, std::vector<uint8_t>{0x81, 0xC6, 0x2A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2);
-    // base_kill(int) - CMP byte ptr [EAX + 0x94a379],0x1
-    build_patch(0x004E59A4, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
     // farm_compute(void) - MOV SI,word ptr [ESI + 0x95285a]
     build_patch(0x004E6AAC, std::vector<uint8_t>{0x66, 0x8B, 0xB6, 0x5A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x32);
     // farm_compute(void) - MOV CX,word ptr [ECX + 0x95285a]
@@ -2683,72 +2136,6 @@ void apply_veh_patches() {
     build_patch(0x004E6B85, std::vector<uint8_t>{0x8A, 0x96, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // base_support(void) - MOV ESI,0x95284e
     build_patch(0x004E9602, std::vector<uint8_t>{0xBE, 0x4E, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x26);
-    // base_support(void) - MOV DL,byte ptr [ESI + -0x18]
-    build_patch(0x004E9611, std::vector<uint8_t>{0x8A, 0x56, 0xE8}, -1, new_VEH_addr + 0xE);
-    // base_support(void) - MOV CX,word ptr [ESI + 0x8]
-    build_patch(0x004E961C, std::vector<uint8_t>{0x66, 0x8B, 0x4E, 0x08}, -1, new_VEH_addr + 0x2E);
-    // base_support(void) - MOVSX EAX,word ptr [ESI + -0x1c]
-    build_patch(0x004E962B, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - MOV DX,word ptr [ESI + -0x26]
-    build_patch(0x004E9645, std::vector<uint8_t>{0x66, 0x8B, 0x56, 0xDA}, -1, new_VEH_addr + 0x0);
-    // base_support(void) - MOV AX,word ptr [ESI + -0x24]
-    build_patch(0x004E9652, std::vector<uint8_t>{0x66, 0x8B, 0x46, 0xDC}, -1, new_VEH_addr + 0x2);
-    // base_support(void) - CMP byte ptr [ESI + -0x15],0x3
-    build_patch(0x004E9660, std::vector<uint8_t>{0x80, 0x7E, 0xEB, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_support(void) - MOV AL,byte ptr [ESI]
-    build_patch(0x004E9675, std::vector<uint8_t>{0x8A, 0x06}, -1, new_VEH_addr + 0x26);
-    // base_support(void) - MOVSX ECX,word ptr [ESI + -0x24]
-    build_patch(0x004E9697, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xDC}, -1, new_VEH_addr + 0x2);
-    // base_support(void) - MOVSX EDX,word ptr [ESI + -0x26]
-    build_patch(0x004E969B, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xDA}, -1, new_VEH_addr + 0x0);
-    // base_support(void) - CMP byte ptr [ESI + -0x15],0x3
-    build_patch(0x004E96D2, std::vector<uint8_t>{0x80, 0x7E, 0xEB, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_support(void) - MOV AL,byte ptr [ESI]
-    build_patch(0x004E96DA, std::vector<uint8_t>{0x8A, 0x06}, -1, new_VEH_addr + 0x26);
-    // base_support(void) - MOV CL,byte ptr [ESI]
-    build_patch(0x004E9736, std::vector<uint8_t>{0x8A, 0x0E}, -1, new_VEH_addr + 0x26);
-    // base_support(void) - MOV DX,word ptr [ESI + -0x1c]
-    build_patch(0x004E973F, std::vector<uint8_t>{0x66, 0x8B, 0x56, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - AND dword ptr [ESI + -0x22],0xff9fffef
-    build_patch(0x004E97A9, std::vector<uint8_t>{0x81, 0x66, 0xDE, 0xEF, 0xFF, 0x9F, 0xFF}, -1, new_VEH_addr + 0x4);
-    // base_support(void) - MOVSX ECX,word ptr [ESI + -0x1c]
-    build_patch(0x004E97B0, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - CMP byte ptr [ESI + -0x15],0x3
-    build_patch(0x004E97C6, std::vector<uint8_t>{0x80, 0x7E, 0xEB, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_support(void) - MOVSX EAX,word ptr [ESI + -0x24]
-    build_patch(0x004E97CC, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xDC}, -1, new_VEH_addr + 0x2);
-    // base_support(void) - MOVSX EBX,word ptr [ESI + -0x26]
-    build_patch(0x004E97D7, std::vector<uint8_t>{0x0F, 0xBF, 0x5E, 0xDA}, -1, new_VEH_addr + 0x0);
-    // base_support(void) - MOV AL,byte ptr [ESI]
-    build_patch(0x004E9805, std::vector<uint8_t>{0x8A, 0x06}, -1, new_VEH_addr + 0x26);
-    // base_support(void) - MOV CX,word ptr [ESI + -0x1c]
-    build_patch(0x004E982D, std::vector<uint8_t>{0x66, 0x8B, 0x4E, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - MOVSX EAX,word ptr [ESI + -0x24]
-    build_patch(0x004E985C, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xDC}, -1, new_VEH_addr + 0x2);
-    // base_support(void) - MOVSX EDX,word ptr [ESI + -0x26]
-    build_patch(0x004E9867, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xDA}, -1, new_VEH_addr + 0x0);
-    // base_support(void) - MOV EDX,dword ptr [ESI + -0x22]
-    build_patch(0x004E98EE, std::vector<uint8_t>{0x8B, 0x56, 0xDE}, -1, new_VEH_addr + 0x4);
-    // base_support(void) - MOV dword ptr [ESI + -0x22],EDX
-    build_patch(0x004E9910, std::vector<uint8_t>{0x89, 0x56, 0xDE}, -1, new_VEH_addr + 0x4);
-    // base_support(void) - MOVSX ECX,word ptr [ESI + -0x1c]
-    build_patch(0x004E993E, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - MOVSX EAX,word ptr [ESI + -0x1c]
-    build_patch(0x004E99B8, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - MOVSX ECX,word ptr [ESI + -0x24]
-    build_patch(0x004E99DC, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xDC}, -1, new_VEH_addr + 0x2);
-    // base_support(void) - MOVSX EDX,word ptr [ESI + -0x26]
-    build_patch(0x004E99E0, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xDA}, -1, new_VEH_addr + 0x0);
-    // base_support(void) - MOVSX EAX,word ptr [ESI + -0x1c]
-    build_patch(0x004E9A2A, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xE4}, -1, new_VEH_addr + 0xA);
-    // base_support(void) - CMP byte ptr [EDX + 0x94a379],0x2
-    build_patch(0x004E9A45, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // base_support(void) - MOV EAX,dword ptr [ESI + -0x22]
-    build_patch(0x004E9ACC, std::vector<uint8_t>{0x8B, 0x46, 0xDE}, -1, new_VEH_addr + 0x4);
-    // base_support(void) - MOV EAX,dword ptr [ESI + -0x22]
-    build_patch(0x004E9B20, std::vector<uint8_t>{0x8B, 0x46, 0xDE}, -1, new_VEH_addr + 0x4);
-    // base_support(void) - MOV dword ptr [ESI + -0x22],EAX
-    build_patch(0x004E9B28, std::vector<uint8_t>{0x89, 0x46, 0xDE}, -1, new_VEH_addr + 0x4);
     // base_psych(void) - MOVSX EAX,word ptr [EDI + 0x952832]
     build_patch(0x004EAF00, std::vector<uint8_t>{0x0F, 0xBF, 0x87, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // base_psych(void) - MOV CX,word ptr [EDI + 0x952832]
@@ -2761,40 +2148,8 @@ void apply_veh_patches() {
     build_patch(0x004EB055, std::vector<uint8_t>{0x66, 0x8B, 0xB7, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // base_growth(void) - MOV ECX,0x952832
     build_patch(0x004EF22A, std::vector<uint8_t>{0xB9, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // base_growth(void) - MOVSX EAX,word ptr [ECX + 0x24]
-    build_patch(0x004EF232, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0x24}, -1, new_VEH_addr + 0x2E);
-    // base_growth(void) - MOVSX EAX,word ptr [ECX]
-    build_patch(0x004EF23E, std::vector<uint8_t>{0x0F, 0xBF, 0x01}, -1, new_VEH_addr + 0xA);
-    // base_growth(void) - CMP byte ptr [ECX + 0x7],0x3
-    build_patch(0x004EF251, std::vector<uint8_t>{0x80, 0x79, 0x07, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_growth(void) - MOV AL,byte ptr [ECX + 0x1c]
-    build_patch(0x004EF257, std::vector<uint8_t>{0x8A, 0x41, 0x1C}, -1, new_VEH_addr + 0x26);
-    // base_growth(void) - MOVSX EAX,word ptr [ECX + -0x8]
-    build_patch(0x004EF25E, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0xF8}, -1, new_VEH_addr + 0x2);
-    // base_growth(void) - MOVSX EBX,word ptr [ECX + -0xa]
-    build_patch(0x004EF262, std::vector<uint8_t>{0x0F, 0xBF, 0x59, 0xF6}, -1, new_VEH_addr + 0x0);
-    // base_growth(void) - MOV byte ptr [ECX + 0x7],0x0
-    build_patch(0x004EF28E, std::vector<uint8_t>{0xC6, 0x41, 0x07, 0x00}, -1, new_VEH_addr + 0x11);
     // do_upgrade(int,int,int) - MOV EDI,0x95284c
     build_patch(0x004EFBB7, std::vector<uint8_t>{0xBF, 0x4C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x24);
-    // do_upgrade(int,int,int) - MOV DL,byte ptr [EDI + -0x16]
-    build_patch(0x004EFBC1, std::vector<uint8_t>{0x8A, 0x57, 0xEA}, -1, new_VEH_addr + 0xE);
-    // do_upgrade(int,int,int) - MOVSX ECX,word ptr [EDI + -0x1a]
-    build_patch(0x004EFBCC, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xE6}, -1, new_VEH_addr + 0xA);
-    // do_upgrade(int,int,int) - MOV word ptr [EDI + -0x1a],BX
-    build_patch(0x004EFBFA, std::vector<uint8_t>{0x66, 0x89, 0x5F, 0xE6}, -1, new_VEH_addr + 0xA);
-    // do_upgrade(int,int,int) - MOV AL,byte ptr [EDI]
-    build_patch(0x004EFC26, std::vector<uint8_t>{0x8A, 0x07}, -1, new_VEH_addr + 0x24);
-    // do_upgrade(int,int,int) - MOV byte ptr [EDI],AL
-    build_patch(0x004EFC39, std::vector<uint8_t>{0x88, 0x07}, -1, new_VEH_addr + 0x24);
-    // do_upgrade(int,int,int) - MOV AL,byte ptr [EDI]
-    build_patch(0x004EFC64, std::vector<uint8_t>{0x8A, 0x07}, -1, new_VEH_addr + 0x24);
-    // do_upgrade(int,int,int) - MOV byte ptr [EDI],AL
-    build_patch(0x004EFC77, std::vector<uint8_t>{0x88, 0x07}, -1, new_VEH_addr + 0x24);
-    // upgrade_prototype(int,int,int,int) - MOV ECX,dword ptr [EAX*0x4 + 0x96c9e4]
-    build_patch(0x004EFF27, std::vector<uint8_t>{0x8B, 0x0C, 0x85, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // upgrade_prototype(int,int,int,int) - CMP ECX,dword ptr [EAX*0x4 + 0x96cc00]
-    build_patch(0x004EFF73, std::vector<uint8_t>{0x3B, 0x0C, 0x85, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
     // base_production(void) - MOV EDX,dword ptr [EAX + 0x95282c]
     build_patch(0x004F118B, std::vector<uint8_t>{0x8B, 0x90, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // base_production(void) - MOV dword ptr [EAX + 0x95282c],EDX
@@ -2805,8 +2160,6 @@ void apply_veh_patches() {
     build_patch(0x004F11D5, std::vector<uint8_t>{0x8B, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // base_production(void) - LEA EAX,[EAX + 0x95282c]
     build_patch(0x004F11DB, std::vector<uint8_t>{0x8D, 0x80, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
-    // base_production(void) - MOV dword ptr [EAX],ECX
-    build_patch(0x004F11E7, std::vector<uint8_t>{0x89, 0x08}, -1, new_VEH_addr + 0x4);
     // base_production(void) - MOV byte ptr [ESI + 0x95284c],AL
     build_patch(0x004F13C5, std::vector<uint8_t>{0x88, 0x86, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
     // base_production(void) - MOV ECX,dword ptr [ESI + 0x95282c]
@@ -2823,30 +2176,8 @@ void apply_veh_patches() {
     build_patch(0x004F2213, std::vector<uint8_t>{0xC6, 0x81, 0x39, 0x28, 0x95, 0x00, 0x00}, 2, new_VEH_addr + 0x11);
     // base_production(void) - MOVSX EAX,word ptr [ECX + 0x952858]
     build_patch(0x004F221E, std::vector<uint8_t>{0x0F, 0xBF, 0x81, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
-    // base_hurry(void) - SUB EAX,dword ptr [EDX*0x4 + 0x96c9e4]
-    build_patch(0x004F4729, std::vector<uint8_t>{0x2B, 0x04, 0x95, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
     // base_check_support(void) - MOV EDI,0x952856
     build_patch(0x004F4876, std::vector<uint8_t>{0xBF, 0x56, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2E);
-    // base_check_support(void) - MOV AL,byte ptr [EDI + -0x20]
-    build_patch(0x004F487B, std::vector<uint8_t>{0x8A, 0x47, 0xE0}, -1, new_VEH_addr + 0xE);
-    // base_check_support(void) - MOVSX ECX,word ptr [EDI]
-    build_patch(0x004F4889, std::vector<uint8_t>{0x0F, 0xBF, 0x0F}, -1, new_VEH_addr + 0x2E);
-    // base_check_support(void) - MOVSX EAX,word ptr [EDI + -0x24]
-    build_patch(0x004F4898, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xDC}, -1, new_VEH_addr + 0xA);
-    // base_check_support(void) - CMP byte ptr [EDI + -0x1d],0x3
-    build_patch(0x004F48AD, std::vector<uint8_t>{0x80, 0x7F, 0xE3, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_check_support(void) - CMP byte ptr [EDI + -0x8],0x1
-    build_patch(0x004F48B7, std::vector<uint8_t>{0x80, 0x7F, 0xF8, 0x01}, -1, new_VEH_addr + 0x26);
-    // base_check_support(void) - MOVSX EAX,word ptr [EDI + -0x2c]
-    build_patch(0x004F48C1, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xD4}, -1, new_VEH_addr + 0x2);
-    // base_check_support(void) - MOVSX ECX,word ptr [EDI + -0x2e]
-    build_patch(0x004F48CC, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xD2}, -1, new_VEH_addr + 0x0);
-    // base_check_support(void) - TEST byte ptr [EDI + -0x2a],0x10
-    build_patch(0x004F490E, std::vector<uint8_t>{0xF6, 0x47, 0xD6, 0x10}, -1, new_VEH_addr + 0x4);
-    // base_check_support(void) - MOVSX EAX,word ptr [EDI + -0x2e]
-    build_patch(0x004F4923, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xD2}, -1, new_VEH_addr + 0x0);
-    // base_check_support(void) - MOVSX ESI,word ptr [EDI + -0x2c]
-    build_patch(0x004F492B, std::vector<uint8_t>{0x0F, 0xBF, 0x77, 0xD4}, -1, new_VEH_addr + 0x2);
     // base_check_support(void) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x004F49D6, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // base_check_support(void) - MOV byte ptr [ESI + 0x952839],0x0
@@ -2861,154 +2192,26 @@ void apply_veh_patches() {
     build_patch(0x004F4AE7, std::vector<uint8_t>{0x0F, 0xBF, 0x96, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // base_check_support(void) - MOV EDI,0x95282c
     build_patch(0x004F4C12, std::vector<uint8_t>{0xBF, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // base_check_support(void) - MOV DL,byte ptr [EDI + 0xa]
-    build_patch(0x004F4C1C, std::vector<uint8_t>{0x8A, 0x57, 0x0A}, -1, new_VEH_addr + 0xE);
-    // base_check_support(void) - MOVSX EAX,word ptr [EDI + 0x2a]
-    build_patch(0x004F4C27, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0x2A}, -1, new_VEH_addr + 0x2E);
-    // base_check_support(void) - MOV EAX,dword ptr [EDI]
-    build_patch(0x004F4C37, std::vector<uint8_t>{0x8B, 0x07}, -1, new_VEH_addr + 0x4);
-    // base_check_support(void) - MOV AL,byte ptr [EDI + 0xf]
-    build_patch(0x004F4C7A, std::vector<uint8_t>{0x8A, 0x47, 0x0F}, -1, new_VEH_addr + 0x13);
-    // base_check_support(void) - MOV CL,byte ptr [EDI + 0xe]
-    build_patch(0x004F4C7D, std::vector<uint8_t>{0x8A, 0x4F, 0x0E}, -1, new_VEH_addr + 0x12);
-    // base_check_support(void) - MOV AL,byte ptr [EDI + 0x22]
-    build_patch(0x004F4C88, std::vector<uint8_t>{0x8A, 0x47, 0x22}, -1, new_VEH_addr + 0x26);
-    // base_check_support(void) - MOVSX ESI,word ptr [EDI + -0x2]
-    build_patch(0x004F4CC8, std::vector<uint8_t>{0x0F, 0xBF, 0x77, 0xFE}, -1, new_VEH_addr + 0x2);
-    // base_check_support(void) - MOVSX EAX,word ptr [EDI + -0x4]
-    build_patch(0x004F4CD3, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xFC}, -1, new_VEH_addr + 0x0);
-    // base_check_support(void) - MOVSX EAX,word ptr [EDI + 0x6]
-    build_patch(0x004F4D08, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0x06}, -1, new_VEH_addr + 0xA);
-    // base_check_support(void) - MOVSX ECX,word ptr [EDI + 0x6]
-    build_patch(0x004F4D44, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0x06}, -1, new_VEH_addr + 0xA);
     // base_energy_costs(void) - MOV ECX,0x952832
     build_patch(0x004F4DFC, std::vector<uint8_t>{0xB9, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // base_energy_costs(void) - MOV AL,byte ptr [ECX + 0x4]
-    build_patch(0x004F4E09, std::vector<uint8_t>{0x8A, 0x41, 0x04}, -1, new_VEH_addr + 0xE);
-    // base_energy_costs(void) - MOVSX EAX,word ptr [ECX]
-    build_patch(0x004F4E10, std::vector<uint8_t>{0x0F, 0xBF, 0x01}, -1, new_VEH_addr + 0xA);
-    // base_energy_costs(void) - CMP byte ptr [ECX + 0x7],0x3
-    build_patch(0x004F4E23, std::vector<uint8_t>{0x80, 0x79, 0x07, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_energy_costs(void) - CMP byte ptr [ECX + 0x1c],0x2
-    build_patch(0x004F4E29, std::vector<uint8_t>{0x80, 0x79, 0x1C, 0x02}, -1, new_VEH_addr + 0x26);
-    // base_energy_costs(void) - MOVSX EAX,word ptr [ECX + -0x8]
-    build_patch(0x004F4E2F, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0xF8}, -1, new_VEH_addr + 0x2);
-    // base_energy_costs(void) - MOVSX EDI,word ptr [ECX + -0xa]
-    build_patch(0x004F4E33, std::vector<uint8_t>{0x0F, 0xBF, 0x79, 0xF6}, -1, new_VEH_addr + 0x0);
-    // base_energy_costs(void) - MOV byte ptr [ECX + 0x7],0x0
-    build_patch(0x004F4E5D, std::vector<uint8_t>{0xC6, 0x41, 0x07, 0x00}, -1, new_VEH_addr + 0x11);
     // drone_riot(void) - ADD ESI,0x952832
     build_patch(0x004F5919, std::vector<uint8_t>{0x81, 0xC6, 0x32, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xA);
     // drone_riot(void) - ADD EDI,0x952856
     build_patch(0x004F5A78, std::vector<uint8_t>{0x81, 0xC7, 0x56, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2E);
-    // base_ecology(void) - MOV EAX,dword ptr [ECX*0x4 + 0x96c9e0]
-    build_patch(0x004F6E3C, std::vector<uint8_t>{0x8B, 0x04, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // base_ecology(void) - MOV byte ptr [EAX + 0x95284e],DL
     build_patch(0x004F7419, std::vector<uint8_t>{0x88, 0x90, 0x4E, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x26);
-    // base_ecology(void) - TEST dword ptr [EDX*0x4 + 0x96c9e0],EDI
-    build_patch(0x004F787E, std::vector<uint8_t>{0x85, 0x3C, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // base_ecology(void) - TEST dword ptr [EDX*0x4 + 0x96c9e0],EDI
-    build_patch(0x004F7963, std::vector<uint8_t>{0x85, 0x3C, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // base_build(int,int_*,int_*,int_*) - MOV AL,byte ptr [EDX + 0x94a379]
-    build_patch(0x004F8EFF, std::vector<uint8_t>{0x8A, 0x82, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // base_build(int,int_*,int_*,int_*) - MOV ECX,0x952832
     build_patch(0x004F93CA, std::vector<uint8_t>{0xB9, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOV DL,byte ptr [ECX + 0x4]
-    build_patch(0x004F93DA, std::vector<uint8_t>{0x8A, 0x51, 0x04}, -1, new_VEH_addr + 0xE);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [ECX]
-    build_patch(0x004F93E5, std::vector<uint8_t>{0x0F, 0xBF, 0x01}, -1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - TEST dword ptr [ECX + -0x6],0x10000000
-    build_patch(0x004F93F4, std::vector<uint8_t>{0xF7, 0x41, 0xFA, 0x00, 0x00, 0x00, 0x10}, -1, new_VEH_addr + 0x4);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [ECX + -0x8]
-    build_patch(0x004F93FD, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0xF8}, -1, new_VEH_addr + 0x2);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EDX,word ptr [ECX + -0xa]
-    build_patch(0x004F9408, std::vector<uint8_t>{0x0F, 0xBF, 0x51, 0xF6}, -1, new_VEH_addr + 0x0);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [ECX + 0x24]
-    build_patch(0x004F9440, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0x24}, -1, new_VEH_addr + 0x2E);
     // base_build(int,int_*,int_*,int_*) - MOV EDI,0x952832
     build_patch(0x004F952B, std::vector<uint8_t>{0xBF, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOV DL,byte ptr [EDI + 0x4]
-    build_patch(0x004F9535, std::vector<uint8_t>{0x8A, 0x57, 0x04}, -1, new_VEH_addr + 0xE);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x004F9540, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOV AL,byte ptr [EDX + 0x94a379]
-    build_patch(0x004F956A, std::vector<uint8_t>{0x8A, 0x82, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x004F95B6, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x004F95D0, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - TEST dword ptr [EDI + -0x6],0x10000000
-    build_patch(0x004F95E4, std::vector<uint8_t>{0xF7, 0x47, 0xFA, 0x00, 0x00, 0x00, 0x10}, -1, new_VEH_addr + 0x4);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EDX,word ptr [EDI + 0x24]
-    build_patch(0x004F9626, std::vector<uint8_t>{0x0F, 0xBF, 0x57, 0x24}, -1, new_VEH_addr + 0x2E);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x004F9648, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI + -0x8]
-    build_patch(0x004F965D, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xF8}, -1, new_VEH_addr + 0x2);
-    // base_build(int,int_*,int_*,int_*) - MOVSX ECX,word ptr [EDI + -0xa]
-    build_patch(0x004F9668, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xF6}, -1, new_VEH_addr + 0x0);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI + -0x8]
-    build_patch(0x004F968F, std::vector<uint8_t>{0x0F, 0xBF, 0x47, 0xF8}, -1, new_VEH_addr + 0x2);
-    // base_build(int,int_*,int_*,int_*) - MOVSX ECX,word ptr [EDI + -0xa]
-    build_patch(0x004F969A, std::vector<uint8_t>{0x0F, 0xBF, 0x4F, 0xF6}, -1, new_VEH_addr + 0x0);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x004F96BE, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
     // base_build(int,int_*,int_*,int_*) - MOV CL,byte ptr [EDX + 0x952836]
     build_patch(0x004F9992, std::vector<uint8_t>{0x8A, 0x8A, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
-    // base_build(int,int_*,int_*,int_*) - MOV EAX,dword ptr [EDX*0x4 + 0x96cc00]
-    build_patch(0x004FC20D, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0x00, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x1830C);
-    // base_build(int,int_*,int_*,int_*) - MOV EAX,dword ptr [EAX*0x4 + 0x96da40]
-    build_patch(0x004FC277, std::vector<uint8_t>{0x8B, 0x04, 0x85, 0x40, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x1914C);
-    // base_build(int,int_*,int_*,int_*) - MOV EDX,dword ptr [ECX*0x4 + 0x96c9e8]
-    build_patch(0x004FC2AC, std::vector<uint8_t>{0x8B, 0x14, 0x8D, 0xE8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F4);
-    // base_build(int,int_*,int_*,int_*) - MOV EAX,dword ptr [EDI + 0x96cd3c]
-    build_patch(0x004FC2FC, std::vector<uint8_t>{0x8B, 0x87, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // base_build(int,int_*,int_*,int_*) - MOV EDI,dword ptr [EDX + 0x96cc4c]
-    build_patch(0x004FC321, std::vector<uint8_t>{0x8B, 0xBA, 0x4C, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x18358);
-    // base_build(int,int_*,int_*,int_*) - MOV EDX,dword ptr [EAX + 0x96d1f8]
-    build_patch(0x004FC494, std::vector<uint8_t>{0x8B, 0x90, 0xF8, 0xD1, 0x96, 0x00}, -1, new_VEH_addr + 0x18904);
-    // base_build(int,int_*,int_*,int_*) - MOV EAX,dword ptr [EAX + 0x96d204]
-    build_patch(0x004FC4A4, std::vector<uint8_t>{0x8B, 0x80, 0x04, 0xD2, 0x96, 0x00}, -1, new_VEH_addr + 0x18910);
     // base_build(int,int_*,int_*,int_*) - MOV ESI,0x952832
     build_patch(0x004FC5F4, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOV AL,byte ptr [ESI + 0x4]
-    build_patch(0x004FC5FB, std::vector<uint8_t>{0x8A, 0x46, 0x04}, -1, new_VEH_addr + 0xE);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x004FC603, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOVSX EDX,word ptr [ESI + 0x24]
-    build_patch(0x004FC611, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0x24}, -1, new_VEH_addr + 0x2E);
-    // base_build(int,int_*,int_*,int_*) - CMP byte ptr [ESI + 0x7],0x3
-    build_patch(0x004FC61F, std::vector<uint8_t>{0x80, 0x7E, 0x07, 0x03}, -1, new_VEH_addr + 0x11);
-    // base_build(int,int_*,int_*,int_*) - MOV CL,byte ptr [EAX + 0x94a379]
-    build_patch(0x004FC77C, std::vector<uint8_t>{0x8A, 0x88, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // base_build(int,int_*,int_*,int_*) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x004FC7BE, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // base_build(int,int_*,int_*,int_*) - MOVSX EAX,word ptr [EDX + 0x952832]
     build_patch(0x004FD538, std::vector<uint8_t>{0x0F, 0xBF, 0x82, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // base_build(int,int_*,int_*,int_*) - MOV ECX,dword ptr [EAX + 0x96da50]
-    build_patch(0x004FEEC9, std::vector<uint8_t>{0x8B, 0x88, 0x50, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x1915C);
-    // base_build(int,int_*,int_*,int_*) - MOV ECX,dword ptr [EAX + 0x96cbb8]
-    build_patch(0x004FEED3, std::vector<uint8_t>{0x8B, 0x88, 0xB8, 0xCB, 0x96, 0x00}, -1, new_VEH_addr + 0x182C4);
-    // base_build(int,int_*,int_*,int_*) - MOV EDX,dword ptr [EAX + 0x96d1f4]
-    build_patch(0x004FEEDD, std::vector<uint8_t>{0x8B, 0x90, 0xF4, 0xD1, 0x96, 0x00}, -1, new_VEH_addr + 0x18900);
     // FUN_00500380 - MOV EDI,0x952832
     build_patch(0x005003F9, std::vector<uint8_t>{0xBF, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // FUN_00500380 - MOV dword ptr [EBP + -0xc],EDI
-    build_patch(0x005003FE, std::vector<uint8_t>{0x89, 0x7D, 0xF4}, -1, new_VEH_addr + 0xA);
-    // FUN_00500380 - MOV AL,byte ptr [EDI + 0x4]
-    build_patch(0x00500403, std::vector<uint8_t>{0x8A, 0x47, 0x04}, -1, new_VEH_addr + 0xE);
-    // FUN_00500380 - MOVSX ECX,word ptr [EDI]
-    build_patch(0x0050040E, std::vector<uint8_t>{0x0F, 0xBF, 0x0F}, -1, new_VEH_addr + 0xA);
-    // FUN_00500380 - TEST byte ptr [EDI + -0x6],0x20
-    build_patch(0x00500424, std::vector<uint8_t>{0xF6, 0x47, 0xFA, 0x20}, -1, new_VEH_addr + 0x4);
-    // FUN_00500380 - MOV AL,byte ptr [EDI + 0x1e]
-    build_patch(0x0050042E, std::vector<uint8_t>{0x8A, 0x47, 0x1E}, -1, new_VEH_addr + 0x28);
-    // FUN_00500380 - MOVSX ESI,word ptr [EDI + -0xa]
-    build_patch(0x00500439, std::vector<uint8_t>{0x0F, 0xBF, 0x77, 0xF6}, -1, new_VEH_addr + 0x0);
-    // FUN_00500380 - MOVSX EBX,word ptr [EDI + -0x8]
-    build_patch(0x00500440, std::vector<uint8_t>{0x0F, 0xBF, 0x5F, 0xF8}, -1, new_VEH_addr + 0x2);
-    // FUN_00500380 - MOV dword ptr [EBP + -0xc],EDI
-    build_patch(0x005004DA, std::vector<uint8_t>{0x89, 0x7D, 0xF4}, -1, new_VEH_addr + 0x3E);
     // planet_buster(int) - MOVSX EAX,word ptr [EDX*0x4 + 0x952832]
     build_patch(0x0050052C, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // planet_busting(int,int,int) - MOV BL,byte ptr [ESI + 0x952836]
@@ -3519,42 +2722,8 @@ void apply_veh_patches() {
     build_patch(0x005063D6, std::vector<uint8_t>{0x66, 0x8B, 0xB6, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // invasions(int) - MOV ESI,0x95282a
     build_patch(0x005064DC, std::vector<uint8_t>{0xBE, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // invasions(int) - MOV CL,byte ptr [ESI + 0xc]
-    build_patch(0x005064E8, std::vector<uint8_t>{0x8A, 0x4E, 0x0C}, -1, new_VEH_addr + 0xE);
-    // invasions(int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x00506530, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0x2);
-    // invasions(int) - MOVSX ECX,word ptr [ESI + -0x2]
-    build_patch(0x0050653A, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xFE}, -1, new_VEH_addr + 0x0);
-    // invasions(int) - MOVSX EAX,word ptr [ESI + -0x2]
-    build_patch(0x00506589, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xFE}, -1, new_VEH_addr + 0x0);
-    // invasions(int) - MOVSX EBX,word ptr [ESI]
-    build_patch(0x00506590, std::vector<uint8_t>{0x0F, 0xBF, 0x1E}, -1, new_VEH_addr + 0x2);
-    // invasions(int) - MOV byte ptr [ESI + 0xf],0x18
-    build_patch(0x0050661C, std::vector<uint8_t>{0xC6, 0x46, 0x0F, 0x18}, -1, new_VEH_addr + 0x11);
-    // invasions(int) - MOV word ptr [ESI + 0x12],CX
-    build_patch(0x00506620, std::vector<uint8_t>{0x66, 0x89, 0x4E, 0x12}, -1, new_VEH_addr + 0x14);
-    // invasions(int) - MOV word ptr [ESI + 0x1a],DX
-    build_patch(0x00506624, std::vector<uint8_t>{0x66, 0x89, 0x56, 0x1A}, -1, new_VEH_addr + 0x1C);
     // interceptor(int,int,int,int) - MOV EBX,0x95282a
     build_patch(0x00506675, std::vector<uint8_t>{0xBB, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // interceptor(int,int,int,int) - MOV AL,byte ptr [EBX + 0xc]
-    build_patch(0x0050667F, std::vector<uint8_t>{0x8A, 0x43, 0x0C}, -1, new_VEH_addr + 0xE);
-    // interceptor(int,int,int,int) - MOVSX EAX,word ptr [EBX + 0x8]
-    build_patch(0x0050668A, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0x08}, -1, new_VEH_addr + 0xA);
-    // interceptor(int,int,int,int) - CMP byte ptr [ECX + 0x94a379],0x2
-    build_patch(0x005066A3, std::vector<uint8_t>{0x80, 0xB9, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // interceptor(int,int,int,int) - MOVSX EAX,word ptr [EBX]
-    build_patch(0x005066C3, std::vector<uint8_t>{0x0F, 0xBF, 0x03}, -1, new_VEH_addr + 0x2);
-    // interceptor(int,int,int,int) - MOVSX EDX,word ptr [EBX + -0x2]
-    build_patch(0x005066CD, std::vector<uint8_t>{0x0F, 0xBF, 0x53, 0xFE}, -1, new_VEH_addr + 0x0);
-    // interceptor(int,int,int,int) - MOVSX EAX,word ptr [EBX + -0x2]
-    build_patch(0x00506723, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0xFE}, -1, new_VEH_addr + 0x0);
-    // interceptor(int,int,int,int) - MOVSX ESI,word ptr [EBX]
-    build_patch(0x0050672A, std::vector<uint8_t>{0x0F, 0xBF, 0x33}, -1, new_VEH_addr + 0x2);
-    // interceptor(int,int,int,int) - MOVSX EAX,word ptr [EBX + 0x8]
-    build_patch(0x00506770, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0x08}, -1, new_VEH_addr + 0xA);
-    // interceptor(int,int,int,int) - MOV CL,byte ptr [EBX + 0xe]
-    build_patch(0x005067C9, std::vector<uint8_t>{0x8A, 0x4B, 0x0E}, -1, new_VEH_addr + 0x10);
     // interceptor(int,int,int,int) - MOVSX EBX,word ptr [EAX + 0x95282a]
     build_patch(0x0050685E, std::vector<uint8_t>{0x0F, 0xBF, 0x98, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // interceptor(int,int,int,int) - MOVSX EDI,word ptr [EAX + 0x952828]
@@ -4043,10 +3212,6 @@ void apply_veh_patches() {
     build_patch(0x0050B55A, std::vector<uint8_t>{0x0F, 0xBF, 0x04, 0x95, 0x32, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0xA);
     // battle_fight(int,int,int,int,int,int,int_*) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x0050B774, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // battle_fight(int,int,int,int,int,int,int_*) - MOV CL,byte ptr [EAX + 0x94a379]
-    build_patch(0x0050B790, std::vector<uint8_t>{0x8A, 0x88, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // battle_fight(int,int,int,int,int,int,int_*) - CMP byte ptr [EAX + 0x94a37a],0x1
-    build_patch(0x0050B79B, std::vector<uint8_t>{0x80, 0xB8, 0x7A, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC2);
     // battle_fight(int,int,int,int,int,int,int_*) - MOV CL,byte ptr [ESI + 0x952850]
     build_patch(0x0050B7AF, std::vector<uint8_t>{0x8A, 0x8E, 0x50, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x28);
     // battle_fight(int,int,int,int,int,int,int_*) - MOV byte ptr [ESI + 0x952850],CL
@@ -4057,14 +3222,8 @@ void apply_veh_patches() {
     build_patch(0x0050B7DE, std::vector<uint8_t>{0x88, 0x86, 0x50, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x28);
     // battle_fight(int,int,int,int,int,int,int_*) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x0050B7E4, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // battle_fight(int,int,int,int,int,int,int_*) - MOV AL,byte ptr [EDX + 0x94a37d]
-    build_patch(0x0050B807, std::vector<uint8_t>{0x8A, 0x82, 0x7D, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC5);
     // battle_fight(int,int,int,int,int,int,int_*) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x0050B844, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // battle_fight(int,int,int,int,int,int,int_*) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x0050B860, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // battle_fight(int,int,int,int,int,int,int_*) - MOV AL,byte ptr [EAX + 0x94a37a]
-    build_patch(0x0050B869, std::vector<uint8_t>{0x8A, 0x80, 0x7A, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC2);
     // battle_fight(int,int,int,int,int,int,int_*) - MOV CL,byte ptr [ESI + 0x95284d]
     build_patch(0x0050B87A, std::vector<uint8_t>{0x8A, 0x8E, 0x4D, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x25);
     // FUN_0050b8f0 - MOVSX EAX,word ptr [EDX*0x4 + 0x952858]
@@ -4095,14 +3254,6 @@ void apply_veh_patches() {
     build_patch(0x0050F2D0, std::vector<uint8_t>{0x8B, 0x80, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // clear_group(void) - MOV EAX,0x95282c
     build_patch(0x0050F664, std::vector<uint8_t>{0xB8, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // clear_group(void) - MOV EDX,dword ptr [EAX]
-    build_patch(0x0050F669, std::vector<uint8_t>{0x8B, 0x10}, -1, new_VEH_addr + 0x4);
-    // clear_group(void) - ADD EAX,0x34
-    build_patch(0x0050F66B, std::vector<uint8_t>{0x83, 0xC0, 0x34}, -1, new_VEH_addr + 0x38);
-    // clear_group(void) - MOV dword ptr [EAX + -0x34],EDX
-    build_patch(0x0050F675, std::vector<uint8_t>{0x89, 0x50, 0xCC}, -1, new_VEH_addr + 0x4);
-    // clear_group(void) - RET
-    build_patch(0x0050F67A, std::vector<uint8_t>{0xC3}, -1, new_VEH_addr + 0x38);
     // selecting(int,int) - MOVSX EBX,word ptr [EAX + 0x95282a]
     build_patch(0x00510602, std::vector<uint8_t>{0x0F, 0xBF, 0x98, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // selecting(int,int) - MOVSX EAX,word ptr [EAX + 0x952828]
@@ -4117,20 +3268,8 @@ void apply_veh_patches() {
     build_patch(0x00510D8E, std::vector<uint8_t>{0x8A, 0x1C, 0x8D, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // ready_search(int) - MOV EBX,0x95282c
     build_patch(0x00510DC3, std::vector<uint8_t>{0xBB, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // ready_search(int) - MOV EAX,dword ptr [EBX]
-    build_patch(0x00510DDD, std::vector<uint8_t>{0x8B, 0x03}, -1, new_VEH_addr + 0x4);
-    // ready_search(int) - MOV AL,byte ptr [EBX + 0xd]
-    build_patch(0x00510DF9, std::vector<uint8_t>{0x8A, 0x43, 0x0D}, -1, new_VEH_addr + 0x11);
-    // ready_search(int) - TEST byte ptr [EBX],0x2
-    build_patch(0x00510E04, std::vector<uint8_t>{0xF6, 0x03, 0x02}, -1, new_VEH_addr + 0x4);
-    // ready_search(int) - MOVSX EAX,word ptr [EBX + -0x4]
-    build_patch(0x00510E0D, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0xFC}, -1, new_VEH_addr + 0x0);
-    // ready_search(int) - MOVSX EDI,word ptr [EBX + -0x2]
-    build_patch(0x00510E14, std::vector<uint8_t>{0x0F, 0xBF, 0x7B, 0xFE}, -1, new_VEH_addr + 0x2);
     // ready_search(int) - MOV ECX,0x95282c
     build_patch(0x00510ECC, std::vector<uint8_t>{0xB9, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // ready_search(int) - AND dword ptr [ECX],0xfffffffd
-    build_patch(0x00510EE4, std::vector<uint8_t>{0x83, 0x21, 0xFD}, -1, new_VEH_addr + 0x4);
     // ready(void) - MOV CL,byte ptr [EAX + 0x952839]
     build_patch(0x00510FAA, std::vector<uint8_t>{0x8A, 0x88, 0x39, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x11);
     // ready(void) - MOVSX EDI,word ptr [EAX + 0x95282a]
@@ -4211,26 +3350,6 @@ void apply_veh_patches() {
     build_patch(0x005116F0, std::vector<uint8_t>{0x8A, 0x14, 0x85, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // turn_hints(void) - MOVSX EDX,word ptr [EAX + 0x952832]
     build_patch(0x005118B1, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // turn_hints(void) - CMP dword ptr [EAX + 0x96da3c],0x1
-    build_patch(0x00511927, std::vector<uint8_t>{0x83, 0xB8, 0x3C, 0xDA, 0x96, 0x00, 0x01}, -1, new_VEH_addr + 0x19148);
-    // turn_hints(void) - CMP dword ptr [EAX + 0x96da48],0x2
-    build_patch(0x00511934, std::vector<uint8_t>{0x83, 0xB8, 0x48, 0xDA, 0x96, 0x00, 0x02}, -1, new_VEH_addr + 0x19154);
-    // turn_hints(void) - MOV DL,byte ptr [EAX + 0x96d238]
-    build_patch(0x00511941, std::vector<uint8_t>{0x8A, 0x90, 0x38, 0xD2, 0x96, 0x00}, -1, new_VEH_addr + 0x18944);
-    // turn_hints(void) - MOV DL,byte ptr [EAX + 0x96d438]
-    build_patch(0x0051194F, std::vector<uint8_t>{0x8A, 0x90, 0x38, 0xD4, 0x96, 0x00}, -1, new_VEH_addr + 0x18B44);
-    // turn_hints(void) - MOV dword ptr [EAX + 0x96c9f4],EDX
-    build_patch(0x00511A0E, std::vector<uint8_t>{0x89, 0x90, 0xF4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18100);
-    // turn_hints(void) - SUB ECX,dword ptr [EBX + 0x96c9f4]
-    build_patch(0x00511A32, std::vector<uint8_t>{0x2B, 0x8B, 0xF4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18100);
-    // turn_hints(void) - MOV AL,byte ptr [EBX + 0x96d238]
-    build_patch(0x00511A41, std::vector<uint8_t>{0x8A, 0x83, 0x38, 0xD2, 0x96, 0x00}, -1, new_VEH_addr + 0x18944);
-    // turn_hints(void) - MOV EAX,dword ptr [EBX + 0x96da3c]
-    build_patch(0x00511A4B, std::vector<uint8_t>{0x8B, 0x83, 0x3C, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x19148);
-    // turn_hints(void) - MOV dword ptr [EBX + 0x96c9f4],EDX
-    build_patch(0x00511ABC, std::vector<uint8_t>{0x89, 0x93, 0xF4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18100);
-    // turn_hints(void) - MOV EAX,dword ptr [ECX*0x4 + 0x96c9f8]
-    build_patch(0x00511ADE, std::vector<uint8_t>{0x8B, 0x04, 0x8D, 0xF8, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x18108);
     // give_hints(void) - MOV EAX,dword ptr [EDX*0x4 + 0x95282c]
     build_patch(0x00511BCA, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0x2C, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x4);
     // give_hints(void) - MOVSX ESI,word ptr [EAX + 0x952828]
@@ -4345,10 +3464,6 @@ void apply_veh_patches() {
     build_patch(0x00513F38, std::vector<uint8_t>{0x8B, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // human_turn(void) - MOV EAX,0x95282c
     build_patch(0x005140A1, std::vector<uint8_t>{0xB8, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // human_turn(void) - MOV EDX,dword ptr [EAX]
-    build_patch(0x005140A6, std::vector<uint8_t>{0x8B, 0x10}, -1, new_VEH_addr + 0x4);
-    // human_turn(void) - MOV dword ptr [EAX + -0x34],EDX
-    build_patch(0x005140B2, std::vector<uint8_t>{0x89, 0x50, 0xCC}, -1, new_VEH_addr + 0x4);
     // human_turn(void) - MOV ECX,dword ptr [EAX + 0x95282c]
     build_patch(0x005141C1, std::vector<uint8_t>{0x8B, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // human_turn(void) - MOV CL,byte ptr [EAX + 0x952839]
@@ -4365,10 +3480,6 @@ void apply_veh_patches() {
     build_patch(0x0051444B, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // human_turn(void) - MOVSX EDX,word ptr [EAX + 0x952828]
     build_patch(0x00514454, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
-    // zoom(int,int) - TEST dword ptr [EAX*0x4 + 0x96c9e0],0x200
-    build_patch(0x0051517F, std::vector<uint8_t>{0xF7, 0x04, 0x85, 0xE0, 0xC9, 0x96, 0x00, 0x00, 0x02, 0x00, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // zoom(int,int) - TEST byte ptr [EAX*0x4 + 0x96c9e1],0x2
-    build_patch(0x005152A7, std::vector<uint8_t>{0xF6, 0x04, 0x85, 0xE1, 0xC9, 0x96, 0x00, 0x02}, -1, new_VEH_addr + 0x180ED);
     // veh_key(int,int,int) - MOVSX ECX,word ptr [EAX + 0x95282a]
     build_patch(0x00517251, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // veh_key(int,int,int) - MOVSX EDX,word ptr [EAX + 0x952828]
@@ -4425,22 +3536,6 @@ void apply_veh_patches() {
     build_patch(0x00517E17, std::vector<uint8_t>{0x88, 0x04, 0x8D, 0x3A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x12);
     // on_key_click(int,int) - MOV byte ptr [ECX*0x4 + 0x95283a],BL
     build_patch(0x00517E20, std::vector<uint8_t>{0x88, 0x1C, 0x8D, 0x3A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x12);
-    // on_key_click(int,int) - MOV EAX,dword ptr [EDI + 0x96cdc0]
-    build_patch(0x00518443, std::vector<uint8_t>{0x8B, 0x87, 0xC0, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184CC);
-    // on_key_click(int,int) - MOV ECX,dword ptr [EDI + 0x96cdc4]
-    build_patch(0x00518449, std::vector<uint8_t>{0x8B, 0x8F, 0xC4, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D0);
-    // on_key_click(int,int) - MOV EAX,dword ptr [EDI + 0x96cdc8]
-    build_patch(0x00518465, std::vector<uint8_t>{0x8B, 0x87, 0xC8, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D4);
-    // on_key_click(int,int) - MOV ECX,dword ptr [EDI + 0x96cdcc]
-    build_patch(0x00518473, std::vector<uint8_t>{0x8B, 0x8F, 0xCC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D8);
-    // on_key_click(int,int) - MOV dword ptr [EDI + 0x96cdc0],EAX
-    build_patch(0x005184A9, std::vector<uint8_t>{0x89, 0x87, 0xC0, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184CC);
-    // on_key_click(int,int) - MOV dword ptr [EDI + 0x96cdc4],EAX
-    build_patch(0x005184B7, std::vector<uint8_t>{0x89, 0x87, 0xC4, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D0);
-    // on_key_click(int,int) - MOV dword ptr [EDI + 0x96cdc8],EAX
-    build_patch(0x005184C6, std::vector<uint8_t>{0x89, 0x87, 0xC8, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D4);
-    // on_key_click(int,int) - MOV dword ptr [EDI + 0x96cdcc],EAX
-    build_patch(0x005184D5, std::vector<uint8_t>{0x89, 0x87, 0xCC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D8);
     // on_key_click(int,int) - MOVSX EDX,word ptr [EAX + 0x95282a]
     build_patch(0x00518902, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // on_key_click(int,int) - MOVSX EAX,word ptr [EAX + 0x952828]
@@ -4471,54 +3566,8 @@ void apply_veh_patches() {
     build_patch(0x00518B73, std::vector<uint8_t>{0x0F, 0xBF, 0x89, 0x5A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x32);
     // on_key_click(int,int) - MOV ESI,0x95282a
     build_patch(0x005194AE, std::vector<uint8_t>{0xBE, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // on_key_click(int,int) - LEA ECX,[ESI + -0x2]
-    build_patch(0x005194B4, std::vector<uint8_t>{0x8D, 0x4E, 0xFE}, -1, new_VEH_addr + 0x0);
-    // on_key_click(int,int) - PUSH ECX
-    build_patch(0x005194B9, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0x0);
-    // on_key_click(int,int) - PUSH ESI
-    build_patch(0x005194C7, std::vector<uint8_t>{0x56}, -1, new_VEH_addr + 0x2);
-    // on_key_click(int,int) - LEA ECX,[ESI + 0x8]
-    build_patch(0x005194D2, std::vector<uint8_t>{0x8D, 0x4E, 0x08}, -1, new_VEH_addr + 0xA);
-    // on_key_click(int,int) - PUSH ECX
-    build_patch(0x005194D8, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0xA);
-    // on_key_click(int,int) - LEA EDX,[ESI + 0x22]
-    build_patch(0x005194E3, std::vector<uint8_t>{0x8D, 0x56, 0x22}, -1, new_VEH_addr + 0x24);
-    // on_key_click(int,int) - PUSH EDX
-    build_patch(0x005194E9, std::vector<uint8_t>{0x52}, -1, new_VEH_addr + 0x24);
-    // on_key_click(int,int) - LEA EAX,[ESI + 0x26]
-    build_patch(0x005194F5, std::vector<uint8_t>{0x8D, 0x46, 0x26}, -1, new_VEH_addr + 0x28);
-    // on_key_click(int,int) - PUSH EAX
-    build_patch(0x005194FA, std::vector<uint8_t>{0x50}, -1, new_VEH_addr + 0x28);
-    // on_key_click(int,int) - LEA ECX,[ESI + 0x2c]
-    build_patch(0x00519505, std::vector<uint8_t>{0x8D, 0x4E, 0x2C}, -1, new_VEH_addr + 0x2E);
-    // on_key_click(int,int) - PUSH ECX
-    build_patch(0x0051950B, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0x2E);
-    // on_key_click(int,int) - MOV AL,byte ptr [ESI + 0xc]
-    build_patch(0x00519582, std::vector<uint8_t>{0x8A, 0x46, 0x0C}, -1, new_VEH_addr + 0xE);
-    // on_key_click(int,int) - MOVSX EAX,word ptr [ESI + 0x8]
-    build_patch(0x005195B4, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x08}, -1, new_VEH_addr + 0xA);
     // on_key_click(int,int) - MOV ESI,0x952832
     build_patch(0x00519C56, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // on_key_click(int,int) - MOV AL,byte ptr [ESI + 0x4]
-    build_patch(0x00519CA3, std::vector<uint8_t>{0x8A, 0x46, 0x04}, -1, new_VEH_addr + 0xE);
-    // on_key_click(int,int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x00519CD2, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // on_key_click(int,int) - MOVSX EAX,word ptr [ESI + -0xa]
-    build_patch(0x00519D01, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF6}, -1, new_VEH_addr + 0x0);
-    // on_key_click(int,int) - MOVSX EAX,word ptr [ESI + -0x8]
-    build_patch(0x00519D4E, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF8}, -1, new_VEH_addr + 0x2);
-    // on_key_click(int,int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x00519D9B, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // on_key_click(int,int) - MOV AL,byte ptr [ESI + 0x4]
-    build_patch(0x00519DEF, std::vector<uint8_t>{0x8A, 0x46, 0x04}, -1, new_VEH_addr + 0xE);
-    // on_key_click(int,int) - MOV AL,byte ptr [ESI + 0x6]
-    build_patch(0x00519E3D, std::vector<uint8_t>{0x8A, 0x46, 0x06}, -1, new_VEH_addr + 0x10);
-    // on_key_click(int,int) - MOV AL,byte ptr [ESI + 0x1a]
-    build_patch(0x00519E8B, std::vector<uint8_t>{0x8A, 0x46, 0x1A}, -1, new_VEH_addr + 0x24);
-    // on_key_click(int,int) - MOV AL,byte ptr [ESI + 0x1e]
-    build_patch(0x00519ED9, std::vector<uint8_t>{0x8A, 0x46, 0x1E}, -1, new_VEH_addr + 0x28);
-    // on_key_click(int,int) - MOVSX EAX,word ptr [ESI + 0x24]
-    build_patch(0x00519F1F, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x24}, -1, new_VEH_addr + 0x2E);
     // on_key_click(int,int) - MOV byte ptr [EDX*0x4 + 0x952839],0x19
     build_patch(0x0051B367, std::vector<uint8_t>{0xC6, 0x04, 0x95, 0x39, 0x28, 0x95, 0x00, 0x19}, 3, new_VEH_addr + 0x11);
     // on_key_click(int,int) - MOV word ptr [EDX*0x4 + 0x95283c],AX
@@ -4531,32 +3580,12 @@ void apply_veh_patches() {
     build_patch(0x0051B3B3, std::vector<uint8_t>{0x66, 0x8B, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // on_key_click(int,int) - MOV word ptr [EAX + 0x952846],CX
     build_patch(0x0051B3BA, std::vector<uint8_t>{0x66, 0x89, 0x88, 0x46, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x1E);
-    // menu_proc(int) - MOV EDX,dword ptr [EDI + 0x96cdc0]
-    build_patch(0x0051C19C, std::vector<uint8_t>{0x8B, 0x97, 0xC0, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184CC);
-    // menu_proc(int) - MOV ECX,dword ptr [EDI + 0x96cdc4]
-    build_patch(0x0051C1A2, std::vector<uint8_t>{0x8B, 0x8F, 0xC4, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D0);
-    // menu_proc(int) - MOV ECX,dword ptr [EDI + 0x96cdc8]
-    build_patch(0x0051C1B7, std::vector<uint8_t>{0x8B, 0x8F, 0xC8, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D4);
-    // menu_proc(int) - MOV ECX,dword ptr [EDI + 0x96cdcc]
-    build_patch(0x0051C1C7, std::vector<uint8_t>{0x8B, 0x8F, 0xCC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D8);
-    // menu_proc(int) - MOV dword ptr [EDI + 0x96cdc0],EAX
-    build_patch(0x0051C1FE, std::vector<uint8_t>{0x89, 0x87, 0xC0, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184CC);
-    // menu_proc(int) - MOV dword ptr [EDI + 0x96cdc4],EAX
-    build_patch(0x0051C20C, std::vector<uint8_t>{0x89, 0x87, 0xC4, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D0);
-    // menu_proc(int) - MOV dword ptr [EDI + 0x96cdc8],EAX
-    build_patch(0x0051C21B, std::vector<uint8_t>{0x89, 0x87, 0xC8, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D4);
-    // menu_proc(int) - MOV dword ptr [EDI + 0x96cdcc],EAX
-    build_patch(0x0051C22A, std::vector<uint8_t>{0x89, 0x87, 0xCC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184D8);
     // menu_proc(int) - MOVSX EAX,word ptr [EDX + 0x952832]
     build_patch(0x0051C7F0, std::vector<uint8_t>{0x0F, 0xBF, 0x82, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // random_events(int) - MOV EAX,dword ptr [ECX*0x4 + 0x96c9e0]
-    build_patch(0x00520BA4, std::vector<uint8_t>{0x8B, 0x04, 0x8D, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // random_events(int) - LEA EBX,[ECX*0x4 + 0x95282a]
     build_patch(0x00520CC2, std::vector<uint8_t>{0x8D, 0x1C, 0x8D, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // random_events(int) - LEA ECX,[ECX*0x4 + 0x952832]
     build_patch(0x00520D0C, std::vector<uint8_t>{0x8D, 0x0C, 0x8D, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // random_events(int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x00520F4C, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // random_events(int) - LEA EDI,[EAX*0x4 + 0x95282a]
     build_patch(0x0052113C, std::vector<uint8_t>{0x8D, 0x3C, 0x85, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // alien_fauna(void) - MOV CL,byte ptr [EAX + 0x952836]
@@ -4577,8 +3606,6 @@ void apply_veh_patches() {
     build_patch(0x00522DD1, std::vector<uint8_t>{0x66, 0x8B, 0x87, 0x30, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x8);
     // alien_fauna(void) - MOV AL,byte ptr [EDI + 0x95284f]
     build_patch(0x00522DE3, std::vector<uint8_t>{0x8A, 0x87, 0x4F, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x27);
-    // alien_fauna(void) - MOV EBX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x00522E40, std::vector<uint8_t>{0x8B, 0x1C, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // alien_fauna(void) - MOV AL,byte ptr [EDI + 0x952836]
     build_patch(0x00522E74, std::vector<uint8_t>{0x8A, 0x87, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // alien_fauna(void) - MOV AX,word ptr [EDI + 0x952830]
@@ -4587,34 +3614,12 @@ void apply_veh_patches() {
     build_patch(0x00522E97, std::vector<uint8_t>{0x84, 0x87, 0x4F, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x27);
     // do_fungal_towers(void) - LEA EDI,[EDX*0x4 + 0x95282c]
     build_patch(0x00522F20, std::vector<uint8_t>{0x8D, 0x3C, 0x95, 0x2C, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x4);
-    // ascent(void) - MOV EAX,dword ptr [EDX*0x4 + 0x96c9e0]
-    build_patch(0x00523BAF, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // ascent(void) - MOV dword ptr [EDX*0x4 + 0x96c9e0],EAX
-    build_patch(0x00523BC4, std::vector<uint8_t>{0x89, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // set_time_controls(void) - MOV EDX,0x95282c
     build_patch(0x00523D09, std::vector<uint8_t>{0xBA, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // set_time_controls(void) - MOV AL,byte ptr [EDX + 0xa]
-    build_patch(0x00523D13, std::vector<uint8_t>{0x8A, 0x42, 0x0A}, -1, new_VEH_addr + 0xE);
-    // set_time_controls(void) - MOV AL,byte ptr [EDX + 0xd]
-    build_patch(0x00523D1A, std::vector<uint8_t>{0x8A, 0x42, 0x0D}, -1, new_VEH_addr + 0x11);
-    // set_time_controls(void) - MOV EAX,dword ptr [EDX]
-    build_patch(0x00523D25, std::vector<uint8_t>{0x8B, 0x02}, -1, new_VEH_addr + 0x4);
     // turn_upkeep(void) - LEA ESI,[EDX*0x4 + 0x952832]
     build_patch(0x005258E1, std::vector<uint8_t>{0x8D, 0x34, 0x95, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // turn_upkeep(void) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x00525900, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // turn_upkeep(void) - MOV CL,byte ptr [EAX + 0x94a37a]
-    build_patch(0x0052590D, std::vector<uint8_t>{0x8A, 0x88, 0x7A, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC2);
-    // turn_upkeep(void) - MOV AL,byte ptr [EDX + 0x94a37a]
-    build_patch(0x005259C7, std::vector<uint8_t>{0x8A, 0x82, 0x7A, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC2);
-    // turn_upkeep(void) - CMP byte ptr [ECX + 0x94a37a],0x1
-    build_patch(0x005259FA, std::vector<uint8_t>{0x80, 0xB9, 0x7A, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC2);
     // turn_upkeep(void) - INC byte ptr [EAX*0x4 + 0x95284d]
     build_patch(0x00525B44, std::vector<uint8_t>{0xFE, 0x04, 0x85, 0x4D, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x25);
-    // turn_upkeep(void) - MOV EAX,dword ptr [EDX*0x4 + 0x96c9e0]
-    build_patch(0x00525F71, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // turn_upkeep(void) - MOV dword ptr [EDX*0x4 + 0x96c9e0],EAX
-    build_patch(0x00525F86, std::vector<uint8_t>{0x89, 0x04, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // repair_phase(int) - MOV DL,byte ptr [ESI + 0x952836]
     build_patch(0x0052606E, std::vector<uint8_t>{0x8A, 0x96, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // repair_phase(int) - MOVSX ECX,word ptr [ESI + 0x952828]
@@ -4703,18 +3708,8 @@ void apply_veh_patches() {
     build_patch(0x005266E6, std::vector<uint8_t>{0xC6, 0x86, 0x39, 0x28, 0x95, 0x00, 0x00}, 2, new_VEH_addr + 0x11);
     // repair_phase(int) - MOV ESI,0x952836
     build_patch(0x00526719, std::vector<uint8_t>{0xBE, 0x36, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xE);
-    // repair_phase(int) - MOV AL,byte ptr [ESI]
-    build_patch(0x00526720, std::vector<uint8_t>{0x8A, 0x06}, -1, new_VEH_addr + 0xE);
-    // repair_phase(int) - MOVSX EDX,word ptr [ESI + -0xc]
-    build_patch(0x00526729, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xF4}, -1, new_VEH_addr + 0x2);
-    // repair_phase(int) - MOVSX EDI,word ptr [ESI + -0xe]
-    build_patch(0x0052672D, std::vector<uint8_t>{0x0F, 0xBF, 0x7E, 0xF2}, -1, new_VEH_addr + 0x0);
-    // repair_phase(int) - TEST byte ptr [ESI + 0x19],AL
-    build_patch(0x00526778, std::vector<uint8_t>{0x84, 0x46, 0x19}, -1, new_VEH_addr + 0x27);
     // control_turn(void) - MOV EAX,0x952836
     build_patch(0x00527C45, std::vector<uint8_t>{0xB8, 0x36, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xE);
-    // control_turn(void) - MOV DL,byte ptr [EAX]
-    build_patch(0x00527C4C, std::vector<uint8_t>{0x8A, 0x10}, -1, new_VEH_addr + 0xE);
     // control_turn(void) - MOVSX EAX,word ptr [ESI + 0x95282a]
     build_patch(0x00527C65, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // control_turn(void) - MOVSX ECX,word ptr [ESI + 0x952828]
@@ -4725,86 +3720,20 @@ void apply_veh_patches() {
     build_patch(0x00527C86, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // mash_planes(void) - LEA ESI,[EDX*0x4 + 0x952832]
     build_patch(0x00529C20, std::vector<uint8_t>{0x8D, 0x34, 0x95, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // mash_planes(void) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x00529C3F, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // mash_planes(void) - MOV CL,byte ptr [EAX + 0x94a37a]
-    build_patch(0x00529C4C, std::vector<uint8_t>{0x8A, 0x88, 0x7A, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC2);
     // net_control_turn(void) - MOV ECX,0x952836
     build_patch(0x0052A579, std::vector<uint8_t>{0xB9, 0x36, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xE);
-    // net_control_turn(void) - MOV BL,byte ptr [ECX]
-    build_patch(0x0052A580, std::vector<uint8_t>{0x8A, 0x19}, -1, new_VEH_addr + 0xE);
     // net_control_turn(void) - MOVSX ESI,word ptr [EAX + 0x952828]
     build_patch(0x0052A597, std::vector<uint8_t>{0x0F, 0xBF, 0xB0, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // net_control_turn(void) - MOVSX EDI,word ptr [EAX + 0x95282a]
     build_patch(0x0052A59E, std::vector<uint8_t>{0x0F, 0xBF, 0xB8, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
-    // call_council(int) - MOV ESI,dword ptr [EDX*0x4 + 0x96c9e4]
-    build_patch(0x0052CF77, std::vector<uint8_t>{0x8B, 0x34, 0x95, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // call_council(int) - MOV ECX,dword ptr [EAX*0x4 + 0x96cddc]
-    build_patch(0x0052D5E3, std::vector<uint8_t>{0x8B, 0x0C, 0x85, 0xDC, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x184E8);
     // add_deletion(int) - MOVSX ECX,word ptr [EAX + 0x95282a]
     build_patch(0x0052DE84, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // add_deletion(int) - MOVSX EDX,word ptr [EAX + 0x952828]
     build_patch(0x0052DE8B, std::vector<uint8_t>{0x0F, 0xBF, 0x90, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // game_checksum(int_*) - MOV ESI,0x95282a
     build_patch(0x0052FB48, std::vector<uint8_t>{0xBE, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // game_checksum(int_*) - LEA EBX,[ESI + 0xc]
-    build_patch(0x0052FB4D, std::vector<uint8_t>{0x8D, 0x5E, 0x0C}, -1, new_VEH_addr + 0xE);
-    // game_checksum(int_*) - MOV DL,byte ptr [EBX]
-    build_patch(0x0052FB52, std::vector<uint8_t>{0x8A, 0x13}, -1, new_VEH_addr + 0xE);
-    // game_checksum(int_*) - LEA ECX,[ESI + -0x2]
-    build_patch(0x0052FB5F, std::vector<uint8_t>{0x8D, 0x4E, 0xFE}, -1, new_VEH_addr + 0x0);
-    // game_checksum(int_*) - PUSH ECX
-    build_patch(0x0052FB65, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0x0);
-    // game_checksum(int_*) - PUSH ESI
-    build_patch(0x0052FB74, std::vector<uint8_t>{0x56}, -1, new_VEH_addr + 0x2);
-    // game_checksum(int_*) - LEA ECX,[ESI + 0x8]
-    build_patch(0x0052FB7D, std::vector<uint8_t>{0x8D, 0x4E, 0x08}, -1, new_VEH_addr + 0xA);
-    // game_checksum(int_*) - PUSH ECX
-    build_patch(0x0052FB86, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0xA);
-    // game_checksum(int_*) - PUSH EBX
-    build_patch(0x0052FB95, std::vector<uint8_t>{0x53}, -1, new_VEH_addr + 0xE);
-    // game_checksum(int_*) - LEA ECX,[ESI + 0xe]
-    build_patch(0x0052FB9E, std::vector<uint8_t>{0x8D, 0x4E, 0x0E}, -1, new_VEH_addr + 0x10);
-    // game_checksum(int_*) - PUSH ECX
-    build_patch(0x0052FBA7, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0x10);
-    // game_checksum(int_*) - LEA EAX,[ESI + 0x22]
-    build_patch(0x0052FBB0, std::vector<uint8_t>{0x8D, 0x46, 0x22}, -1, new_VEH_addr + 0x24);
-    // game_checksum(int_*) - PUSH EAX
-    build_patch(0x0052FBB9, std::vector<uint8_t>{0x50}, -1, new_VEH_addr + 0x24);
-    // game_checksum(int_*) - LEA EDX,[ESI + 0x26]
-    build_patch(0x0052FBC8, std::vector<uint8_t>{0x8D, 0x56, 0x26}, -1, new_VEH_addr + 0x28);
-    // game_checksum(int_*) - PUSH EDX
-    build_patch(0x0052FBCE, std::vector<uint8_t>{0x52}, -1, new_VEH_addr + 0x28);
-    // game_checksum(int_*) - LEA ECX,[ESI + 0x2c]
-    build_patch(0x0052FBD7, std::vector<uint8_t>{0x8D, 0x4E, 0x2C}, -1, new_VEH_addr + 0x2E);
-    // game_checksum(int_*) - PUSH ECX
-    build_patch(0x0052FBE0, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0x2E);
     // game_checksum(int_*) - MOV ESI,0x952828
     build_patch(0x0053019F, std::vector<uint8_t>{0xBE, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
-    // game_checksum(int_*) - MOV DL,byte ptr [ESI + 0xe]
-    build_patch(0x005301A6, std::vector<uint8_t>{0x8A, 0x56, 0x0E}, -1, new_VEH_addr + 0xE);
-    // game_checksum(int_*) - PUSH ESI
-    build_patch(0x005301B3, std::vector<uint8_t>{0x56}, -1, new_VEH_addr + 0x0);
-    // game_checksum(int_*) - LEA EDX,[ESI + 0x2]
-    build_patch(0x005301BC, std::vector<uint8_t>{0x8D, 0x56, 0x02}, -1, new_VEH_addr + 0x2);
-    // game_checksum(int_*) - PUSH EDX
-    build_patch(0x005301C5, std::vector<uint8_t>{0x52}, -1, new_VEH_addr + 0x2);
-    // game_checksum(int_*) - LEA ECX,[ESI + 0xa]
-    build_patch(0x005301CE, std::vector<uint8_t>{0x8D, 0x4E, 0x0A}, -1, new_VEH_addr + 0xA);
-    // game_checksum(int_*) - PUSH ECX
-    build_patch(0x005301D7, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0xA);
-    // game_checksum(int_*) - LEA EAX,[ESI + 0x24]
-    build_patch(0x005301E0, std::vector<uint8_t>{0x8D, 0x46, 0x24}, -1, new_VEH_addr + 0x24);
-    // game_checksum(int_*) - PUSH EAX
-    build_patch(0x005301E9, std::vector<uint8_t>{0x50}, -1, new_VEH_addr + 0x24);
-    // game_checksum(int_*) - LEA EDX,[ESI + 0x28]
-    build_patch(0x005301F2, std::vector<uint8_t>{0x8D, 0x56, 0x28}, -1, new_VEH_addr + 0x28);
-    // game_checksum(int_*) - PUSH EDX
-    build_patch(0x005301FB, std::vector<uint8_t>{0x52}, -1, new_VEH_addr + 0x28);
-    // game_checksum(int_*) - LEA ECX,[ESI + 0x2e]
-    build_patch(0x00530204, std::vector<uint8_t>{0x8D, 0x4E, 0x2E}, -1, new_VEH_addr + 0x2E);
-    // game_checksum(int_*) - PUSH ECX
-    build_patch(0x0053020D, std::vector<uint8_t>{0x51}, -1, new_VEH_addr + 0x2E);
     // lock_veh(int_*,int,int,int,int) - MOVSX ECX,word ptr [EAX + 0x95282a]
     build_patch(0x00531096, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // lock_veh(int_*,int,int,int,int) - MOVSX EDX,word ptr [EAX + 0x952828]
@@ -4869,10 +3798,6 @@ void apply_veh_patches() {
     build_patch(0x005326F5, std::vector<uint8_t>{0x0F, 0xBE, 0x14, 0x85, 0x39, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x11);
     // rebuild_vehicle_bits(void) - MOV ESI,0x95282a
     build_patch(0x00532AE1, std::vector<uint8_t>{0xBE, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // rebuild_vehicle_bits(void) - MOVSX EBX,word ptr [ESI + -0x2]
-    build_patch(0x00532AE6, std::vector<uint8_t>{0x0F, 0xBF, 0x5E, 0xFE}, -1, new_VEH_addr + 0x0);
-    // rebuild_vehicle_bits(void) - MOVSX EDX,word ptr [ESI]
-    build_patch(0x00532AEE, std::vector<uint8_t>{0x0F, 0xBF, 0x16}, -1, new_VEH_addr + 0x2);
     // rebuild_vehicle_bits(void) - MOV CL,byte ptr [ECX*0x4 + 0x952836]
     build_patch(0x00532B22, std::vector<uint8_t>{0x8A, 0x0C, 0x8D, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // synch(short,int,int,int,char_*,int,short) - MOVSX EDX,word ptr [EAX + 0x95282a]
@@ -4898,7 +3823,7 @@ void apply_veh_patches() {
     // synch(short,int,int,int,char_*,int,short) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x0053399E, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // synch(short,int,int,int,char_*,int,short) - CMP EAX,0x952830
-    build_patch(0x00533DC1, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
+    //build_patch(0x00533DC1, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
     // process_message(char_*,ulong,int) - MOV DL,byte ptr [ECX*0x4 + 0x952836]
     build_patch(0x005367AE, std::vector<uint8_t>{0x8A, 0x14, 0x8D, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // process_message(char_*,ulong,int) - MOVSX ECX,byte ptr [EDX*0x4 + 0x952839]
@@ -4909,140 +3834,12 @@ void apply_veh_patches() {
     build_patch(0x0053AFAE, std::vector<uint8_t>{0x8A, 0x88, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // pact_withdraw(int,int) - MOV ESI,0x95282a
     build_patch(0x0053C38F, std::vector<uint8_t>{0xBE, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // pact_withdraw(int,int) - MOV AL,byte ptr [ESI + 0xc]
-    build_patch(0x0053C399, std::vector<uint8_t>{0x8A, 0x46, 0x0C}, -1, new_VEH_addr + 0xE);
-    // pact_withdraw(int,int) - MOVSX ECX,word ptr [ESI]
-    build_patch(0x0053C3A4, std::vector<uint8_t>{0x0F, 0xBF, 0x0E}, -1, new_VEH_addr + 0x2);
-    // pact_withdraw(int,int) - MOVSX EDX,word ptr [ESI + -0x2]
-    build_patch(0x0053C3A7, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xFE}, -1, new_VEH_addr + 0x0);
-    // pact_withdraw(int,int) - MOVSX EDX,word ptr [ESI]
-    build_patch(0x0053C3D6, std::vector<uint8_t>{0x0F, 0xBF, 0x16}, -1, new_VEH_addr + 0x2);
-    // pact_withdraw(int,int) - MOVSX EAX,word ptr [ESI + -0x2]
-    build_patch(0x0053C3D9, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xFE}, -1, new_VEH_addr + 0x0);
-    // pact_withdraw(int,int) - MOVSX EDX,word ptr [ESI + 0x8]
-    build_patch(0x0053C42D, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0x08}, -1, new_VEH_addr + 0xA);
-    // pact_withdraw(int,int) - CMP byte ptr [EAX + 0x94a379],0x1
-    build_patch(0x0053C442, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
-    // pact_withdraw(int,int) - MOVSX EAX,word ptr [ESI + 0x8]
-    build_patch(0x0053C47F, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x08}, -1, new_VEH_addr + 0xA);
-    // pact_withdraw(int,int) - CMP byte ptr [EDX + 0x94a379],0x1
-    build_patch(0x0053C496, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
-    // pact_withdraw(int,int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x0053C49F, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0x2);
-    // pact_withdraw(int,int) - MOVSX ECX,word ptr [ESI + -0x2]
-    build_patch(0x0053C4A9, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xFE}, -1, new_VEH_addr + 0x0);
-    // pact_withdraw(int,int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x0053C4E7, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0x2);
-    // pact_withdraw(int,int) - MOVSX ECX,word ptr [ESI + -0x2]
-    build_patch(0x0053C4EA, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0xFE}, -1, new_VEH_addr + 0x0);
-    // pact_withdraw(int,int) - MOV byte ptr [ESI + 0xf],0x0
-    build_patch(0x0053C5C7, std::vector<uint8_t>{0xC6, 0x46, 0x0F, 0x00}, -1, new_VEH_addr + 0x11);
-    // pact_withdraw(int,int) - MOV EDX,dword ptr [ESI + 0x2]
-    build_patch(0x0053C5CB, std::vector<uint8_t>{0x8B, 0x56, 0x02}, -1, new_VEH_addr + 0x4);
-    // pact_withdraw(int,int) - MOV dword ptr [ESI + 0x2],EDX
-    build_patch(0x0053C5D6, std::vector<uint8_t>{0x89, 0x56, 0x02}, -1, new_VEH_addr + 0x4);
-    // pact_withdraw(int,int) - MOVSX EAX,word ptr [ESI + 0x8]
-    build_patch(0x0053C5DC, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x08}, -1, new_VEH_addr + 0xA);
-    // pact_withdraw(int,int) - CMP byte ptr [EDX + 0x94a379],0x2
-    build_patch(0x0053C5F1, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // pact_withdraw(int,int) - MOV byte ptr [ESI + 0x23],0x0
-    build_patch(0x0053C5FA, std::vector<uint8_t>{0xC6, 0x46, 0x23, 0x00}, -1, new_VEH_addr + 0x25);
-    // tech_trade(int,int,int,int,int) - MOV ECX,dword ptr [EAX*0x4 + 0x96cd3c]
-    build_patch(0x005413BB, std::vector<uint8_t>{0x8B, 0x0C, 0x85, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // tech_trade(int,int,int,int,int) - CMP dword ptr [EAX*0x4 + 0x96c9e4],0x5
-    build_patch(0x0054178C, std::vector<uint8_t>{0x83, 0x3C, 0x85, 0xE4, 0xC9, 0x96, 0x00, 0x05}, -1, new_VEH_addr + 0x180F0);
-    // propose_pact(int,int) - CMP dword ptr [EDX*0x4 + 0x96c9e4],0x6
-    build_patch(0x00543C35, std::vector<uint8_t>{0x83, 0x3C, 0x95, 0xE4, 0xC9, 0x96, 0x00, 0x06}, -1, new_VEH_addr + 0x180F0);
-    // propose_pact(int,int) - MOV ECX,dword ptr [EAX + 0x96c9e4]
-    build_patch(0x00543D93, std::vector<uint8_t>{0x8B, 0x88, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // propose_pact(int,int) - MOV EBX,dword ptr [EAX + 0x96da40]
-    build_patch(0x00543DC8, std::vector<uint8_t>{0x8B, 0x98, 0x40, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x1914C);
-    // propose_pact(int,int) - CMP EDX,dword ptr [EAX*0x4 + 0x96c9e4]
-    build_patch(0x0054450A, std::vector<uint8_t>{0x3B, 0x14, 0x85, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // propose_treaty(int,int) - MOV EAX,dword ptr [EAX*0x4 + 0x96da40]
-    build_patch(0x00544EEC, std::vector<uint8_t>{0x8B, 0x04, 0x85, 0x40, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x1914C);
-    // propose_attack(int,int) - MOV CL,byte ptr [EAX + EDX*0x4 + 0x96db5c]
-    build_patch(0x005460C3, std::vector<uint8_t>{0x8A, 0x8C, 0x90, 0x5C, 0xDB, 0x96, 0x00}, -1, new_VEH_addr + 0x19269);
-    // propose_attack(int,int) - MOV EDX,dword ptr [ECX + 0x96cb04]
-    build_patch(0x00546108, std::vector<uint8_t>{0x8B, 0x91, 0x04, 0xCB, 0x96, 0x00}, -1, new_VEH_addr + 0x18210);
-    // propose_attack(int,int) - MOV EAX,dword ptr [ECX + 0x96da40]
-    build_patch(0x0054612E, std::vector<uint8_t>{0x8B, 0x81, 0x40, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x1914C);
-    // propose_attack(int,int) - MOV ECX,dword ptr [ECX + 0x96c9e4]
-    build_patch(0x00546137, std::vector<uint8_t>{0x8B, 0x89, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // propose_attack(int,int) - CMP dword ptr [EDX + 0x96c9e4],0x5
-    build_patch(0x00546275, std::vector<uint8_t>{0x83, 0xBA, 0xE4, 0xC9, 0x96, 0x00, 0x05}, -1, new_VEH_addr + 0x180F0);
-    // propose_attack(int,int) - MOV EDX,dword ptr [EDX + 0x96cb04]
-    build_patch(0x005462E5, std::vector<uint8_t>{0x8B, 0x92, 0x04, 0xCB, 0x96, 0x00}, -1, new_VEH_addr + 0x18210);
-    // propose_attack(int,int) - CMP dword ptr [ECX + 0x96c9e4],EAX
-    build_patch(0x005463CB, std::vector<uint8_t>{0x39, 0x81, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // propose_attack(int,int) - MOV EDX,dword ptr [ECX + 0x96c9e4]
-    build_patch(0x005464BC, std::vector<uint8_t>{0x8B, 0x91, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // propose_attack(int,int) - MOV EAX,dword ptr [ECX + 0x96c9e4]
-    build_patch(0x005464D2, std::vector<uint8_t>{0x8B, 0x81, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
     // dont_withdrawal(int,int) - MOV EBX,0x952832
     build_patch(0x00548E1F, std::vector<uint8_t>{0xBB, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // dont_withdrawal(int,int) - MOV dword ptr [EBP + -0x4],EBX
-    build_patch(0x00548E24, std::vector<uint8_t>{0x89, 0x5D, 0xFC}, -1, new_VEH_addr + 0xA);
-    // dont_withdrawal(int,int) - MOV AL,byte ptr [EBX + 0x4]
-    build_patch(0x00548E2E, std::vector<uint8_t>{0x8A, 0x43, 0x04}, -1, new_VEH_addr + 0xE);
-    // dont_withdrawal(int,int) - MOVSX ECX,word ptr [EBX]
-    build_patch(0x00548E39, std::vector<uint8_t>{0x0F, 0xBF, 0x0B}, -1, new_VEH_addr + 0xA);
-    // dont_withdrawal(int,int) - MOVSX EDI,word ptr [EBX + -0x8]
-    build_patch(0x00548E4C, std::vector<uint8_t>{0x0F, 0xBF, 0x7B, 0xF8}, -1, new_VEH_addr + 0x2);
-    // dont_withdrawal(int,int) - MOVSX ESI,word ptr [EBX + -0xa]
-    build_patch(0x00548E55, std::vector<uint8_t>{0x0F, 0xBF, 0x73, 0xF6}, -1, new_VEH_addr + 0x0);
-    // dont_withdrawal(int,int) - CMP byte ptr [ECX + 0x7],0x18
-    build_patch(0x00548EDA, std::vector<uint8_t>{0x80, 0x79, 0x07, 0x18}, -1, new_VEH_addr + 0x11);
-    // dont_withdrawal(int,int) - MOVSX EAX,word ptr [ECX + 0xa]
-    build_patch(0x00548EE0, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0x0A}, -1, new_VEH_addr + 0x14);
-    // dont_withdrawal(int,int) - MOVSX ECX,word ptr [ECX + 0x12]
-    build_patch(0x00548EE4, std::vector<uint8_t>{0x0F, 0xBF, 0x49, 0x12}, -1, new_VEH_addr + 0x1C);
-    // dont_withdrawal(int,int) - MOV dword ptr [EBP + -0x4],EBX
-    build_patch(0x00548F6B, std::vector<uint8_t>{0x89, 0x5D, 0xFC}, -1, new_VEH_addr + 0x3E);
     // do_withdrawal(int,int) - MOV ESI,0x952828
     build_patch(0x00548F9F, std::vector<uint8_t>{0xBE, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
-    // do_withdrawal(int,int) - MOV AL,byte ptr [ESI + 0xe]
-    build_patch(0x00548FA9, std::vector<uint8_t>{0x8A, 0x46, 0x0E}, -1, new_VEH_addr + 0xE);
-    // do_withdrawal(int,int) - MOVSX EAX,word ptr [ESI + 0xa]
-    build_patch(0x00548FB4, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x0A}, -1, new_VEH_addr + 0xA);
-    // do_withdrawal(int,int) - MOVSX EBX,word ptr [ESI + 0x2]
-    build_patch(0x00548FCE, std::vector<uint8_t>{0x0F, 0xBF, 0x5E, 0x02}, -1, new_VEH_addr + 0x2);
-    // do_withdrawal(int,int) - MOVSX EDI,word ptr [ESI]
-    build_patch(0x00548FDA, std::vector<uint8_t>{0x0F, 0xBF, 0x3E}, -1, new_VEH_addr + 0x0);
-    // do_withdrawal(int,int) - MOV AL,byte ptr [ECX + 0x94a379]
-    build_patch(0x00549023, std::vector<uint8_t>{0x8A, 0x81, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // do_withdrawal(int,int) - MOV byte ptr [ESI + 0x27],0x0
-    build_patch(0x00549159, std::vector<uint8_t>{0xC6, 0x46, 0x27, 0x00}, -1, new_VEH_addr + 0x27);
-    // do_withdrawal(int,int) - MOV byte ptr [ESI + 0x11],0x0
-    build_patch(0x00549160, std::vector<uint8_t>{0xC6, 0x46, 0x11, 0x00}, -1, new_VEH_addr + 0x11);
-    // do_withdrawal(int,int) - MOV EAX,dword ptr [ESI + 0x4]
-    build_patch(0x00549164, std::vector<uint8_t>{0x8B, 0x46, 0x04}, -1, new_VEH_addr + 0x4);
-    // do_withdrawal(int,int) - MOV dword ptr [ESI + 0x4],EAX
-    build_patch(0x0054916E, std::vector<uint8_t>{0x89, 0x46, 0x04}, -1, new_VEH_addr + 0x4);
-    // do_withdrawal(int,int) - MOV byte ptr [ESI + 0x27],0x0
-    build_patch(0x005491DD, std::vector<uint8_t>{0xC6, 0x46, 0x27, 0x00}, -1, new_VEH_addr + 0x27);
-    // do_withdrawal(int,int) - MOV byte ptr [ESI + 0x11],0x0
-    build_patch(0x005491E1, std::vector<uint8_t>{0xC6, 0x46, 0x11, 0x00}, -1, new_VEH_addr + 0x11);
-    // do_withdrawal(int,int) - MOV EAX,dword ptr [ESI + 0x4]
-    build_patch(0x005491E5, std::vector<uint8_t>{0x8B, 0x46, 0x04}, -1, new_VEH_addr + 0x4);
-    // do_withdrawal(int,int) - MOV dword ptr [ESI + 0x4],EAX
-    build_patch(0x005491F0, std::vector<uint8_t>{0x89, 0x46, 0x04}, -1, new_VEH_addr + 0x4);
-    // do_withdrawal(int,int) - MOVSX ECX,word ptr [ESI + 0xa]
-    build_patch(0x005491F5, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0x0A}, -1, new_VEH_addr + 0xA);
-    // threaten(int,int) - MOV EAX,dword ptr [EAX*0x4 + 0x96c9e4]
-    build_patch(0x00549E88, std::vector<uint8_t>{0x8B, 0x04, 0x85, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // threaten(int,int) - MOV EAX,dword ptr [EAX*0x4 + 0x96c9e4]
-    build_patch(0x00549EB8, std::vector<uint8_t>{0x8B, 0x04, 0x85, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // threaten(int,int) - MOV EAX,dword ptr [EDX*0x4 + 0x96da40]
-    build_patch(0x0054A069, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0x40, 0xDA, 0x96, 0x00}, -1, new_VEH_addr + 0x1914C);
     // battle_plans(int,int) - MOV ECX,0x95282c
     build_patch(0x0054B9E4, std::vector<uint8_t>{0xB9, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // battle_plans(int,int) - MOV AL,byte ptr [ECX + 0xa]
-    build_patch(0x0054B9ED, std::vector<uint8_t>{0x8A, 0x41, 0x0A}, -1, new_VEH_addr + 0xE);
-    // battle_plans(int,int) - MOV EAX,dword ptr [ECX]
-    build_patch(0x0054B9F4, std::vector<uint8_t>{0x8B, 0x01}, -1, new_VEH_addr + 0x4);
-    // battle_plans(int,int) - MOV dword ptr [ECX],EAX
-    build_patch(0x0054BA02, std::vector<uint8_t>{0x89, 0x01}, -1, new_VEH_addr + 0x4);
     // value_of_base(int,int,int,int,int) - MOV AX,word ptr [EAX + 0x95285a]
     build_patch(0x0054CE96, std::vector<uint8_t>{0x66, 0x8B, 0x80, 0x5A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x32);
     // value_of_base(int,int,int,int,int) - MOV AX,word ptr [EDX + 0x95285a]
@@ -5055,12 +3852,8 @@ void apply_veh_patches() {
     build_patch(0x0054CEE7, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
     // give_a_base(int,int) - ADD ESI,0x952832
     build_patch(0x0054D031, std::vector<uint8_t>{0x81, 0xC6, 0x32, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xA);
-    // give_a_base(int,int) - CMP byte ptr [EDX + 0x94a379],0x1
-    build_patch(0x0054D118, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
     // give_a_base(int,int) - ADD EDI,0x952856
     build_patch(0x0054D3AB, std::vector<uint8_t>{0x81, 0xC7, 0x56, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2E);
-    // communicate(int,int,int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e4]
-    build_patch(0x00551FB9, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
     // pick_top_veh(int) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x005593FF, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // pick_top_veh(int) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
@@ -5127,46 +3920,8 @@ void apply_veh_patches() {
     build_patch(0x0055A623, std::vector<uint8_t>{0x8A, 0x8E, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // veh_scoot(int,int,int,int,int) - MOV byte ptr [ESI + 0x952851],DL
     build_patch(0x0055A63A, std::vector<uint8_t>{0x88, 0x96, 0x51, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x29);
-    // base_draw(Buffer_*,int,int,int,int,int) - MOV ECX,dword ptr [EDX*0x4 + 0x96c9e0]
-    build_patch(0x0055B48A, std::vector<uint8_t>{0x8B, 0x0C, 0x95, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
-    // enemies_trade_tech(int,int) - MOV EDX,dword ptr [EDX*0x4 + 0x96cd3c]
-    build_patch(0x0055D6DD, std::vector<uint8_t>{0x8B, 0x14, 0x95, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // enemies_trade_tech(int,int) - MOV EAX,dword ptr [EAX*0x4 + 0x96cd3c]
-    build_patch(0x0055D726, std::vector<uint8_t>{0x8B, 0x04, 0x85, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
     // territory(int,int,int,int_*,int_*) - MOV ESI,0x952832
     build_patch(0x0055ECD1, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // territory(int,int,int,int_*,int_*) - MOV EBX,dword ptr [ESI + -0x6]
-    build_patch(0x0055ECD6, std::vector<uint8_t>{0x8B, 0x5E, 0xFA}, -1, new_VEH_addr + 0x4);
-    // territory(int,int,int,int_*,int_*) - MOV dword ptr [ESI + -0x6],EBX
-    build_patch(0x0055ECDE, std::vector<uint8_t>{0x89, 0x5E, 0xFA}, -1, new_VEH_addr + 0x4);
-    // territory(int,int,int,int_*,int_*) - MOV AL,byte ptr [ESI + 0x4]
-    build_patch(0x0055ECE1, std::vector<uint8_t>{0x8A, 0x46, 0x04}, -1, new_VEH_addr + 0xE);
-    // territory(int,int,int,int_*,int_*) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x0055ECEC, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0xA);
-    // territory(int,int,int,int_*,int_*) - CMP byte ptr [ESI + 0x7],0x3
-    build_patch(0x0055ED04, std::vector<uint8_t>{0x80, 0x7E, 0x07, 0x03}, -1, new_VEH_addr + 0x11);
-    // territory(int,int,int,int_*,int_*) - MOVSX EBX,word ptr [ESI + -0x8]
-    build_patch(0x0055ED0E, std::vector<uint8_t>{0x0F, 0xBF, 0x5E, 0xF8}, -1, new_VEH_addr + 0x2);
-    // territory(int,int,int,int_*,int_*) - MOVSX EDI,word ptr [ESI + -0xa]
-    build_patch(0x0055ED17, std::vector<uint8_t>{0x0F, 0xBF, 0x7E, 0xF6}, -1, new_VEH_addr + 0x0);
-    // territory(int,int,int,int_*,int_*) - MOVSX EAX,word ptr [ESI + -0xa]
-    build_patch(0x0055ED5C, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF6}, -1, new_VEH_addr + 0x0);
-    // territory(int,int,int,int_*,int_*) - MOV EDX,dword ptr [ESI + -0x6]
-    build_patch(0x0055ED89, std::vector<uint8_t>{0x8B, 0x56, 0xFA}, -1, new_VEH_addr + 0x4);
-    // territory(int,int,int,int_*,int_*) - MOV dword ptr [ESI + -0x6],EDX
-    build_patch(0x0055EDA0, std::vector<uint8_t>{0x89, 0x56, 0xFA}, -1, new_VEH_addr + 0x4);
-    // territory(int,int,int,int_*,int_*) - MOVSX EAX,word ptr [ESI + -0x8]
-    build_patch(0x0055EDC6, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xF8}, -1, new_VEH_addr + 0x2);
-    // territory(int,int,int,int_*,int_*) - MOVSX EDX,word ptr [ESI + -0xa]
-    build_patch(0x0055EDD0, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xF6}, -1, new_VEH_addr + 0x0);
-    // territory(int,int,int,int_*,int_*) - TEST byte ptr [ESI + -0x2],0x1
-    build_patch(0x0055EE4A, std::vector<uint8_t>{0xF6, 0x46, 0xFE, 0x01}, -1, new_VEH_addr + 0x8);
-    // territory(int,int,int,int_*,int_*) - OR byte ptr [ESI + -0x2],0x3
-    build_patch(0x0055EE52, std::vector<uint8_t>{0x80, 0x4E, 0xFE, 0x03}, -1, new_VEH_addr + 0x8);
-    // territory(int,int,int,int_*,int_*) - MOV EAX,dword ptr [ESI + -0x6]
-    build_patch(0x0055EE56, std::vector<uint8_t>{0x8B, 0x46, 0xFA}, -1, new_VEH_addr + 0x4);
-    // territory(int,int,int,int_*,int_*) - MOV dword ptr [ESI + -0x6],EAX
-    build_patch(0x0055EE71, std::vector<uint8_t>{0x89, 0x46, 0xFA}, -1, new_VEH_addr + 0x4);
     // go_to(int,char,int,int) - MOV byte ptr [EAX + 0x952839],0x18
     build_patch(0x00560AE6, std::vector<uint8_t>{0xC6, 0x80, 0x39, 0x28, 0x95, 0x00, 0x18}, 2, new_VEH_addr + 0x11);
     // go_to(int,char,int,int) - MOV byte ptr [EAX + 0x952853],DL
@@ -5183,18 +3938,10 @@ void apply_veh_patches() {
     build_patch(0x00561699, std::vector<uint8_t>{0x8A, 0x8B, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // enemy_strategy(int) - MOVSX ESI,word ptr [EBX + 0x952832]
     build_patch(0x005616D7, std::vector<uint8_t>{0x0F, 0xBF, 0xB3, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x00561717, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // enemy_strategy(int) - MOV CL,byte ptr [EAX + 0x94a37d]
-    build_patch(0x00561724, std::vector<uint8_t>{0x8A, 0x88, 0x7D, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC5);
     // enemy_strategy(int) - MOVSX ECX,word ptr [EBX + 0x952832]
     build_patch(0x0056174B, std::vector<uint8_t>{0x0F, 0xBF, 0x8B, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV AL,byte ptr [EDX + 0x94a37d]
-    build_patch(0x00561763, std::vector<uint8_t>{0x8A, 0x82, 0x7D, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC5);
     // enemy_strategy(int) - MOVSX EAX,word ptr [EBX + 0x952832]
     build_patch(0x00561783, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - CMP byte ptr [EDX + 0x94a379],0x1
-    build_patch(0x005617AA, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - MOVSX ECX,word ptr [EBX + 0x95282a]
     build_patch(0x005617B7, std::vector<uint8_t>{0x0F, 0xBF, 0x8B, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // enemy_strategy(int) - MOVSX EDX,word ptr [EBX + 0x952828]
@@ -5211,8 +3958,6 @@ void apply_veh_patches() {
     build_patch(0x0056186F, std::vector<uint8_t>{0x0F, 0xBF, 0x93, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // enemy_strategy(int) - MOVSX ESI,word ptr [EBX + 0x952832]
     build_patch(0x0056188D, std::vector<uint8_t>{0x0F, 0xBF, 0xB3, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV CL,byte ptr [EAX + 0x94a379]
-    build_patch(0x005618EB, std::vector<uint8_t>{0x8A, 0x88, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - MOV AL,byte ptr [EBX + 0x952837]
     build_patch(0x005618F1, std::vector<uint8_t>{0x8A, 0x83, 0x37, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xF);
     // enemy_strategy(int) - MOV byte ptr [EBX + 0x952837],AL
@@ -5231,12 +3976,8 @@ void apply_veh_patches() {
     build_patch(0x00561A92, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // enemy_strategy(int) - MOVSX EAX,word ptr [EBX + 0x952832]
     build_patch(0x00561AD7, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - CMP AL,byte ptr [EDX + 0x94a379]
-    build_patch(0x00561B0D, std::vector<uint8_t>{0x3A, 0x82, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - MOVSX EAX,word ptr [EBX + 0x952832]
     build_patch(0x00561B93, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x00561BC9, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - TEST byte ptr [EBX + 0x952830],0x20
     build_patch(0x00561C21, std::vector<uint8_t>{0xF6, 0x83, 0x30, 0x28, 0x95, 0x00, 0x20}, 2, new_VEH_addr + 0x8);
     // enemy_strategy(int) - CMP byte ptr [EBX + 0x952839],0x2
@@ -5301,76 +4042,18 @@ void apply_veh_patches() {
     build_patch(0x005624AA, std::vector<uint8_t>{0x89, 0xB3, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOV EBX,0x952832
     build_patch(0x00562569, std::vector<uint8_t>{0xBB, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV AL,byte ptr [EBX + 0x4]
-    build_patch(0x00562573, std::vector<uint8_t>{0x8A, 0x43, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_strategy(int) - MOV DX,word ptr [EBX]
-    build_patch(0x0056257A, std::vector<uint8_t>{0x66, 0x8B, 0x13}, -1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - CMP byte ptr [ECX + 0x94a379],0x1
-    build_patch(0x00562593, std::vector<uint8_t>{0x80, 0xB9, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - MOV ECX,dword ptr [EAX + 0x95282c]
     build_patch(0x005625D1, std::vector<uint8_t>{0x8B, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // enemy_strategy(int) - LEA EAX,[EAX + 0x95282c]
     build_patch(0x005625D7, std::vector<uint8_t>{0x8D, 0x80, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOV dword ptr [EAX],ECX
-    build_patch(0x005625E3, std::vector<uint8_t>{0x89, 0x08}, -1, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOV ECX,0x952832
     build_patch(0x005625F2, std::vector<uint8_t>{0xB9, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV DL,byte ptr [ECX + 0x4]
-    build_patch(0x00562604, std::vector<uint8_t>{0x8A, 0x51, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_strategy(int) - MOVSX EAX,word ptr [ECX]
-    build_patch(0x0056260B, std::vector<uint8_t>{0x0F, 0xBF, 0x01}, -1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOVSX EAX,word ptr [ECX + -0x8]
-    build_patch(0x0056261A, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_strategy(int) - MOVSX EDX,word ptr [ECX + -0xa]
-    build_patch(0x00562625, std::vector<uint8_t>{0x0F, 0xBF, 0x51, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_strategy(int) - OR word ptr [ECX + -0x2],SI
-    build_patch(0x00562663, std::vector<uint8_t>{0x66, 0x09, 0x71, 0xFE}, -1, new_VEH_addr + 0x8);
-    // enemy_strategy(int) - MOV AX,word ptr [ECX + 0x24]
-    build_patch(0x00562667, std::vector<uint8_t>{0x66, 0x8B, 0x41, 0x24}, -1, new_VEH_addr + 0x2E);
     // enemy_strategy(int) - MOV ECX,0x95282c
     build_patch(0x0056290A, std::vector<uint8_t>{0xB9, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOV AL,byte ptr [ECX + 0xa]
-    build_patch(0x00562913, std::vector<uint8_t>{0x8A, 0x41, 0x0A}, -1, new_VEH_addr + 0xE);
-    // enemy_strategy(int) - MOV EAX,dword ptr [ECX]
-    build_patch(0x0056291A, std::vector<uint8_t>{0x8B, 0x01}, -1, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOV dword ptr [ECX],EAX
-    build_patch(0x00562928, std::vector<uint8_t>{0x89, 0x01}, -1, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOV ECX,0x95282c
     build_patch(0x00562F44, std::vector<uint8_t>{0xB9, 0x2C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOV AL,byte ptr [ECX + 0xa]
-    build_patch(0x00562F4D, std::vector<uint8_t>{0x8A, 0x41, 0x0A}, -1, new_VEH_addr + 0xE);
-    // enemy_strategy(int) - MOV EAX,dword ptr [ECX]
-    build_patch(0x00562F55, std::vector<uint8_t>{0x8B, 0x01}, -1, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOV dword ptr [ECX],EAX
-    build_patch(0x00562F63, std::vector<uint8_t>{0x89, 0x01}, -1, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOV ESI,0x95282a
     build_patch(0x00563806, std::vector<uint8_t>{0xBE, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // enemy_strategy(int) - MOV CL,byte ptr [ESI + 0xc]
-    build_patch(0x00563810, std::vector<uint8_t>{0x8A, 0x4E, 0x0C}, -1, new_VEH_addr + 0xE);
-    // enemy_strategy(int) - TEST dword ptr [ESI + 0x2],0x60000
-    build_patch(0x0056381B, std::vector<uint8_t>{0xF7, 0x46, 0x02, 0x00, 0x00, 0x06, 0x00}, -1, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOVSX ECX,word ptr [ESI + 0x8]
-    build_patch(0x00563828, std::vector<uint8_t>{0x0F, 0xBF, 0x4E, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV DL,byte ptr [EAX + 0x94a379]
-    build_patch(0x0056384E, std::vector<uint8_t>{0x8A, 0x90, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // enemy_strategy(int) - MOVSX ECX,word ptr [ESI]
-    build_patch(0x0056386F, std::vector<uint8_t>{0x0F, 0xBF, 0x0E}, -1, new_VEH_addr + 0x2);
-    // enemy_strategy(int) - MOVSX EDX,word ptr [ESI + -0x2]
-    build_patch(0x00563872, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0xFE}, -1, new_VEH_addr + 0x0);
-    // enemy_strategy(int) - MOV AL,byte ptr [ESI + 0xf]
-    build_patch(0x005638A2, std::vector<uint8_t>{0x8A, 0x46, 0x0F}, -1, new_VEH_addr + 0x11);
-    // enemy_strategy(int) - MOVSX EDI,word ptr [ESI]
-    build_patch(0x005638BF, std::vector<uint8_t>{0x0F, 0xBF, 0x3E}, -1, new_VEH_addr + 0x2);
-    // enemy_strategy(int) - MOVSX EAX,word ptr [ESI + -0x2]
-    build_patch(0x005638D1, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0xFE}, -1, new_VEH_addr + 0x0);
-    // enemy_strategy(int) - MOVSX EAX,word ptr [ESI + 0x8]
-    build_patch(0x00563947, std::vector<uint8_t>{0x0F, 0xBF, 0x46, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOVSX EDX,word ptr [ESI + 0x8]
-    build_patch(0x00563960, std::vector<uint8_t>{0x0F, 0xBF, 0x56, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV EDX,dword ptr [ESI + 0x2]
-    build_patch(0x00563992, std::vector<uint8_t>{0x8B, 0x56, 0x02}, -1, new_VEH_addr + 0x4);
-    // enemy_strategy(int) - MOV dword ptr [ESI + 0x2],EDX
-    build_patch(0x005639AA, std::vector<uint8_t>{0x89, 0x56, 0x02}, -1, new_VEH_addr + 0x4);
     // enemy_strategy(int) - ADD EAX,0x952853
     build_patch(0x00563A40, std::vector<uint8_t>{0x05, 0x53, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2B);
     // enemy_strategy(int) - MOV CL,byte ptr [EAX + 0x952836]
@@ -5405,8 +4088,6 @@ void apply_veh_patches() {
     build_patch(0x00563D3A, std::vector<uint8_t>{0x89, 0x8F, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOVSX EAX,word ptr [EDI + 0x952832]
     build_patch(0x00563D45, std::vector<uint8_t>{0x0F, 0xBF, 0x87, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV CL,byte ptr [EDX + 0x94a379]
-    build_patch(0x00563D5F, std::vector<uint8_t>{0x8A, 0x8A, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - MOV ECX,dword ptr [EDI + 0x95282c]
     build_patch(0x00563E8F, std::vector<uint8_t>{0x8B, 0x8F, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOV byte ptr [EDI + 0x952839],0x18
@@ -5433,40 +4114,22 @@ void apply_veh_patches() {
     build_patch(0x005640A4, std::vector<uint8_t>{0x80, 0xBA, 0x39, 0x28, 0x95, 0x00, 0x02}, 2, new_VEH_addr + 0x11);
     // enemy_strategy(int) - MOVSX ESI,word ptr [EDX + 0x952832]
     build_patch(0x00564117, std::vector<uint8_t>{0x0F, 0xBF, 0xB2, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV AL,byte ptr [EAX + 0x94a379]
-    build_patch(0x00564130, std::vector<uint8_t>{0x8A, 0x80, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - TEST byte ptr [EAX + 0x95282f],0x10
     build_patch(0x00564360, std::vector<uint8_t>{0xF6, 0x80, 0x2F, 0x28, 0x95, 0x00, 0x10}, 2, new_VEH_addr + 0x7);
     // enemy_strategy(int) - MOVSX ESI,word ptr [EAX + 0x952832]
     build_patch(0x005643D3, std::vector<uint8_t>{0x0F, 0xBF, 0xB0, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV AL,byte ptr [ESI + 0x94a378]
-    build_patch(0x005643ED, std::vector<uint8_t>{0x8A, 0x86, 0x78, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC0);
     // enemy_strategy(int) - TEST dword ptr [EAX + 0x95282c],0x10000000
     build_patch(0x005644C0, std::vector<uint8_t>{0xF7, 0x80, 0x2C, 0x28, 0x95, 0x00, 0x00, 0x00, 0x00, 0x10}, 2, new_VEH_addr + 0x4);
     // enemy_strategy(int) - MOVSX ECX,word ptr [EDX + 0x952856]
     build_patch(0x00564542, std::vector<uint8_t>{0x0F, 0xBF, 0x8A, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // enemy_strategy(int) - MOV dword ptr [EBP + -0x1c],0x952832
     build_patch(0x0056456B, std::vector<uint8_t>{0xC7, 0x45, 0xE4, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV AL,byte ptr [ECX + 0x4]
-    build_patch(0x00564577, std::vector<uint8_t>{0x8A, 0x41, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_strategy(int) - MOVSX EAX,word ptr [EDX]
-    build_patch(0x00564588, std::vector<uint8_t>{0x0F, 0xBF, 0x02}, -1, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOVSX ESI,word ptr [EAX + -0x8]
-    build_patch(0x005645BA, std::vector<uint8_t>{0x0F, 0xBF, 0x70, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_strategy(int) - MOVSX EAX,word ptr [EAX + -0xa]
-    build_patch(0x005645BE, std::vector<uint8_t>{0x0F, 0xBF, 0x40, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_strategy(int) - MOVSX EDX,word ptr [EDX + 0x24]
-    build_patch(0x00564642, std::vector<uint8_t>{0x0F, 0xBF, 0x52, 0x24}, -1, new_VEH_addr + 0x2E);
-    // enemy_strategy(int) - MOV dword ptr [EBP + -0x1c],EDX
-    build_patch(0x0056466B, std::vector<uint8_t>{0x89, 0x55, 0xE4}, -1, new_VEH_addr + 0x3E);
     // enemy_strategy(int) - MOVSX ECX,word ptr [EDX + 0x952856]
     build_patch(0x00564693, std::vector<uint8_t>{0x0F, 0xBF, 0x8A, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // enemy_strategy(int) - MOVSX ECX,word ptr [EDI + 0x952832]
     build_patch(0x00564714, std::vector<uint8_t>{0x0F, 0xBF, 0x8F, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // enemy_strategy(int) - MOVSX EDX,word ptr [EDI + 0x952832]
     build_patch(0x00564728, std::vector<uint8_t>{0x0F, 0xBF, 0x97, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_strategy(int) - MOV CL,byte ptr [EAX + 0x94a379]
-    build_patch(0x00564740, std::vector<uint8_t>{0x8A, 0x88, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // enemy_strategy(int) - MOV DL,byte ptr [ECX + 0x952853]
     build_patch(0x00564787, std::vector<uint8_t>{0x8A, 0x91, 0x53, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2B);
     // enemy_strategy(int) - MOV byte ptr [ECX + 0x952839],0x18
@@ -6131,10 +4794,6 @@ void apply_veh_patches() {
     build_patch(0x0056A8BF, std::vector<uint8_t>{0x8A, 0x98, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // enemy_planet_buster(int) - MOV ECX,0x952832
     build_patch(0x0056A936, std::vector<uint8_t>{0xB9, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_planet_buster(int) - MOV AL,byte ptr [ECX + 0x4]
-    build_patch(0x0056A93F, std::vector<uint8_t>{0x8A, 0x41, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_planet_buster(int) - MOVSX EAX,word ptr [ECX]
-    build_patch(0x0056A946, std::vector<uint8_t>{0x0F, 0xBF, 0x01}, -1, new_VEH_addr + 0xA);
     // enemy_planet_buster(int) - MOVSX EDI,word ptr [EAX + 0x95282a]
     build_patch(0x0056AA3B, std::vector<uint8_t>{0x0F, 0xBF, 0xB8, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // enemy_planet_buster(int) - MOVSX EAX,word ptr [EAX + 0x952828]
@@ -6381,18 +5040,6 @@ void apply_veh_patches() {
     build_patch(0x0056D3E4, std::vector<uint8_t>{0x8A, 0x81, 0x4E, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x26);
     // enemy_move(int) - MOV EAX,0x952832
     build_patch(0x0056D627, std::vector<uint8_t>{0xB8, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV CL,byte ptr [EAX + 0x4]
-    build_patch(0x0056D633, std::vector<uint8_t>{0x8A, 0x48, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX]
-    build_patch(0x0056D63A, std::vector<uint8_t>{0x0F, 0xBF, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + -0xa]
-    build_patch(0x0056D652, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + -0x8]
-    build_patch(0x0056D65A, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_move(int) - CMP byte ptr [EAX + 0x7],0x3
-    build_patch(0x0056D662, std::vector<uint8_t>{0x80, 0x78, 0x07, 0x03}, -1, new_VEH_addr + 0x11);
-    // enemy_move(int) - CMP byte ptr [EAX + 0x7],0x18
-    build_patch(0x0056D66C, std::vector<uint8_t>{0x80, 0x78, 0x07, 0x18}, -1, new_VEH_addr + 0x11);
     // enemy_move(int) - MOVSX EBX,word ptr [ECX + 0x95283c]
     build_patch(0x0056D675, std::vector<uint8_t>{0x0F, 0xBF, 0x99, 0x3C, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x14);
     // enemy_move(int) - MOVSX ECX,word ptr [ECX + 0x952844]
@@ -6601,10 +5248,6 @@ void apply_veh_patches() {
     build_patch(0x0056FDD1, std::vector<uint8_t>{0x88, 0x81, 0x4D, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x25);
     // enemy_move(int) - MOV EDI,0x952832
     build_patch(0x0056FE94, std::vector<uint8_t>{0xBF, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV AL,byte ptr [EDI + 0x4]
-    build_patch(0x0056FE9B, std::vector<uint8_t>{0x8A, 0x47, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x0056FEA2, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0xA);
     // enemy_move(int) - MOV byte ptr [ECX + 0x952853],0x62
     build_patch(0x0056FEE4, std::vector<uint8_t>{0xC6, 0x81, 0x53, 0x28, 0x95, 0x00, 0x62}, 2, new_VEH_addr + 0x2B);
     // enemy_move(int) - CMP byte ptr [EDX + 0x952839],0x18
@@ -6783,20 +5426,6 @@ void apply_veh_patches() {
     build_patch(0x00572A52, std::vector<uint8_t>{0x0F, 0xBF, 0xB8, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // enemy_move(int) - MOV EAX,0x952832
     build_patch(0x00572BF3, std::vector<uint8_t>{0xB8, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV CL,byte ptr [EAX + 0x4]
-    build_patch(0x00572BFA, std::vector<uint8_t>{0x8A, 0x48, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX]
-    build_patch(0x00572C01, std::vector<uint8_t>{0x0F, 0xBF, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOVSX EBX,word ptr [EAX + -0xa]
-    build_patch(0x00572C19, std::vector<uint8_t>{0x0F, 0xBF, 0x58, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_move(int) - MOVSX EBX,word ptr [EAX + -0x8]
-    build_patch(0x00572C23, std::vector<uint8_t>{0x0F, 0xBF, 0x58, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_move(int) - CMP byte ptr [EAX + 0x7],0x18
-    build_patch(0x00572C2C, std::vector<uint8_t>{0x80, 0x78, 0x07, 0x18}, -1, new_VEH_addr + 0x11);
-    // enemy_move(int) - MOVSX EBX,word ptr [EAX + 0xa]
-    build_patch(0x00572C32, std::vector<uint8_t>{0x0F, 0xBF, 0x58, 0x0A}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + 0x12]
-    build_patch(0x00572C3A, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x12}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - MOVSX EDI,word ptr [ECX + 0x952856]
     build_patch(0x00572C56, std::vector<uint8_t>{0x0F, 0xBF, 0xB9, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // enemy_move(int) - MOV byte ptr [EDX + 0x952839],0x0
@@ -6813,26 +5442,8 @@ void apply_veh_patches() {
     build_patch(0x00572F2E, std::vector<uint8_t>{0x0F, 0xBF, 0x82, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // enemy_move(int) - MOV EAX,0x952832
     build_patch(0x00572F78, std::vector<uint8_t>{0xB8, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV CL,byte ptr [EAX + 0x4]
-    build_patch(0x00572F82, std::vector<uint8_t>{0x8A, 0x48, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX]
-    build_patch(0x00572F89, std::vector<uint8_t>{0x0F, 0xBF, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + -0xa]
-    build_patch(0x00572FA1, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + -0x8]
-    build_patch(0x00572FA9, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_move(int) - CMP byte ptr [EAX + 0x7],0x18
-    build_patch(0x00572FB2, std::vector<uint8_t>{0x80, 0x78, 0x07, 0x18}, -1, new_VEH_addr + 0x11);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + 0xa]
-    build_patch(0x00572FB8, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x0A}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + 0x12]
-    build_patch(0x00572FC0, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x12}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - MOV EDX,0x952832
     build_patch(0x0057304D, std::vector<uint8_t>{0xBA, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV CL,byte ptr [EDX + 0x4]
-    build_patch(0x00573054, std::vector<uint8_t>{0x8A, 0x4A, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX ECX,word ptr [EDX]
-    build_patch(0x0057305B, std::vector<uint8_t>{0x0F, 0xBF, 0x0A}, -1, new_VEH_addr + 0xA);
     // enemy_move(int) - MOVSX ECX,word ptr [EAX + 0x95282a]
     build_patch(0x00573087, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // enemy_move(int) - MOVSX EDX,word ptr [EAX + 0x952828]
@@ -6901,40 +5512,12 @@ void apply_veh_patches() {
     build_patch(0x00573DAC, std::vector<uint8_t>{0x8A, 0x14, 0x8D, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // enemy_move(int) - MOV ECX,0x952832
     build_patch(0x00573EC3, std::vector<uint8_t>{0xB9, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV DL,byte ptr [ECX + 0x4]
-    build_patch(0x00573ECA, std::vector<uint8_t>{0x8A, 0x51, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX EDX,word ptr [ECX]
-    build_patch(0x00573ED2, std::vector<uint8_t>{0x0F, 0xBF, 0x11}, -1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOVSX EAX,word ptr [ECX + -0xa]
-    build_patch(0x00573EEA, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_move(int) - MOVSX EDX,word ptr [ECX + -0x8]
-    build_patch(0x00573EF2, std::vector<uint8_t>{0x0F, 0xBF, 0x51, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_move(int) - CMP byte ptr [ECX + 0x7],0x18
-    build_patch(0x00573EFA, std::vector<uint8_t>{0x80, 0x79, 0x07, 0x18}, -1, new_VEH_addr + 0x11);
-    // enemy_move(int) - MOVSX EAX,word ptr [ECX + 0xa]
-    build_patch(0x00573F00, std::vector<uint8_t>{0x0F, 0xBF, 0x41, 0x0A}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOVSX EDX,word ptr [ECX + 0x12]
-    build_patch(0x00573F08, std::vector<uint8_t>{0x0F, 0xBF, 0x51, 0x12}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - CMP byte ptr [EDI + 0x952839],0x18
     build_patch(0x00573F4F, std::vector<uint8_t>{0x80, 0xBF, 0x39, 0x28, 0x95, 0x00, 0x18}, 2, new_VEH_addr + 0x11);
     // enemy_move(int) - MOV byte ptr [EDI + 0x952839],0xd
     build_patch(0x00573FC4, std::vector<uint8_t>{0xC6, 0x87, 0x39, 0x28, 0x95, 0x00, 0x0D}, 2, new_VEH_addr + 0x11);
     // enemy_move(int) - MOV EAX,0x952832
     build_patch(0x00574016, std::vector<uint8_t>{0xB8, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOV CL,byte ptr [EAX + 0x4]
-    build_patch(0x00574020, std::vector<uint8_t>{0x8A, 0x48, 0x04}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX]
-    build_patch(0x00574027, std::vector<uint8_t>{0x0F, 0xBF, 0x08}, -1, new_VEH_addr + 0xA);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + -0xa]
-    build_patch(0x0057403F, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xF6}, -1, new_VEH_addr + 0x0);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + -0x8]
-    build_patch(0x00574047, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0xF8}, -1, new_VEH_addr + 0x2);
-    // enemy_move(int) - CMP byte ptr [EAX + 0x7],0x18
-    build_patch(0x0057404F, std::vector<uint8_t>{0x80, 0x78, 0x07, 0x18}, -1, new_VEH_addr + 0x11);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + 0xa]
-    build_patch(0x00574055, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x0A}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOVSX ECX,word ptr [EAX + 0x12]
-    build_patch(0x0057405D, std::vector<uint8_t>{0x0F, 0xBF, 0x48, 0x12}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - MOV AX,word ptr [EDI + 0x952856]
     build_patch(0x005740B9, std::vector<uint8_t>{0x66, 0x8B, 0x87, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // enemy_move(int) - MOV AL,byte ptr [EDI + 0x952839]
@@ -6961,12 +5544,6 @@ void apply_veh_patches() {
     build_patch(0x005744E2, std::vector<uint8_t>{0xC6, 0x81, 0x53, 0x28, 0x95, 0x00, 0x70}, 2, new_VEH_addr + 0x2B);
     // enemy_move(int) - MOV EDI,0x95283c
     build_patch(0x0057456C, std::vector<uint8_t>{0xBF, 0x3C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOV DL,byte ptr [EDI + -0x6]
-    build_patch(0x0057457C, std::vector<uint8_t>{0x8A, 0x57, 0xFA}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x00574583, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOVSX EDX,word ptr [EDI + 0x8]
-    build_patch(0x0057458A, std::vector<uint8_t>{0x0F, 0xBF, 0x57, 0x08}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - CMP byte ptr [EAX + 0x952839],0x18
     build_patch(0x00574617, std::vector<uint8_t>{0x80, 0xB8, 0x39, 0x28, 0x95, 0x00, 0x18}, 2, new_VEH_addr + 0x11);
     // enemy_move(int) - CMP byte ptr [EAX + 0x952853],0x2f
@@ -7145,12 +5722,6 @@ void apply_veh_patches() {
     build_patch(0x00576A98, std::vector<uint8_t>{0x80, 0xB9, 0x39, 0x28, 0x95, 0x00, 0x18}, 2, new_VEH_addr + 0x11);
     // enemy_move(int) - MOV EAX,0x95283c
     build_patch(0x00576B8D, std::vector<uint8_t>{0xB8, 0x3C, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOV BL,byte ptr [EAX + -0x6]
-    build_patch(0x00576B94, std::vector<uint8_t>{0x8A, 0x58, 0xFA}, -1, new_VEH_addr + 0xE);
-    // enemy_move(int) - MOVSX EBX,word ptr [EAX]
-    build_patch(0x00576BA1, std::vector<uint8_t>{0x0F, 0xBF, 0x18}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOVSX EBX,word ptr [EAX + 0x8]
-    build_patch(0x00576BA8, std::vector<uint8_t>{0x0F, 0xBF, 0x58, 0x08}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - CMP byte ptr [EDX + 0x952839],0x18
     build_patch(0x00576DB2, std::vector<uint8_t>{0x80, 0xBA, 0x39, 0x28, 0x95, 0x00, 0x18}, 2, new_VEH_addr + 0x11);
     // enemy_move(int) - CMP byte ptr [EDI + 0x952839],0x18
@@ -7299,14 +5870,6 @@ void apply_veh_patches() {
     build_patch(0x00578E22, std::vector<uint8_t>{0x8A, 0x87, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // enemy_move(int) - LEA EAX,[EDI + 0x95283c]
     build_patch(0x00578E2E, std::vector<uint8_t>{0x8D, 0x87, 0x3C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOV DX,word ptr [EAX + 0x2]
-    build_patch(0x00578E34, std::vector<uint8_t>{0x66, 0x8B, 0x50, 0x02}, -1, new_VEH_addr + 0x16);
-    // enemy_move(int) - MOV word ptr [EAX],DX
-    build_patch(0x00578E39, std::vector<uint8_t>{0x66, 0x89, 0x10}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOV DX,word ptr [EAX + 0xa]
-    build_patch(0x00578E3C, std::vector<uint8_t>{0x66, 0x8B, 0x50, 0x0A}, -1, new_VEH_addr + 0x1E);
-    // enemy_move(int) - MOV word ptr [EAX + 0x8],DX
-    build_patch(0x00578E40, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x08}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - MOV DL,byte ptr [EDI + 0x95283a]
     build_patch(0x00578E46, std::vector<uint8_t>{0x8A, 0x97, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // enemy_move(int) - MOV AL,byte ptr [EDI + 0x95283a]
@@ -7323,14 +5886,6 @@ void apply_veh_patches() {
     build_patch(0x00578E89, std::vector<uint8_t>{0x8A, 0x98, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // enemy_move(int) - LEA ESI,[EAX + 0x95283c]
     build_patch(0x00578E8F, std::vector<uint8_t>{0x8D, 0xB0, 0x3C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOV BX,word ptr [EAX + 0x2]
-    build_patch(0x00578EA4, std::vector<uint8_t>{0x66, 0x8B, 0x58, 0x02}, -1, new_VEH_addr + 0x16);
-    // enemy_move(int) - MOV word ptr [EAX],BX
-    build_patch(0x00578EA9, std::vector<uint8_t>{0x66, 0x89, 0x18}, -1, new_VEH_addr + 0x14);
-    // enemy_move(int) - MOV BX,word ptr [EAX + 0xa]
-    build_patch(0x00578EAC, std::vector<uint8_t>{0x66, 0x8B, 0x58, 0x0A}, -1, new_VEH_addr + 0x1E);
-    // enemy_move(int) - MOV word ptr [EAX + 0x8],BX
-    build_patch(0x00578EB0, std::vector<uint8_t>{0x66, 0x89, 0x58, 0x08}, -1, new_VEH_addr + 0x1C);
     // enemy_move(int) - MOV BL,byte ptr [EDX + 0x95283a]
     build_patch(0x00578EB6, std::vector<uint8_t>{0x8A, 0x9A, 0x3A, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x12);
     // enemy_move(int) - MOV BL,byte ptr [ECX + 0x95283a]
@@ -7345,8 +5900,6 @@ void apply_veh_patches() {
     build_patch(0x00578EF8, std::vector<uint8_t>{0x8B, 0x99, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // enemy_move(int) - MOV dword ptr [ECX + 0x95282c],EBX
     build_patch(0x00578F04, std::vector<uint8_t>{0x89, 0x99, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
-    // enemy_move(int) - MOVSX EAX,word ptr [ESI]
-    build_patch(0x00578F0A, std::vector<uint8_t>{0x0F, 0xBF, 0x06}, -1, new_VEH_addr + 0x14);
     // enemy_move(int) - MOVSX EAX,word ptr [ECX + 0x952844]
     build_patch(0x00578F11, std::vector<uint8_t>{0x0F, 0xBF, 0x81, 0x44, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x1C);
     // enemy_move(int) - CMP byte ptr [ECX + 0x95283a],0x1
@@ -7417,10 +5970,6 @@ void apply_veh_patches() {
     build_patch(0x0057949E, std::vector<uint8_t>{0x8A, 0x87, 0x53, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x2B);
     // enemy_turn(int) - LEA ESI,[EAX*0x4 + 0x952832]
     build_patch(0x00579534, std::vector<uint8_t>{0x8D, 0x34, 0x85, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // enemy_turn(int) - CMP byte ptr [ECX + 0x94a379],DL
-    build_patch(0x00579600, std::vector<uint8_t>{0x38, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // enemy_turn(int) - CMP byte ptr [EDX + 0x94a379],0x2
-    build_patch(0x0057973F, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
     // veh_top(int) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
     build_patch(0x00579935, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x95, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // veh_top(int) - MOV CX,word ptr [EDX*0x4 + 0x95285a]
@@ -7568,7 +6117,7 @@ void apply_veh_patches() {
     // goody_box(int,int) - MOVSX EAX,word ptr [EBX + 0x952832]
     build_patch(0x0057CBC8, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // valid_tech_leap(int,int) - CMP EAX,0x952830
-    build_patch(0x0057CF2B, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
+    //build_patch(0x0057CF2B, std::vector<uint8_t>{0x3D, 0x30, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x8);
     // study_artifact(int) - MOVSX ESI,word ptr [EAX + 0x952828]
     build_patch(0x0057CFC4, std::vector<uint8_t>{0x0F, 0xBF, 0xB0, 0x28, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x0);
     // study_artifact(int) - MOVSX ECX,word ptr [EAX + 0x95282a]
@@ -7577,16 +6126,10 @@ void apply_veh_patches() {
     build_patch(0x0057CFD2, std::vector<uint8_t>{0x8A, 0x98, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // retire_proto(int,int) - LEA EDI,[EDX*0x4 + 0x95282a]
     build_patch(0x0057F286, std::vector<uint8_t>{0x8D, 0x3C, 0x95, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
-    // prune_protos(int,int,int) - MOV DL,byte ptr [EAX + 0x94a379]
-    build_patch(0x0057F79C, std::vector<uint8_t>{0x8A, 0x90, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // prune_protos(int,int,int) - MOV AL,byte ptr [EAX + 0x94a37a]
-    build_patch(0x0057F7E1, std::vector<uint8_t>{0x8A, 0x80, 0x7A, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC2);
-    // prune_protos(int,int,int) - MOV AL,byte ptr [EDX + 0x94a378]
-    build_patch(0x0057F98D, std::vector<uint8_t>{0x8A, 0x82, 0x78, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC0);
     // hq_list_draw(GraphicWin_*,int,int,int,int,int) - MOV byte ptr [EDX*0x4 + 0x952839],0x1
     build_patch(0x00583DE1, std::vector<uint8_t>{0xC6, 0x04, 0x95, 0x39, 0x28, 0x95, 0x00, 0x01}, 3, new_VEH_addr + 0x11);
     // read_rules(int) - CMP ESI,0x95282c
-    build_patch(0x005878E8, std::vector<uint8_t>{0x81, 0xFE, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
+    //build_patch(0x005878E8, std::vector<uint8_t>{0x81, 0xFE, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // alien_start(void) - ADD EDI,0x952836
     build_patch(0x0058910F, std::vector<uint8_t>{0x81, 0xC7, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // alt_set(int,int,int) - MOVSX EDX,word ptr [ESI + 0x952832]
@@ -7899,8 +6442,6 @@ void apply_veh_patches() {
     build_patch(0x00597CDE, std::vector<uint8_t>{0x66, 0x8B, 0x82, 0x30, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x8);
     // order_veh(int,int,int) - MOV BL,byte ptr [EDX + 0x95284f]
     build_patch(0x00597CF0, std::vector<uint8_t>{0x8A, 0x9A, 0x4F, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x27);
-    // order_veh(int,int,int) - MOV EDX,dword ptr [EAX*0x4 + 0x96c9e0]
-    build_patch(0x00597D31, std::vector<uint8_t>{0x8B, 0x14, 0x85, 0xE0, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180EC);
     // order_veh(int,int,int) - TEST byte ptr [ECX + 0x95282d],0x42
     build_patch(0x00597FFB, std::vector<uint8_t>{0xF6, 0x81, 0x2D, 0x28, 0x95, 0x00, 0x42}, 2, new_VEH_addr + 0x5);
     // order_veh(int,int,int) - CMP byte ptr [ECX + 0x952839],0x18
@@ -8265,8 +6806,6 @@ void apply_veh_patches() {
     build_patch(0x0059A4E4, std::vector<uint8_t>{0x84, 0x98, 0x4F, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x27);
     // zoc_path(int,int,int) - MOVSX EAX,word ptr [EAX + 0x952858]
     build_patch(0x0059A4EC, std::vector<uint8_t>{0x0F, 0xBF, 0x80, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
-    // find(int,int,int,int,int,int,int,int) - CMP byte ptr [EAX + 0x94a379],0x1
-    build_patch(0x0059A57C, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
     // find(int,int,int,int,int,int,int,int) - MOV AL,byte ptr [ESI + 0x952836]
     build_patch(0x0059B2C7, std::vector<uint8_t>{0x8A, 0x86, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // find(int,int,int,int,int,int,int,int) - MOVSX ECX,word ptr [ESI + 0x952832]
@@ -8331,10 +6870,6 @@ void apply_veh_patches() {
     build_patch(0x0059C1B0, std::vector<uint8_t>{0x89, 0x8A, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // move(int,int) - MOV byte ptr [EDX + 0x952839],0x0
     build_patch(0x0059C1BB, std::vector<uint8_t>{0xC6, 0x82, 0x39, 0x28, 0x95, 0x00, 0x00}, 2, new_VEH_addr + 0x11);
-    // success_rates(int,int,int,int) - MOV ECX,dword ptr [ECX*0x4 + 0x96cc78]
-    build_patch(0x0059EF79, std::vector<uint8_t>{0x8B, 0x0C, 0x8D, 0x78, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x18384);
-    // success_rates(int,int,int,int) - MOV ECX,dword ptr [ECX*0x4 + 0x96cc78]
-    build_patch(0x0059F063, std::vector<uint8_t>{0x8B, 0x0C, 0x8D, 0x78, 0xCC, 0x96, 0x00}, -1, new_VEH_addr + 0x18384);
     // probe(int,int,int,int) - MOV BL,byte ptr [EAX + 0x952836]
     build_patch(0x0059F179, std::vector<uint8_t>{0x8A, 0x98, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // probe(int,int,int,int) - MOV AL,byte ptr [EDX*0x4 + 0x952836]
@@ -8529,102 +7064,18 @@ void apply_veh_patches() {
     build_patch(0x005A5A36, std::vector<uint8_t>{0x8A, 0x91, 0x38, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x10);
     // game_data(FILE_*,int) - PUSH 0x952828
     build_patch(0x005A7D20, std::vector<uint8_t>{0x68, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
-    // game_data(FILE_*,int) - CALL 0x005a67b0
-    build_patch(0x005A7D2E, std::vector<uint8_t>{0xE8, 0x7D, 0xEA, 0xFF, 0xFF}, -1, new_VEH_addr + 0x0);
     // game_data(FILE_*,int) - PUSH 0x952828
     build_patch(0x005A7D3B, std::vector<uint8_t>{0x68, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
     // game_data(FILE_*,int) - MOV EAX,0x95282a
     build_patch(0x005A7DE1, std::vector<uint8_t>{0xB8, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // game_data(FILE_*,int) - LEA ESI,[EAX + 0x1a]
-    build_patch(0x005A7DF0, std::vector<uint8_t>{0x8D, 0x70, 0x1A}, -1, new_VEH_addr + 0x1C);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + -0x2],DX
-    build_patch(0x005A7DF3, std::vector<uint8_t>{0x66, 0x89, 0x50, 0xFE}, -1, new_VEH_addr + 0x0);
-    // game_data(FILE_*,int) - MOV word ptr [EAX],DX
-    build_patch(0x005A7DFB, std::vector<uint8_t>{0x66, 0x89, 0x10}, -1, new_VEH_addr + 0x2);
-    // game_data(FILE_*,int) - MOV dword ptr [EAX + 0x2],EDX
-    build_patch(0x005A7E00, std::vector<uint8_t>{0x89, 0x50, 0x02}, -1, new_VEH_addr + 0x4);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + 0x6],DX
-    build_patch(0x005A7E07, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x06}, -1, new_VEH_addr + 0x8);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + 0x8],DX
-    build_patch(0x005A7E17, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x08}, -1, new_VEH_addr + 0xA);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0xc],DL
-    build_patch(0x005A7E1E, std::vector<uint8_t>{0x88, 0x50, 0x0C}, -1, new_VEH_addr + 0xE);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0xe],DL
-    build_patch(0x005A7E24, std::vector<uint8_t>{0x88, 0x50, 0x0E}, -1, new_VEH_addr + 0x10);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0xf],DL
-    build_patch(0x005A7E2A, std::vector<uint8_t>{0x88, 0x50, 0x0F}, -1, new_VEH_addr + 0x11);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x10],DL
-    build_patch(0x005A7E30, std::vector<uint8_t>{0x88, 0x50, 0x10}, -1, new_VEH_addr + 0x12);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x11],DL
-    build_patch(0x005A7E36, std::vector<uint8_t>{0x88, 0x50, 0x11}, -1, new_VEH_addr + 0x13);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0xd],0x0
-    build_patch(0x005A7E39, std::vector<uint8_t>{0xC6, 0x40, 0x0D, 0x00}, -1, new_VEH_addr + 0xF);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + 0xa],0x0
-    build_patch(0x005A7E3D, std::vector<uint8_t>{0x66, 0xC7, 0x40, 0x0A, 0x00, 0x00}, -1, new_VEH_addr + 0xC);
-    // game_data(FILE_*,int) - MOV word ptr [ESI + -0x8],DI
-    build_patch(0x005A7E4D, std::vector<uint8_t>{0x66, 0x89, 0x7E, 0xF8}, -1, new_VEH_addr + 0x14);
-    // game_data(FILE_*,int) - MOV word ptr [ESI],DI
-    build_patch(0x005A7E55, std::vector<uint8_t>{0x66, 0x89, 0x3E}, -1, new_VEH_addr + 0x1C);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x22],DL
-    build_patch(0x005A7E6A, std::vector<uint8_t>{0x88, 0x50, 0x22}, -1, new_VEH_addr + 0x24);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x23],DL
-    build_patch(0x005A7E70, std::vector<uint8_t>{0x88, 0x50, 0x23}, -1, new_VEH_addr + 0x25);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x24],DL
-    build_patch(0x005A7E76, std::vector<uint8_t>{0x88, 0x50, 0x24}, -1, new_VEH_addr + 0x26);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x25],DL
-    build_patch(0x005A7E7C, std::vector<uint8_t>{0x88, 0x50, 0x25}, -1, new_VEH_addr + 0x27);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x26],DL
-    build_patch(0x005A7E82, std::vector<uint8_t>{0x88, 0x50, 0x26}, -1, new_VEH_addr + 0x28);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x27],DL
-    build_patch(0x005A7E88, std::vector<uint8_t>{0x88, 0x50, 0x27}, -1, new_VEH_addr + 0x29);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x28],DL
-    build_patch(0x005A7E8E, std::vector<uint8_t>{0x88, 0x50, 0x28}, -1, new_VEH_addr + 0x2A);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x29],DL
-    build_patch(0x005A7E94, std::vector<uint8_t>{0x88, 0x50, 0x29}, -1, new_VEH_addr + 0x2B);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x2a],DL
-    build_patch(0x005A7E9A, std::vector<uint8_t>{0x88, 0x50, 0x2A}, -1, new_VEH_addr + 0x2C);
-    // game_data(FILE_*,int) - MOV byte ptr [EAX + 0x2b],DL
-    build_patch(0x005A7EA0, std::vector<uint8_t>{0x88, 0x50, 0x2B}, -1, new_VEH_addr + 0x2D);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + 0x2c],DX
-    build_patch(0x005A7EA7, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x2C}, -1, new_VEH_addr + 0x2E);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + 0x2e],DX
-    build_patch(0x005A7EAF, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x2E}, -1, new_VEH_addr + 0x30);
-    // game_data(FILE_*,int) - MOV word ptr [EAX + 0x30],DX
-    build_patch(0x005A7EB7, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x30}, -1, new_VEH_addr + 0x32);
     // game_data(FILE_*,int) - MOV ESI,0x952832
     build_patch(0x005A818A, std::vector<uint8_t>{0xBE, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // game_data(FILE_*,int) - MOVSX EDI,word ptr [ESI]
-    build_patch(0x005A8192, std::vector<uint8_t>{0x0F, 0xBF, 0x3E}, -1, new_VEH_addr + 0xA);
-    // game_data(FILE_*,int) - MOV word ptr [ESI],AX
-    build_patch(0x005A81B2, std::vector<uint8_t>{0x66, 0x89, 0x06}, -1, new_VEH_addr + 0xA);
     // load_daemon(char_*,int) - MOV EDX,0x952832
     build_patch(0x005A9990, std::vector<uint8_t>{0xBA, 0x32, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xA);
-    // load_daemon(char_*,int) - MOV AL,byte ptr [EDX + 0x4]
-    build_patch(0x005A9997, std::vector<uint8_t>{0x8A, 0x42, 0x04}, -1, new_VEH_addr + 0xE);
-    // load_daemon(char_*,int) - MOVSX EAX,word ptr [EDX]
-    build_patch(0x005A999E, std::vector<uint8_t>{0x0F, 0xBF, 0x02}, -1, new_VEH_addr + 0xA);
     // num_objectives(int,int) - MOV EAX,0x95282a
     build_patch(0x005AC167, std::vector<uint8_t>{0xB8, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // num_objectives(int,int) - MOV dword ptr [EBP + -0x8],EAX
-    build_patch(0x005AC16C, std::vector<uint8_t>{0x89, 0x45, 0xF8}, -1, new_VEH_addr + 0x2);
-    // num_objectives(int,int) - MOV DL,byte ptr [EAX + 0xc]
-    build_patch(0x005AC171, std::vector<uint8_t>{0x8A, 0x50, 0x0C}, -1, new_VEH_addr + 0xE);
-    // num_objectives(int,int) - TEST byte ptr [EAX + 0x6],0x20
-    build_patch(0x005AC17C, std::vector<uint8_t>{0xF6, 0x40, 0x06, 0x20}, -1, new_VEH_addr + 0x8);
-    // num_objectives(int,int) - MOVSX ECX,word ptr [EAX]
-    build_patch(0x005AC198, std::vector<uint8_t>{0x0F, 0xBF, 0x08}, -1, new_VEH_addr + 0x2);
-    // num_objectives(int,int) - MOVSX EDX,word ptr [EAX + -0x2]
-    build_patch(0x005AC19B, std::vector<uint8_t>{0x0F, 0xBF, 0x50, 0xFE}, -1, new_VEH_addr + 0x0);
-    // num_objectives(int,int) - MOVSX ECX,word ptr [EAX]
-    build_patch(0x005AC296, std::vector<uint8_t>{0x0F, 0xBF, 0x08}, -1, new_VEH_addr + 0x2);
-    // num_objectives(int,int) - MOVSX EDX,word ptr [EAX + -0x2]
-    build_patch(0x005AC299, std::vector<uint8_t>{0x0F, 0xBF, 0x50, 0xFE}, -1, new_VEH_addr + 0x0);
-    // num_objectives(int,int) - MOV dword ptr [EBP + -0x8],EAX
-    build_patch(0x005AC331, std::vector<uint8_t>{0x89, 0x45, 0xF8}, -1, new_VEH_addr + 0x36);
     // crash_landing(int) - MOV ECX,0x952836
     build_patch(0x005AE1EF, std::vector<uint8_t>{0xB9, 0x36, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0xE);
-    // crash_landing(int) - MOV DL,byte ptr [ECX]
-    build_patch(0x005AE1F9, std::vector<uint8_t>{0x8A, 0x11}, -1, new_VEH_addr + 0xE);
     // crash_landing(int) - MOVSX ECX,word ptr [EAX + 0x95282a]
     build_patch(0x005AE35C, std::vector<uint8_t>{0x0F, 0xBF, 0x88, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // crash_landing(int) - MOVSX EBX,word ptr [EAX + 0x952828]
@@ -8641,18 +7092,12 @@ void apply_veh_patches() {
     build_patch(0x005AF3B1, std::vector<uint8_t>{0x8A, 0x90, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
     // time_warp(void) - LEA EAX,[EAX + 0x95284c]
     build_patch(0x005AF3B7, std::vector<uint8_t>{0x8D, 0x80, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
-    // time_warp(void) - MOV byte ptr [EAX],DL
-    build_patch(0x005AF3C5, std::vector<uint8_t>{0x88, 0x10}, -1, new_VEH_addr + 0x24);
-    // time_warp(void) - MOV byte ptr [EAX],0x2
-    build_patch(0x005AF3C9, std::vector<uint8_t>{0xC6, 0x00, 0x02}, -1, new_VEH_addr + 0x24);
     // time_warp(void) - MOV byte ptr [EAX + 0x95284c],0x2
     build_patch(0x005AF507, std::vector<uint8_t>{0xC6, 0x80, 0x4C, 0x28, 0x95, 0x00, 0x02}, 2, new_VEH_addr + 0x24);
     // time_warp(void) - MOV CL,byte ptr [EAX + 0x95284c]
     build_patch(0x005AF530, std::vector<uint8_t>{0x8A, 0x88, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
     // time_warp(void) - LEA EAX,[EAX + 0x95284c]
     build_patch(0x005AF539, std::vector<uint8_t>{0x8D, 0x80, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
-    // time_warp(void) - MOV byte ptr [EAX],CL
-    build_patch(0x005AF544, std::vector<uint8_t>{0x88, 0x08}, -1, new_VEH_addr + 0x24);
     // time_warp(void) - MOV byte ptr [ECX + 0x95284c],0x2
     build_patch(0x005AFA8D, std::vector<uint8_t>{0xC6, 0x81, 0x4C, 0x28, 0x95, 0x00, 0x02}, 2, new_VEH_addr + 0x24);
     // time_warp(void) - MOV byte ptr [EAX + 0x952839],0x2
@@ -8665,26 +7110,10 @@ void apply_veh_patches() {
     build_patch(0x005AFC26, std::vector<uint8_t>{0x8A, 0x88, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
     // time_warp(void) - LEA EAX,[EAX + 0x95284c]
     build_patch(0x005AFC2F, std::vector<uint8_t>{0x8D, 0x80, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
-    // time_warp(void) - MOV byte ptr [EAX],CL
-    build_patch(0x005AFC37, std::vector<uint8_t>{0x88, 0x08}, -1, new_VEH_addr + 0x24);
     // time_warp(void) - MOV byte ptr [ECX + 0x95284c],0x2
     build_patch(0x005AFDC5, std::vector<uint8_t>{0xC6, 0x81, 0x4C, 0x28, 0x95, 0x00, 0x02}, 2, new_VEH_addr + 0x24);
     // time_warp(void) - MOV dword ptr [EBP + -0x10],0x952832
     build_patch(0x005B0208, std::vector<uint8_t>{0xC7, 0x45, 0xF0, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // time_warp(void) - MOV DL,byte ptr [EAX + 0x4]
-    build_patch(0x005B0214, std::vector<uint8_t>{0x8A, 0x50, 0x04}, -1, new_VEH_addr + 0xE);
-    // time_warp(void) - MOVSX EAX,word ptr [ECX]
-    build_patch(0x005B0225, std::vector<uint8_t>{0x0F, 0xBF, 0x01}, -1, new_VEH_addr + 0xA);
-    // time_warp(void) - CMP byte ptr [EDX + 0x94a379],0x1
-    build_patch(0x005B0256, std::vector<uint8_t>{0x80, 0xBA, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
-    // time_warp(void) - MOV AL,byte ptr [EDX + 0x94a379]
-    build_patch(0x005B0275, std::vector<uint8_t>{0x8A, 0x82, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // time_warp(void) - MOVSX ECX,word ptr [EDX + -0xa]
-    build_patch(0x005B0291, std::vector<uint8_t>{0x0F, 0xBF, 0x4A, 0xF6}, -1, new_VEH_addr + 0x0);
-    // time_warp(void) - MOVSX EDX,word ptr [EDX + -0x8]
-    build_patch(0x005B02BF, std::vector<uint8_t>{0x0F, 0xBF, 0x52, 0xF8}, -1, new_VEH_addr + 0x2);
-    // time_warp(void) - MOV dword ptr [EBP + -0x10],EDX
-    build_patch(0x005B03E9, std::vector<uint8_t>{0x89, 0x55, 0xF0}, -1, new_VEH_addr + 0x3E);
     // balance(void) - MOVSX EDX,word ptr [ECX + 0x95282a]
     build_patch(0x005B0455, std::vector<uint8_t>{0x0F, 0xBF, 0x91, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // balance(void) - MOVSX ESI,word ptr [ECX + 0x952828]
@@ -8705,34 +7134,16 @@ void apply_veh_patches() {
     build_patch(0x005B08C6, std::vector<uint8_t>{0x66, 0xC7, 0x04, 0x95, 0x56, 0x28, 0x95, 0x00, 0xFF, 0xFF}, 4, new_VEH_addr + 0x2E);
     // scenario_setup(void) - LEA ECX,[EDX*0x4 + 0x952830]
     build_patch(0x005B0A50, std::vector<uint8_t>{0x8D, 0x0C, 0x95, 0x30, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x8);
-    // scenario_setup(void) - CMP byte ptr [EAX + 0x94a379],0x2
-    build_patch(0x005B0B06, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x02}, -1, new_VEH_addr + 0xAC1);
-    // scenario_setup(void) - CMP byte ptr [EAX + 0x94a379],0x1
-    build_patch(0x005B0B56, std::vector<uint8_t>{0x80, 0xB8, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
     // scenario_setup(void) - MOV DL,byte ptr [ECX*0x4 + 0x952836]
     build_patch(0x005B0C10, std::vector<uint8_t>{0x8A, 0x14, 0x8D, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // scenario_setup(void) - MOV EDI,0x952828
     build_patch(0x005B0C61, std::vector<uint8_t>{0xBF, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
-    // scenario_setup(void) - MOVSX EAX,word ptr [EDI]
-    build_patch(0x005B0C6B, std::vector<uint8_t>{0x0F, 0xBF, 0x07}, -1, new_VEH_addr + 0x0);
-    // scenario_setup(void) - MOVSX EBX,word ptr [EDI + 0x2]
-    build_patch(0x005B0C71, std::vector<uint8_t>{0x0F, 0xBF, 0x5F, 0x02}, -1, new_VEH_addr + 0x2);
     // setup_player(int,int,int) - ADD EBX,0x952832
     build_patch(0x005B1016, std::vector<uint8_t>{0x81, 0xC3, 0x32, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xA);
     // setup_player(int,int,int) - MOV EBX,0x95282a
     build_patch(0x005B1A09, std::vector<uint8_t>{0xBB, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // setup_player(int,int,int) - MOVSX EDI,word ptr [EBX]
-    build_patch(0x005B1A0E, std::vector<uint8_t>{0x0F, 0xBF, 0x3B}, -1, new_VEH_addr + 0x2);
-    // setup_player(int,int,int) - MOVSX EAX,word ptr [EBX + -0x2]
-    build_patch(0x005B1A1D, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0xFE}, -1, new_VEH_addr + 0x0);
-    // setup_player(int,int,int) - MOV CL,byte ptr [EBX + 0xc]
-    build_patch(0x005B1A3E, std::vector<uint8_t>{0x8A, 0x4B, 0x0C}, -1, new_VEH_addr + 0xE);
     // setup_player(int,int,int) - MOV EBX,0x952828
     build_patch(0x005B2048, std::vector<uint8_t>{0xBB, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
-    // setup_player(int,int,int) - MOVSX EAX,word ptr [EBX]
-    build_patch(0x005B204D, std::vector<uint8_t>{0x0F, 0xBF, 0x03}, -1, new_VEH_addr + 0x0);
-    // setup_player(int,int,int) - MOVSX EDI,word ptr [EBX + 0x2]
-    build_patch(0x005B2053, std::vector<uint8_t>{0x0F, 0xBF, 0x7B, 0x02}, -1, new_VEH_addr + 0x2);
     // setup_player(int,int,int) - MOV word ptr [ECX + 0x952856],DI
     build_patch(0x005B2C61, std::vector<uint8_t>{0x66, 0x89, 0xB9, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // setup_player(int,int,int) - MOV word ptr [ECX + 0x952856],DI
@@ -8757,16 +7168,6 @@ void apply_veh_patches() {
     build_patch(0x005B3060, std::vector<uint8_t>{0x66, 0x89, 0xB1, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
     // setup_player(int,int,int) - MOV word ptr [ECX + 0x952856],SI
     build_patch(0x005B3082, std::vector<uint8_t>{0x66, 0x89, 0xB1, 0x56, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2E);
-    // setup_player(int,int,int) - CMP byte ptr [ECX + 0x94a379],0x1
-    build_patch(0x005B311F, std::vector<uint8_t>{0x80, 0xB9, 0x79, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC1);
-    // setup_player(int,int,int) - MOV AL,byte ptr [EDX + 0x94a379]
-    build_patch(0x005B3138, std::vector<uint8_t>{0x8A, 0x82, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
-    // setup_player(int,int,int) - MOV DL,byte ptr [EAX + 0x94a378]
-    build_patch(0x005B3190, std::vector<uint8_t>{0x8A, 0x90, 0x78, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC0);
-    // setup_player(int,int,int) - MOV DL,byte ptr [EAX + 0x94a378]
-    build_patch(0x005B31C0, std::vector<uint8_t>{0x8A, 0x90, 0x78, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC0);
-    // setup_player(int,int,int) - CMP byte ptr [EDX + 0x94a378],0x1
-    build_patch(0x005B31EB, std::vector<uint8_t>{0x80, 0xBA, 0x78, 0xA3, 0x94, 0x00, 0x01}, -1, new_VEH_addr + 0xAC0);
     // eliminate_player(int,int) - LEA EBX,[EDX*0x4 + 0x952836]
     build_patch(0x005B33D2, std::vector<uint8_t>{0x8D, 0x1C, 0x95, 0x36, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xE);
     // eliminate_player(int,int) - MOVSX EDI,word ptr [EDX + 0x952828]
@@ -8785,16 +7186,6 @@ void apply_veh_patches() {
     build_patch(0x005B37FE, std::vector<uint8_t>{0x88, 0x90, 0x4F, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x27);
     // eliminate_player(int,int) - MOVSX EAX,word ptr [EAX + 0x952858]
     build_patch(0x005B3804, std::vector<uint8_t>{0x0F, 0xBF, 0x80, 0x58, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x30);
-    // social_ai(int,int,int,int,int,int_*) - MOV EAX,dword ptr [EDX*0x4 + 0x96cd3c]
-    build_patch(0x005B4A0D, std::vector<uint8_t>{0x8B, 0x04, 0x95, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // social_ai(int,int,int,int,int,int_*) - CMP EDX,dword ptr [ECX + 0x96cd3c]
-    build_patch(0x005B505E, std::vector<uint8_t>{0x3B, 0x91, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // social_ai(int,int,int,int,int,int_*) - CMP EDI,dword ptr [ECX + 0x96c9e4]
-    build_patch(0x005B506C, std::vector<uint8_t>{0x3B, 0xB9, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
-    // social_ai(int,int,int,int,int,int_*) - CMP EDX,dword ptr [ECX + 0x96cd3c]
-    build_patch(0x005B508F, std::vector<uint8_t>{0x3B, 0x91, 0x3C, 0xCD, 0x96, 0x00}, -1, new_VEH_addr + 0x18448);
-    // social_ai(int,int,int,int,int,int_*) - MOV EDI,dword ptr [ECX + 0x96c9e4]
-    build_patch(0x005B509A, std::vector<uint8_t>{0x8B, 0xB9, 0xE4, 0xC9, 0x96, 0x00}, -1, new_VEH_addr + 0x180F0);
     // spot_stack(int,int) - MOVSX ESI,word ptr [EAX + 0x95282a]
     build_patch(0x005B58FD, std::vector<uint8_t>{0x0F, 0xBF, 0xB0, 0x2A, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0x2);
     // spot_stack(int,int) - MOVSX EDX,word ptr [EAX + 0x952828]
@@ -9465,10 +7856,6 @@ void apply_veh_patches() {
     build_patch(0x005BEE0B, std::vector<uint8_t>{0xC6, 0x04, 0x95, 0x4C, 0x28, 0x95, 0x00, 0x02}, 3, new_VEH_addr + 0x24);
     // veh_at(int,int) - MOV ECX,0x952828
     build_patch(0x005BFEE5, std::vector<uint8_t>{0xB9, 0x28, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x0);
-    // veh_at(int,int) - MOVSX EDI,word ptr [ECX]
-    build_patch(0x005BFEEC, std::vector<uint8_t>{0x0F, 0xBF, 0x39}, -1, new_VEH_addr + 0x0);
-    // veh_at(int,int) - MOVSX EDI,word ptr [ECX + 0x2]
-    build_patch(0x005BFEF4, std::vector<uint8_t>{0x0F, 0xBF, 0x79, 0x02}, -1, new_VEH_addr + 0x2);
     // veh_at(int,int) - MOV CX,word ptr [ECX*0x4 + 0x95285a]
     build_patch(0x005BFF76, std::vector<uint8_t>{0x66, 0x8B, 0x0C, 0x8D, 0x5A, 0x28, 0x95, 0x00}, 4, new_VEH_addr + 0x32);
     // veh_at(int,int) - MOV CX,word ptr [ECX*0x4 + 0x95285a]
@@ -9575,10 +7962,6 @@ void apply_veh_patches() {
     build_patch(0x005C0341, std::vector<uint8_t>{0x88, 0x88, 0x39, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x11);
     // veh_clear(int,int,int) - LEA EDX,[EAX + 0x952844]
     build_patch(0x005C0347, std::vector<uint8_t>{0x8D, 0x90, 0x44, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x1C);
-    // veh_clear(int,int,int) - MOV word ptr [EDX + -0x8],DI
-    build_patch(0x005C034D, std::vector<uint8_t>{0x66, 0x89, 0x7A, 0xF8}, -1, new_VEH_addr + 0x14);
-    // veh_clear(int,int,int) - MOV word ptr [EDX],DI
-    build_patch(0x005C0351, std::vector<uint8_t>{0x66, 0x89, 0x3A}, -1, new_VEH_addr + 0x1C);
     // veh_clear(int,int,int) - MOV dword ptr [EAX + 0x95282c],ECX
     build_patch(0x005C035D, std::vector<uint8_t>{0x89, 0x88, 0x2C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x4);
     // veh_clear(int,int,int) - MOV byte ptr [EAX + 0x952850],CL
@@ -9617,8 +8000,6 @@ void apply_veh_patches() {
     build_patch(0x005C0731, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // veh_init(int,int,int,int) - MOVSX EAX,word ptr [EBX + 0x952832]
     build_patch(0x005C0752, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
-    // veh_init(int,int,int,int) - MOV DL,byte ptr [ECX + 0x94a379]
-    build_patch(0x005C0771, std::vector<uint8_t>{0x8A, 0x91, 0x79, 0xA3, 0x94, 0x00}, -1, new_VEH_addr + 0xAC1);
     // veh_init(int,int,int,int) - MOVSX EAX,word ptr [EBX + 0x952832]
     build_patch(0x005C0792, std::vector<uint8_t>{0x0F, 0xBF, 0x83, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // veh_init(int,int,int,int) - MOV EDX,dword ptr [EBX + 0x95282c]
@@ -9653,22 +8034,6 @@ void apply_veh_patches() {
     build_patch(0x005C09AF, std::vector<uint8_t>{0x8D, 0x96, 0x5C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x34);
     // veh_kill(int) - MOV EAX,0x952858
     build_patch(0x005C09D9, std::vector<uint8_t>{0xB8, 0x58, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x30);
-    // veh_kill(int) - MOV DX,word ptr [EAX + 0x2]
-    build_patch(0x005C09E0, std::vector<uint8_t>{0x66, 0x8B, 0x50, 0x02}, -1, new_VEH_addr + 0x32);
-    // veh_kill(int) - MOV word ptr [EAX + 0x2],DX
-    build_patch(0x005C09EC, std::vector<uint8_t>{0x66, 0x89, 0x50, 0x02}, -1, new_VEH_addr + 0x32);
-    // veh_kill(int) - MOV DX,word ptr [EAX]
-    build_patch(0x005C09F0, std::vector<uint8_t>{0x66, 0x8B, 0x10}, -1, new_VEH_addr + 0x30);
-    // veh_kill(int) - MOV word ptr [EAX],DX
-    build_patch(0x005C09FB, std::vector<uint8_t>{0x66, 0x89, 0x10}, -1, new_VEH_addr + 0x30);
-    // veh_kill(int) - CMP byte ptr [EAX + -0x1f],BL
-    build_patch(0x005C09FE, std::vector<uint8_t>{0x38, 0x58, 0xE1}, -1, new_VEH_addr + 0x11);
-    // veh_kill(int) - MOV SI,word ptr [EAX + -0x1c]
-    build_patch(0x005C0A03, std::vector<uint8_t>{0x66, 0x8B, 0x70, 0xE4}, -1, new_VEH_addr + 0x14);
-    // veh_kill(int) - MOV byte ptr [EAX + -0x1f],0x0
-    build_patch(0x005C0A0E, std::vector<uint8_t>{0xC6, 0x40, 0xE1, 0x00}, -1, new_VEH_addr + 0x11);
-    // veh_kill(int) - MOV word ptr [EAX + -0x1c],SI
-    build_patch(0x005C0A17, std::vector<uint8_t>{0x66, 0x89, 0x70, 0xE4}, -1, new_VEH_addr + 0x14);
     // kill(int) - MOVSX EAX,word ptr [ESI + 0x952832]
     build_patch(0x005C0B19, std::vector<uint8_t>{0x0F, 0xBF, 0x86, 0x32, 0x28, 0x95, 0x00}, 3, new_VEH_addr + 0xA);
     // kill(int) - MOVSX EBX,word ptr [ESI + 0x952828]
@@ -9685,12 +8050,6 @@ void apply_veh_patches() {
     build_patch(0x005C0B96, std::vector<uint8_t>{0x8A, 0x8E, 0x4C, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0x24);
     // veh_find(int,int,int,int) - MOV EBX,0x95282a
     build_patch(0x005C0CE0, std::vector<uint8_t>{0xBB, 0x2A, 0x28, 0x95, 0x00}, 1, new_VEH_addr + 0x2);
-    // veh_find(int,int,int,int) - MOV CL,byte ptr [EBX + 0xc]
-    build_patch(0x005C0CEE, std::vector<uint8_t>{0x8A, 0x4B, 0x0C}, -1, new_VEH_addr + 0xE);
-    // veh_find(int,int,int,int) - MOVSX EAX,word ptr [EBX + -0x2]
-    build_patch(0x005C0CFE, std::vector<uint8_t>{0x0F, 0xBF, 0x43, 0xFE}, -1, new_VEH_addr + 0x0);
-    // veh_find(int,int,int,int) - MOVSX EDI,word ptr [EBX]
-    build_patch(0x005C0D05, std::vector<uint8_t>{0x0F, 0xBF, 0x3B}, -1, new_VEH_addr + 0x2);
     // morale_veh(int,int,int) - MOV CL,byte ptr [EDX + 0x952836]
     build_patch(0x005C0E5C, std::vector<uint8_t>{0x8A, 0x8A, 0x36, 0x28, 0x95, 0x00}, 2, new_VEH_addr + 0xE);
     // morale_veh(int,int,int) - MOV CX,word ptr [EDX + 0x952832]
